@@ -3,15 +3,14 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Kandoo v6.18</title>
-<script id="kandoo-v616-preflight">window.KANDOO_VERSION="v6.18";window.wireV6Buttons=window.wireV6Buttons||function(){};</script>
+<title>Kandoo v6.15</title>
 <style>
 :root{--bg:#f7f1df;--board:#fffdf5;--ink:#2c2a25;--muted:#6e675d;--accent:#e28d3d;--accent2:#6ca6a3;--panel:#fff8e7;--line:rgba(44,42,37,.24);--shadow:rgba(45,35,20,.22);--danger:#c14b3f;--good:#5e9b68;--font-ui:ui-rounded,"Trebuchet MS",system-ui,sans-serif;--font-hand:"Comic Sans MS","Bradley Hand","Marker Felt",cursive}
 *{box-sizing:border-box}html,body{height:100%;margin:0;color:var(--ink);font-family:var(--font-ui)}body{background:radial-gradient(circle at 15% 10%,rgba(255,255,255,.55) 0 13%,transparent 14%),linear-gradient(120deg,rgba(255,255,255,.22),rgba(0,0,0,.04)),var(--bg);overflow:hidden}button,input,textarea,select{font:inherit}button{cursor:pointer;color:var(--ink)}.app{display:grid;grid-template-rows:auto 1fr;height:100vh}header{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 16px;background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.35));border-bottom:2px dashed var(--line);backdrop-filter:blur(8px);position:relative;z-index:20}.brand{display:flex;align-items:center;gap:12px;min-width:0}.logo{width:48px;height:48px;border-radius:13px;background:var(--accent);box-shadow:3px 4px 0 var(--shadow);transform:rotate(-4deg);display:grid;place-items:center;border:2px solid rgba(0,0,0,.2);font-size:26px}h1{margin:0;font-family:var(--font-hand);font-size:clamp(22px,3vw,34px);line-height:1}.version{display:inline-block;margin-left:8px;font-family:var(--font-ui);font-size:12px;border:1px dashed var(--line);padding:3px 7px;border-radius:999px;background:rgba(255,255,255,.55);vertical-align:middle}.subtitle{color:var(--muted);font-size:13px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:8px;justify-content:flex-end}.btn,.chip,.iconbtn{border:2px solid rgba(0,0,0,.18);background:var(--panel);border-radius:12px;padding:8px 10px;box-shadow:2px 3px 0 var(--shadow)}.btn.primary{background:var(--accent);color:#20160c;font-weight:800}.btn.good{background:var(--good);color:#fff}.btn.small{padding:6px 8px;font-size:13px}.btn:active,.iconbtn:active,.theme-card:active,.project-item:active{transform:translate(2px,2px);box-shadow:0 1px 0 var(--shadow)}.status{font-size:12px;color:var(--muted);min-width:110px;text-align:right}main{min-height:0;display:grid;grid-template-columns:305px 1fr}aside{background:linear-gradient(90deg,rgba(255,255,255,.45),rgba(255,255,255,.18));border-right:2px dashed var(--line);padding:14px;overflow:auto}.panel{background:rgba(255,255,255,.45);border:2px solid rgba(0,0,0,.14);border-radius:18px;padding:12px;box-shadow:3px 4px 0 var(--shadow);margin-bottom:14px}.panel h2{font-size:16px;font-family:var(--font-hand);margin:0 0 10px}.project-list{display:flex;flex-direction:column;gap:8px}.project-item{text-align:left;width:100%;border:2px solid rgba(0,0,0,.15);background:var(--panel);border-radius:14px;padding:9px;box-shadow:2px 3px 0 var(--shadow)}.project-item.active{outline:3px solid var(--accent)}.project-item strong{display:block}.project-item span{color:var(--muted);font-size:12px}.field{display:flex;flex-direction:column;gap:4px;margin-bottom:9px}label{color:var(--muted);font-size:12px;font-weight:700}input,textarea,select{border:2px solid rgba(0,0,0,.16);background:rgba(255,255,255,.75);border-radius:10px;padding:8px;color:var(--ink);width:100%}textarea{min-height:82px;resize:vertical}.row{display:flex;gap:8px;align-items:center}.view-tabs{display:flex;gap:8px;padding:10px 12px;border-bottom:2px dashed var(--line);background:rgba(255,255,255,.23);overflow:auto}.tab{border:2px solid rgba(0,0,0,.16);border-radius:999px;padding:7px 12px;background:var(--panel);white-space:nowrap}.tab.active{background:var(--accent2);color:#071716;font-weight:800}.workspace{min-width:0;min-height:0;display:grid;grid-template-rows:auto auto 1fr}.mobile-stagebar{display:none;padding:8px 12px;border-bottom:2px dashed var(--line);background:rgba(255,255,255,.38)}.filterbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 12px;border-bottom:2px dashed var(--line);background:rgba(255,255,255,.18)}.filterbar input,.filterbar select{max-width:210px;padding:6px}.content{min-height:0;overflow:hidden;position:relative}.board{height:100%;overflow:auto;padding:18px;display:flex;gap:16px;align-items:stretch;background:linear-gradient(90deg,rgba(0,0,0,.035) 1px,transparent 1px) 0 0/36px 36px,linear-gradient(rgba(0,0,0,.035) 1px,transparent 1px) 0 0/36px 36px,var(--board)}.column{min-width:270px;max-width:300px;display:flex;flex-direction:column;background:rgba(255,255,255,.38);border:3px solid var(--line);border-radius:22px;padding:10px;box-shadow:4px 6px 0 var(--shadow)}.column.hidden-stage{display:none}.col-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;border-bottom:2px dashed var(--line);padding-bottom:8px}.col-title{font-family:var(--font-hand);font-size:19px;font-weight:900;transform:rotate(-1deg)}.count{font-size:12px;background:rgba(255,255,255,.7);border:1px dashed var(--line);border-radius:999px;padding:2px 7px}.dropzone{flex:1;min-height:120px;display:flex;flex-direction:column;gap:12px}.note{position:relative;background:var(--note,#fff176);border:1px solid rgba(0,0,0,.13);border-radius:3px 3px 12px 3px;padding:12px;min-height:140px;box-shadow:4px 6px 9px rgba(0,0,0,.18);transform:rotate(var(--rot,-1deg));font-family:var(--font-hand)}.note:before{content:"";position:absolute;left:50%;top:-8px;transform:translateX(-50%) rotate(2deg);width:70px;height:18px;background:rgba(255,255,255,.45);border:1px solid rgba(0,0,0,.08);box-shadow:1px 2px 3px rgba(0,0,0,.08)}.note.dragging{opacity:.55;transform:scale(.98) rotate(0)}.note-title{font-weight:900;font-size:18px;margin:4px 0 8px;overflow-wrap:anywhere}.note-desc{font-family:var(--font-ui);font-size:13px;color:rgba(0,0,0,.68);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.note-meta{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;font-family:var(--font-ui)}.pill{font-size:11px;border:1px solid rgba(0,0,0,.17);border-radius:999px;padding:2px 6px;background:rgba(255,255,255,.55)}.pill.bug{background:#ffd7d0}.pill.feature{background:#d9f1ff}.pill.general{background:#e8ffe4}.note-actions{display:flex;gap:5px;margin-top:10px;justify-content:space-between;align-items:center}.swatches{display:flex;gap:4px;flex-wrap:wrap}.swatch{width:20px;height:20px;border-radius:50%;border:2px solid rgba(0,0,0,.2);box-shadow:1px 2px 0 rgba(0,0,0,.18);padding:0}.mini{font-size:12px;padding:4px 6px;border-radius:9px;border:1px solid rgba(0,0,0,.18);background:rgba(255,255,255,.7)}.modal{position:fixed;inset:0;z-index:40;display:none;place-items:center;background:rgba(34,29,20,.42);padding:16px}.modal.open{display:grid}.dialog{width:min(900px,96vw);max-height:92vh;overflow:auto;background:var(--panel);border:3px solid rgba(0,0,0,.2);border-radius:24px;box-shadow:9px 12px 0 rgba(0,0,0,.24);padding:16px}.dialog-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}.dialog h2{font-family:var(--font-hand);font-size:28px;margin:0}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.full{grid-column:1/-1}.subtask-row{display:grid;grid-template-columns:1fr auto auto;gap:7px;align-items:center;margin-bottom:7px}.stage-list{display:flex;flex-direction:column;gap:6px}.stage-toggle{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px;border:1px dashed var(--line);border-radius:10px;background:rgba(255,255,255,.35)}.theme-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.theme-card{border:2px solid rgba(0,0,0,.14);border-radius:14px;padding:8px;background:rgba(255,255,255,.55);text-align:left;box-shadow:2px 3px 0 var(--shadow)}.theme-card.active{outline:3px solid var(--accent)}.theme-sample{height:22px;border-radius:8px;margin-bottom:5px;border:1px solid rgba(0,0,0,.16)}.page{height:100%;overflow:auto;padding:18px;background:var(--board)}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:16px}.stat{background:rgba(255,255,255,.58);border:2px dashed var(--line);border-radius:18px;padding:14px;box-shadow:3px 4px 0 var(--shadow)}.stat b{display:block;font-size:30px;font-family:var(--font-hand)}.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.box{background:rgba(255,255,255,.55);border:2px solid var(--line);border-radius:18px;padding:12px;box-shadow:3px 4px 0 var(--shadow)}.box h3{margin:0 0 8px;font-family:var(--font-hand);font-size:22px}.gantt{height:100%;overflow:auto;padding:18px;background:var(--board)}.gantt-wrap{min-width:900px;background:rgba(255,255,255,.55);border:3px solid var(--line);border-radius:20px;padding:12px;box-shadow:4px 6px 0 var(--shadow)}.gantt-row{display:grid;grid-template-columns:220px 1fr 95px;gap:10px;align-items:center;min-height:40px;border-bottom:1px dashed var(--line)}.gantt-name{font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.timeline{position:relative;height:26px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.06) 0 1px,transparent 1px 32px);border-radius:999px}.bar{position:absolute;top:4px;height:18px;border-radius:999px;background:var(--accent);border:1px solid rgba(0,0,0,.2);box-shadow:1px 2px 0 var(--shadow)}.list-view{height:100%;overflow:auto;padding:18px;background:var(--board)}table{width:100%;border-collapse:separate;border-spacing:0 8px;min-width:900px}th{text-align:left;color:var(--muted);font-size:12px}td{background:rgba(255,255,255,.6);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:9px}td:first-child{border-left:1px solid var(--line);border-radius:12px 0 0 12px}td:last-child{border-right:1px solid var(--line);border-radius:0 12px 12px 0}.calendar-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}.date-card{background:rgba(255,255,255,.6);border:2px solid var(--line);border-radius:18px;padding:12px;box-shadow:3px 4px 0 var(--shadow)}.date-card h3{margin:0 0 8px;font-family:var(--font-hand)}.empty{padding:28px;color:var(--muted);text-align:center;border:2px dashed var(--line);border-radius:18px;background:rgba(255,255,255,.4)}.hide-mobile{display:inline-flex}.toast{position:fixed;right:18px;bottom:18px;background:var(--panel);border:2px solid var(--line);border-radius:16px;padding:10px 12px;box-shadow:4px 5px 0 var(--shadow);z-index:80;display:none}.toast.show{display:block}.comment-list{display:flex;flex-direction:column;gap:7px;margin-bottom:8px}.comment{background:rgba(255,255,255,.55);border:1px dashed var(--line);border-radius:12px;padding:8px}.comment small{color:var(--muted)}.timeline-list{display:flex;flex-direction:column;gap:10px}.timeline-item{background:rgba(255,255,255,.6);border:2px dashed var(--line);border-radius:16px;padding:12px;box-shadow:2px 3px 0 var(--shadow)}.template-grid,.share-grid,.report-grid,.power-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.template-card,.share-card,.report-card,.power-card{background:rgba(255,255,255,.6);border:2px solid var(--line);border-radius:18px;padding:14px;box-shadow:3px 4px 0 var(--shadow)}.template-card h3,.share-card h3,.report-card h3,.power-card h3{font-family:var(--font-hand);font-size:23px;margin:0 0 8px}.progress{height:18px;border-radius:999px;background:rgba(255,255,255,.55);border:1px solid var(--line);overflow:hidden}.progress span{display:block;height:100%;background:var(--accent);border-right:1px solid rgba(0,0,0,.18)}.dep-line{display:flex;gap:8px;align-items:center;padding:8px;border:1px dashed var(--line);border-radius:12px;background:rgba(255,255,255,.45);margin-bottom:8px}.money{font-variant-numeric:tabular-nums;font-weight:900}.timer-row{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;margin-bottom:8px}.stamp{display:inline-block;transform:rotate(-3deg);border:2px solid currentColor;border-radius:8px;padding:3px 7px;font-weight:900;letter-spacing:.04em;background:rgba(255,255,255,.25)}@media print{body{overflow:auto;background:white}.toolbar,aside,.view-tabs,.filterbar,.mobile-stagebar,.modal{display:none!important}.app,main,.workspace,.content{display:block;height:auto}.page,.board,.gantt,.list-view{height:auto;overflow:visible;background:white}.column{break-inside:avoid}.version:after{content:" PDF"}}@media(max-width:860px){body{overflow:auto}.app{height:auto;min-height:100vh}header{align-items:flex-start;flex-direction:column}.toolbar{justify-content:flex-start}main{grid-template-columns:1fr}aside{border-right:0;border-bottom:2px dashed var(--line);max-height:none}.workspace,.content{min-height:70vh}.filterbar input,.filterbar select{max-width:100%;flex:1 1 145px}.mobile-stagebar{display:flex;gap:8px;align-items:center}.board{scroll-snap-type:x mandatory;padding:12px}.column{min-width:86vw;scroll-snap-align:start}.form-grid{grid-template-columns:1fr}.theme-grid{grid-template-columns:1fr}.dash-grid{grid-template-columns:1fr}.hide-mobile{display:none}.status{text-align:left}.subtitle{white-space:normal}.subtask-row{grid-template-columns:1fr}.dialog{border-radius:18px}}
 
 .surface-cork .board{background:radial-gradient(circle,rgba(80,40,10,.16) 1px,transparent 2px) 0 0/18px 18px,var(--board)}.surface-chalk .board{background:linear-gradient(120deg,rgba(255,255,255,.04),transparent),var(--board)}.surface-blueprint .board{background:linear-gradient(90deg,rgba(255,255,255,.10) 1px,transparent 1px) 0 0/24px 24px,linear-gradient(rgba(255,255,255,.10) 1px,transparent 1px) 0 0/24px 24px,var(--board)}.surface-notebook .board{background:linear-gradient(90deg,rgba(80,140,220,.35) 1px,transparent 1px) 44px 0/44px 100%,repeating-linear-gradient(0deg,transparent 0 31px,rgba(80,120,220,.22) 32px),var(--board)}.note.compact{min-height:100px}.note.dense{min-height:74px;padding:8px}.note.dense .note-desc{display:none}.note.giant{min-height:210px;font-size:1.12rem}.note.aged{filter:saturate(.75);border-bottom-right-radius:32px}.note.aged:after{content:"still here?";position:absolute;right:8px;bottom:8px;font-family:var(--font-ui);font-size:10px;border:1px solid #0005;border-radius:999px;padding:2px 6px;background:#fff8;transform:rotate(-7deg)}.health-dot{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:999px;background:#fff8;border:1px solid #0002}.surface-preview{height:72px;border-radius:16px;border:2px dashed var(--line);display:grid;place-items:center;background:var(--board);box-shadow:3px 4px 0 var(--shadow)}.milestone{border-left:8px solid var(--accent);background:rgba(255,255,255,.58);border-radius:14px;padding:10px;margin-bottom:8px}.kbd{font-family:monospace;border:1px solid var(--line);border-bottom-width:3px;border-radius:6px;padding:1px 5px;background:#fff8}.mascot{font-size:54px;filter:drop-shadow(3px 4px 0 var(--shadow))}.achievement{display:inline-flex;gap:6px;align-items:center;margin:4px;padding:7px 9px;border-radius:999px;border:1px dashed var(--line);background:#fff8}.nl-box{display:grid;grid-template-columns:1fr auto;gap:8px}.switch-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px;border:1px dashed var(--line);border-radius:12px;background:#fff7;margin-bottom:6px}.stage-rule-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}.share-preview{min-height:280px;border:2px dashed var(--line);border-radius:16px;padding:12px;background:#fff8;overflow:auto}.cmd{background:#111;color:#f5f5f5;border-radius:16px;padding:12px;font-family:monospace;white-space:pre-wrap}.unscheduled-pile{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.unscheduled-pile .pill{transform:rotate(-2deg)}@media(max-width:860px){.nl-box{grid-template-columns:1fr}.view-tabs{position:sticky;top:0;z-index:5}.content{min-height:60vh}.cards{grid-template-columns:1fr 1fr}.mascot{font-size:42px}}
 
-/* Kandoo v6.2 polish layer */
+/* Kandoo v6.15 polish layer */
 .toolbar .ghost{background:rgba(255,255,255,.42)}
 .command-modal .dialog{max-width:760px;background:linear-gradient(180deg,var(--panel),rgba(255,255,255,.92));}
 .command-search{font-size:22px;padding:14px;border-radius:16px;margin-bottom:12px;}
@@ -27,11 +26,19 @@
 @media print{header,aside,.view-tabs,.filterbar,.mobile-stagebar,.toolbar,.note-actions,.btn,.iconbtn{display:none!important}.app,main,.workspace,.content,.page,.board,.gantt,.list-view{display:block!important;height:auto!important;overflow:visible!important}.pdf-cover{display:block;page-break-after:always;text-align:center;padding:20vh 40px}.pdf-cover h1{font-size:54px;font-family:var(--font-hand)}.pdf-cover .version{font-size:16px}.board{display:block!important;background:white!important}.column{page-break-inside:avoid;display:block;min-width:0;max-width:none;margin:0 0 16px}.note{page-break-inside:avoid;box-shadow:none;border:1px solid #999}.dialog,.modal{display:none!important}body{overflow:visible;background:white!important;color:#111}}
 
 </style>
+<style id="kandoo-workspace-flex-fix">
+/* v6.15 workspace fix: original used grid-template-rows:auto auto 1fr which
+   blows out the moment any patch (e.g. #bulkBar67) inserts an extra row band
+   between .filterbar and #content. Flex column makes the content child take
+   remaining height regardless of how many auto-sized siblings sit above it. */
+.workspace{display:flex!important;flex-direction:column;min-width:0;min-height:0}
+.workspace>.content,.workspace>#content{flex:1 1 auto;min-height:0;min-width:0}
+</style>
 </head>
 <body>
 <div class="app">
 <header>
-  <div class="brand"><div class="logo">✎</div><div><h1>Kandoo <span class="version" data-true-version="1">v6.17</span></h1><div class="subtitle">Kanban + Can Do. Whimsical sticky-note project management for serious making.</div></div></div>
+  <div class="brand"><div class="logo">✎</div><div><h1>Kandoo <span class="version" data-true-version="1">v6.15</span></h1><div class="subtitle">Kanban + Can Do. Whimsical sticky-note project management for serious making.</div></div></div>
   <div class="toolbar"><button class="btn primary" id="newTaskBtn">+ Sticky Task</button><button class="btn" id="newProjectBtn">+ Project</button><button class="btn" id="exportJsonBtn">Export JSON</button><label class="btn" for="importJsonInput">Import JSON</label><input id="importJsonInput" type="file" accept="application/json" hidden><button class="btn" id="pdfBtn">Beautiful PDF</button><button class="btn good" id="shareBtn">Read-only Share</button><button class="btn" id="backupBtn">Backup Bundle</button><button class="btn" id="quickInvoiceBtn">Invoice Sheet</button><div class="status" id="saveStatus">Saved</div></div>
 </header>
 <main>
@@ -54,9 +61,9 @@
 <div class="modal" id="projectModal"><div class="dialog" style="max-width:540px"><div class="dialog-head"><h2>New Project</h2><button class="iconbtn" onclick="closeProjectModal()">✕</button></div><div class="field"><label>Project Name</label><input id="newProjectName" placeholder="My next magnificent thing"></div><div class="field"><label>Description</label><textarea id="newProjectDesc"></textarea></div><div class="toolbar" style="justify-content:flex-end"><button class="btn primary" id="createProjectBtn">Create Project</button></div></div></div>
 <div class="toast" id="toast"></div>
 <script>
-const VERSION='v6.18';
-const STORAGE_KEY='kandoo-v6-16-data';
-const OLD_KEYS=['kandoo-v6-13-data','kandoo-v6-12-data','kandoo-v6-11-data','kandoo-v6-10-data','kandoo-v6-9-data','kandoo-v6-8-data','kandoo-v6-7-data'];
+const VERSION='v6.15';
+const STORAGE_KEY='kandoo-v6-15-data';
+const OLD_KEYS=['kandoo-v6-14-data','kandoo-v6-13-data','kandoo-v6-12-data','kandoo-v6-11-data','kandoo-v6-10-data','kandoo-v6-9-data','kandoo-v6-8-data','kandoo-v6-7-data'];
 const workflowNames=['Icebox','Backlog','Sprint Backlog','Rework Backlog','In Development','In Internal Testing','In User Testing','Ready to Ship','Shipped','Invoiced','Done'];
 const noteColors=['#fff176','#ffab91','#f8bbd0','#b3e5fc','#c8e6c9','#d1c4e9','#ffe0b2','#f5f5dc','#e0f2f1','#eeeeee','#f9d5e5','#b8f2e6'];
 const themes=[
@@ -127,130 +134,92 @@ function exportInvoiceSheet(){const p=project();const items=p.tasks.filter(t=>t.
 .surface-cork .board{background:radial-gradient(circle,rgba(80,40,10,.16) 1px,transparent 2px) 0 0/18px 18px,var(--board)}.surface-chalk .board{background:linear-gradient(120deg,rgba(255,255,255,.04),transparent),var(--board)}.surface-blueprint .board{background:linear-gradient(90deg,rgba(255,255,255,.10) 1px,transparent 1px) 0 0/24px 24px,linear-gradient(rgba(255,255,255,.10) 1px,transparent 1px) 0 0/24px 24px,var(--board)}.surface-notebook .board{background:linear-gradient(90deg,rgba(80,140,220,.35) 1px,transparent 1px) 44px 0/44px 100%,repeating-linear-gradient(0deg,transparent 0 31px,rgba(80,120,220,.22) 32px),var(--board)}.note.compact{min-height:100px}.note.dense{min-height:74px;padding:8px}.note.dense .note-desc{display:none}.note.giant{min-height:210px;font-size:1.12rem}.note.aged{filter:saturate(.75);border-bottom-right-radius:32px}.note.aged:after{content:"still here?";position:absolute;right:8px;bottom:8px;font-family:var(--font-ui);font-size:10px;border:1px solid #0005;border-radius:999px;padding:2px 6px;background:#fff8;transform:rotate(-7deg)}.health-dot{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:999px;background:#fff8;border:1px solid #0002}.surface-preview{height:72px;border-radius:16px;border:2px dashed var(--line);display:grid;place-items:center;background:var(--board);box-shadow:3px 4px 0 var(--shadow)}.milestone{border-left:8px solid var(--accent);background:rgba(255,255,255,.58);border-radius:14px;padding:10px;margin-bottom:8px}.kbd{font-family:monospace;border:1px solid var(--line);border-bottom-width:3px;border-radius:6px;padding:1px 5px;background:#fff8}.mascot{font-size:54px;filter:drop-shadow(3px 4px 0 var(--shadow))}.achievement{display:inline-flex;gap:6px;align-items:center;margin:4px;padding:7px 9px;border-radius:999px;border:1px dashed var(--line);background:#fff8}.nl-box{display:grid;grid-template-columns:1fr auto;gap:8px}.switch-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px;border:1px dashed var(--line);border-radius:12px;background:#fff7;margin-bottom:6px}.stage-rule-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}.share-preview{min-height:280px;border:2px dashed var(--line);border-radius:16px;padding:12px;background:#fff8;overflow:auto}.cmd{background:#111;color:#f5f5f5;border-radius:16px;padding:12px;font-family:monospace;white-space:pre-wrap}.unscheduled-pile{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.unscheduled-pile .pill{transform:rotate(-2deg)}@media(max-width:860px){.nl-box{grid-template-columns:1fr}.view-tabs{position:sticky;top:0;z-index:5}.content{min-height:60vh}.cards{grid-template-columns:1fr 1fr}.mascot{font-size:42px}}
 </style></head><body><h1>${escapeHtml(p.name)} Invoice <span class="v">${VERSION}</span></h1><p>Client: ${escapeHtml(p.client||'')}</p><p>Invoice #: ${escapeHtml(p.invoiceNumber||'')}</p><p>Status: ${escapeHtml(p.invoiceStatus||'Not invoiced')}</p><table><thead><tr><th>Task</th><th>Hours</th><th>Rate</th><th>Amount</th></tr></thead><tbody>${items.map(t=>`<tr><td>${escapeHtml(t.title)}</td><td>${Number(t.loggedHours??t.actualHours??0)}</td><td>${money(t.hourlyRate||0)}</td><td>${money(taskAmount(t))}</td></tr>`).join('')}</tbody></table><p class="total">Total ${money(total)}</p><p>Exported from Kandoo ${VERSION}.</p>
 
-<!-- Kandoo v6.17: contextual bulk bar cleanup -->
-<style id="kandoo-v617-contextual-bulkbar-style">
-/* The bulk selection controls are contextual. They should not reserve a giant band on normal views. */
-#bulkBar67,
-.bulk-bar#bulkBar67{
-  display:none !important;
-  height:0 !important;
-  min-height:0 !important;
-  max-height:0 !important;
-  overflow:hidden !important;
-  padding:0 !important;
-  margin:0 !important;
-  border:0 !important;
-}
-body.kandoo-view-bulk #bulkBar67,
-body.kandoo-has-bulk-selection #bulkBar67{
-  display:flex !important;
-  height:auto !important;
-  min-height:0 !important;
-  max-height:none !important;
-  overflow:visible !important;
-  padding:8px 12px !important;
-  margin:0 !important;
-  border-bottom:2px dashed var(--line) !important;
-  background:rgba(255,255,255,.22) !important;
-}
-body:not(.kandoo-view-bulk) #content .bulk-editor-page,
-body:not(.kandoo-view-bulk) #content .bulk-grid,
-body:not(.kandoo-view-bulk) #content [data-bulk-panel="true"]{
-  display:none !important;
-  height:0 !important;
-  max-height:0 !important;
-  overflow:hidden !important;
-  padding:0 !important;
-  margin:0 !important;
-  border:0 !important;
-}
-body:not(.kandoo-view-bulk):not(.kandoo-has-bulk-selection) #bulkQuickMove67{
-  display:none !important;
-}
-.workspace{grid-template-rows:auto auto minmax(0,1fr) !important;}
-.content{padding-top:0 !important;}
+<style id="kandoo-v615-one-version-style">
+/* v6.15: one true visible version. Only the header badge may display a version number. */
+.version:not([data-true-version="1"]),
+.kandoo-version:not([data-true-version="1"]),
+.app-version:not([data-true-version="1"]),
+.project-version,
+.old-version{display:none!important}
+#saveStatus{white-space:nowrap;color:var(--muted)}
 </style>
-<script id="kandoo-v617-contextual-bulkbar-fix">
+<script id="kandoo-v615-one-true-version">
 (function(){
   'use strict';
-  const VERSION='v6.18';
-  function $(id){return document.getElementById(id)}
-  function activeViewValue(){
-    try{
-      if(typeof activeView!=='undefined') return activeView;
-      const active=document.querySelector('.tab.active[data-view],.tab[data-view].active,[data-go-view].active');
-      return active && (active.dataset.view || active.dataset.goView) || '';
-    }catch(e){return ''}
-  }
-  function selectedCount(){
-    try{
-      if(window.kandooBulk67 && window.kandooBulk67.selectedBulk && typeof window.kandooBulk67.selectedBulk.size==='number') return window.kandooBulk67.selectedBulk.size;
-    }catch(e){}
-    try{
-      if(typeof selectedBulk!=='undefined' && selectedBulk && typeof selectedBulk.size==='number') return selectedBulk.size;
-    }catch(e){}
-    try{return document.querySelectorAll('.note.bulk-selected,#bulkTaskList input[type="checkbox"]:checked,.bulk-check input:checked').length}catch(e){return 0}
-  }
-  function normalizeVersions(){
-    document.title='Kandoo '+VERSION;
-    document.querySelectorAll('.version').forEach(v=>{v.textContent=VERSION;});
-    const save=$('saveStatus'); if(save) save.textContent=(save.textContent||'Saved just now').replace(/\s*·\s*v\d+(?:\.\d+)*(?:\s*·\s*[^·]*)?/g,'').replace(/\s+$/,'') || 'Saved just now';
-  }
-  function syncBulkChrome(){
-    const view=activeViewValue();
-    const isBulk=view==='bulk';
-    const count=selectedCount();
-    document.body.classList.toggle('kandoo-view-bulk',isBulk);
-    document.body.classList.toggle('kandoo-has-bulk-selection',count>0);
-    const bar=$('bulkBar67');
-    if(bar){
-      const shouldShow=isBulk || count>0;
-      bar.hidden=!shouldShow;
-      if(!shouldShow){
-        bar.style.display='none';
-        bar.style.height='0';
-        bar.style.padding='0';
-        bar.style.border='0';
-      }else{
-        bar.style.display='flex';
-        bar.style.height='';
-        bar.style.padding='';
-        bar.style.border='';
-      }
+  const TRUE_VERSION='v6.15';
+  const TRUE_KEY='kandoo-v6-15-data';
+  const VERSION_RE=/\bv\d+\.\d+\b/g;
+  const $=(s,r=document)=>r.querySelector(s);
+  const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  function safe(fn){try{return fn()}catch(e){console.warn('Kandoo v6.15 version cleanup warning',e)}}
+  function ensureHeaderVersion(){
+    document.title='Kandoo '+TRUE_VERSION;
+    const h1=$('.brand h1') || $('h1');
+    if(!h1) return;
+    let badge=$('.brand h1 .version[data-true-version="1"]') || $('.brand h1 .version') || $('[data-true-version="1"]');
+    if(!badge){
+      badge=document.createElement('span');
+      badge.className='version';
+      h1.appendChild(document.createTextNode(' '));
+      h1.appendChild(badge);
     }
-    if(!isBulk){
-      document.querySelectorAll('#content .bulk-editor-page,#content .bulk-grid,#content [data-bulk-panel="true"]').forEach(el=>{
-        el.hidden=true; el.style.display='none';
-      });
-    }
-    document.querySelectorAll('.bulk-count').forEach(el=>{el.textContent=count+' selected'});
+    badge.dataset.trueVersion='1';
+    badge.textContent=TRUE_VERSION;
+    $$('.version,.kandoo-version,.app-version').forEach(el=>{ if(el!==badge) el.remove(); });
   }
-  function bindClearSafety(){
-    ['bulkClear67','bulkClearPage'].forEach(id=>{
-      const b=$(id); if(!b || b.dataset.v617Bound) return;
-      b.dataset.v617Bound='1';
-      b.addEventListener('click',()=>setTimeout(syncBulkChrome,0),true);
-    });
+  function normalizeSaveStatus(){
+    const s=$('#saveStatus');
+    if(!s) return;
+    const text=(s.textContent||'Saved').trim();
+    if(/Saving/i.test(text)) return;
+    if(/Saved/i.test(text)) s.textContent='Saved just now';
+    else s.textContent=text.replace(VERSION_RE,'').replace(/\s*·\s*(fixes|cleaned UI|helper tools|bulk edit|archive|accessibility|advanced Gantt|notification rules|attachment cabinet|connected-ready|recoverable|bulk route fix)\b/gi,'').replace(/\s*·\s*/g,' · ').replace(/^\s*·|·\s*$/g,'').trim();
   }
-  function tick(){normalizeVersions();syncBulkChrome();bindClearSafety();}
-  const prevRender=window.render;
-  if(typeof prevRender==='function' && !prevRender._v617Wrapped){
-    const wrapped=function(){const r=prevRender.apply(this,arguments); setTimeout(tick,0); return r;};
-    wrapped._v617Wrapped=true; window.render=wrapped;
+  function stripVisibleVersionText(){
+    const root=document.body;
+    if(!root) return;
+    const excluded=new Set(['SCRIPT','STYLE','NOSCRIPT','TEXTAREA','INPUT','SELECT','OPTION']);
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode(node){
+      if(!node.nodeValue || !VERSION_RE.test(node.nodeValue)) return NodeFilter.FILTER_REJECT;
+      VERSION_RE.lastIndex=0;
+      const p=node.parentElement;
+      if(!p || excluded.has(p.tagName)) return NodeFilter.FILTER_REJECT;
+      if(p.matches('[data-true-version="1"], .brand h1 .version')) return NodeFilter.FILTER_REJECT;
+      if(p.closest('[data-true-version="1"]')) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }});
+    const nodes=[]; while(walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(n=>{n.nodeValue=n.nodeValue.replace(VERSION_RE,'').replace(/\s*·\s*(fixes|cleaned UI|helper tools|bulk edit|archive|accessibility|advanced Gantt|notification rules|attachment cabinet|connected-ready|recoverable|bulk route fix)\b/gi,'').replace(/\s*·\s*/g,' · ').replace(/^\s*·|·\s*$/g,'');});
   }
-  const prevRenderView=window.renderView;
-  if(typeof prevRenderView==='function' && !prevRenderView._v617Wrapped){
-    const wrapped=function(){const r=prevRenderView.apply(this,arguments); setTimeout(tick,0); return r;};
-    wrapped._v617Wrapped=true; window.renderView=wrapped;
+  function stamp(){
+    safe(()=>{ if(window.state){ window.state.version=TRUE_VERSION; try{localStorage.setItem(TRUE_KEY,JSON.stringify(window.state));}catch(e){} } });
+    ensureHeaderVersion();
+    stripVisibleVersionText();
+    normalizeSaveStatus();
   }
-  document.addEventListener('click',()=>setTimeout(tick,0),true);
-  document.addEventListener('change',()=>setTimeout(tick,0),true);
-  document.addEventListener('keyup',()=>setTimeout(tick,0),true);
-  new MutationObserver(()=>tick()).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style','hidden']});
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',tick); else tick();
-  setTimeout(tick,60); setTimeout(tick,500);
+  const previousRender=window.render;
+  if(typeof previousRender==='function'){
+    window.render=function(){ const result=previousRender.apply(this,arguments); setTimeout(stamp,0); setTimeout(stamp,75); return result; };
+  }
+  const previousSave=window.saveState;
+  if(typeof previousSave==='function'){
+    window.saveState=function(){
+      safe(()=>{ if(window.state) window.state.version=TRUE_VERSION; });
+      const result=previousSave.apply(this,arguments);
+      setTimeout(()=>{ normalizeSaveStatus(); stamp(); },0);
+      setTimeout(()=>{ normalizeSaveStatus(); stamp(); },900);
+      setTimeout(()=>{ const s=$('#saveStatus'); if(s) s.textContent='Saved just now'; stamp(); },1400);
+      return result;
+    };
+  }
+  safe(()=>{ window.KANDOO_VERSION=TRUE_VERSION; });
+  stamp();
+  setTimeout(stamp,100);
+  setTimeout(stamp,900);
+  const observer=new MutationObserver(()=>{ clearTimeout(window.__kandooV615Timer); window.__kandooV615Timer=setTimeout(stamp,40); });
+  if(document.body) observer.observe(document.body,{childList:true,subtree:true,characterData:true});
 })();
-</script>
+<\/script>
 
 </body></html>`;downloadBlob(new Blob([html],{type:'text/html'}),`${slug(p.name)}-invoice-${VERSION}.html`)}
 
@@ -269,130 +238,92 @@ function shareReadonly(){const p=project();const theme=themes.find(t=>t.id===p.t
 .surface-cork .board{background:radial-gradient(circle,rgba(80,40,10,.16) 1px,transparent 2px) 0 0/18px 18px,var(--board)}.surface-chalk .board{background:linear-gradient(120deg,rgba(255,255,255,.04),transparent),var(--board)}.surface-blueprint .board{background:linear-gradient(90deg,rgba(255,255,255,.10) 1px,transparent 1px) 0 0/24px 24px,linear-gradient(rgba(255,255,255,.10) 1px,transparent 1px) 0 0/24px 24px,var(--board)}.surface-notebook .board{background:linear-gradient(90deg,rgba(80,140,220,.35) 1px,transparent 1px) 44px 0/44px 100%,repeating-linear-gradient(0deg,transparent 0 31px,rgba(80,120,220,.22) 32px),var(--board)}.note.compact{min-height:100px}.note.dense{min-height:74px;padding:8px}.note.dense .note-desc{display:none}.note.giant{min-height:210px;font-size:1.12rem}.note.aged{filter:saturate(.75);border-bottom-right-radius:32px}.note.aged:after{content:"still here?";position:absolute;right:8px;bottom:8px;font-family:var(--font-ui);font-size:10px;border:1px solid #0005;border-radius:999px;padding:2px 6px;background:#fff8;transform:rotate(-7deg)}.health-dot{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:999px;background:#fff8;border:1px solid #0002}.surface-preview{height:72px;border-radius:16px;border:2px dashed var(--line);display:grid;place-items:center;background:var(--board);box-shadow:3px 4px 0 var(--shadow)}.milestone{border-left:8px solid var(--accent);background:rgba(255,255,255,.58);border-radius:14px;padding:10px;margin-bottom:8px}.kbd{font-family:monospace;border:1px solid var(--line);border-bottom-width:3px;border-radius:6px;padding:1px 5px;background:#fff8}.mascot{font-size:54px;filter:drop-shadow(3px 4px 0 var(--shadow))}.achievement{display:inline-flex;gap:6px;align-items:center;margin:4px;padding:7px 9px;border-radius:999px;border:1px dashed var(--line);background:#fff8}.nl-box{display:grid;grid-template-columns:1fr auto;gap:8px}.switch-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px;border:1px dashed var(--line);border-radius:12px;background:#fff7;margin-bottom:6px}.stage-rule-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}.share-preview{min-height:280px;border:2px dashed var(--line);border-radius:16px;padding:12px;background:#fff8;overflow:auto}.cmd{background:#111;color:#f5f5f5;border-radius:16px;padding:12px;font-family:monospace;white-space:pre-wrap}.unscheduled-pile{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.unscheduled-pile .pill{transform:rotate(-2deg)}@media(max-width:860px){.nl-box{grid-template-columns:1fr}.view-tabs{position:sticky;top:0;z-index:5}.content{min-height:60vh}.cards{grid-template-columns:1fr 1fr}.mascot{font-size:42px}}
 </style></head><body><h1>${escapeHtml(p.name)} <span class="v">${VERSION} read-only</span></h1><p>${escapeHtml(p.description||'')}</p><div class="summary"><div>${p.tasks.length} tasks</div><div>${p.tasks.filter(t=>t.blocked).length} blocked</div><div>${p.tasks.filter(t=>isOverdue(t)).length} overdue</div><div>Exported ${new Date().toLocaleString()}</div></div><div class="board">${p.workflowStages.filter(s=>!s.hidden).map(s=>`<section class="col"><h2>${escapeHtml(s.name)}</h2>${p.tasks.filter(t=>t.stageId===s.id).map(t=>`<article class="note" style="background:${t.stickyColor||'#fff176'}"><h3>${escapeHtml(t.title)}</h3><p>${escapeHtml(t.description||'')}</p><small>${escapeHtml(t.type)} · ${escapeHtml(t.priority||'')} · ${escapeHtml(t.responsible||'')} · ${escapeHtml(t.needByDate||'')}</small>${t.subtasks?.length?`<ul>${t.subtasks.map(st=>`<li>${st.completed?'☑':'☐'} ${escapeHtml(st.title)}</li>`).join('')}</ul>`:''}</article>`).join('')||'<p>No visible tasks.</p>'}</section>`).join('')}</div><p>Exported from Kandoo ${VERSION}.</p>
 
-<!-- Kandoo v6.17: contextual bulk bar cleanup -->
-<style id="kandoo-v617-contextual-bulkbar-style">
-/* The bulk selection controls are contextual. They should not reserve a giant band on normal views. */
-#bulkBar67,
-.bulk-bar#bulkBar67{
-  display:none !important;
-  height:0 !important;
-  min-height:0 !important;
-  max-height:0 !important;
-  overflow:hidden !important;
-  padding:0 !important;
-  margin:0 !important;
-  border:0 !important;
-}
-body.kandoo-view-bulk #bulkBar67,
-body.kandoo-has-bulk-selection #bulkBar67{
-  display:flex !important;
-  height:auto !important;
-  min-height:0 !important;
-  max-height:none !important;
-  overflow:visible !important;
-  padding:8px 12px !important;
-  margin:0 !important;
-  border-bottom:2px dashed var(--line) !important;
-  background:rgba(255,255,255,.22) !important;
-}
-body:not(.kandoo-view-bulk) #content .bulk-editor-page,
-body:not(.kandoo-view-bulk) #content .bulk-grid,
-body:not(.kandoo-view-bulk) #content [data-bulk-panel="true"]{
-  display:none !important;
-  height:0 !important;
-  max-height:0 !important;
-  overflow:hidden !important;
-  padding:0 !important;
-  margin:0 !important;
-  border:0 !important;
-}
-body:not(.kandoo-view-bulk):not(.kandoo-has-bulk-selection) #bulkQuickMove67{
-  display:none !important;
-}
-.workspace{grid-template-rows:auto auto minmax(0,1fr) !important;}
-.content{padding-top:0 !important;}
+<style id="kandoo-v615-one-version-style">
+/* v6.15: one true visible version. Only the header badge may display a version number. */
+.version:not([data-true-version="1"]),
+.kandoo-version:not([data-true-version="1"]),
+.app-version:not([data-true-version="1"]),
+.project-version,
+.old-version{display:none!important}
+#saveStatus{white-space:nowrap;color:var(--muted)}
 </style>
-<script id="kandoo-v617-contextual-bulkbar-fix">
+<script id="kandoo-v615-one-true-version">
 (function(){
   'use strict';
-  const VERSION='v6.18';
-  function $(id){return document.getElementById(id)}
-  function activeViewValue(){
-    try{
-      if(typeof activeView!=='undefined') return activeView;
-      const active=document.querySelector('.tab.active[data-view],.tab[data-view].active,[data-go-view].active');
-      return active && (active.dataset.view || active.dataset.goView) || '';
-    }catch(e){return ''}
-  }
-  function selectedCount(){
-    try{
-      if(window.kandooBulk67 && window.kandooBulk67.selectedBulk && typeof window.kandooBulk67.selectedBulk.size==='number') return window.kandooBulk67.selectedBulk.size;
-    }catch(e){}
-    try{
-      if(typeof selectedBulk!=='undefined' && selectedBulk && typeof selectedBulk.size==='number') return selectedBulk.size;
-    }catch(e){}
-    try{return document.querySelectorAll('.note.bulk-selected,#bulkTaskList input[type="checkbox"]:checked,.bulk-check input:checked').length}catch(e){return 0}
-  }
-  function normalizeVersions(){
-    document.title='Kandoo '+VERSION;
-    document.querySelectorAll('.version').forEach(v=>{v.textContent=VERSION;});
-    const save=$('saveStatus'); if(save) save.textContent=(save.textContent||'Saved just now').replace(/\s*·\s*v\d+(?:\.\d+)*(?:\s*·\s*[^·]*)?/g,'').replace(/\s+$/,'') || 'Saved just now';
-  }
-  function syncBulkChrome(){
-    const view=activeViewValue();
-    const isBulk=view==='bulk';
-    const count=selectedCount();
-    document.body.classList.toggle('kandoo-view-bulk',isBulk);
-    document.body.classList.toggle('kandoo-has-bulk-selection',count>0);
-    const bar=$('bulkBar67');
-    if(bar){
-      const shouldShow=isBulk || count>0;
-      bar.hidden=!shouldShow;
-      if(!shouldShow){
-        bar.style.display='none';
-        bar.style.height='0';
-        bar.style.padding='0';
-        bar.style.border='0';
-      }else{
-        bar.style.display='flex';
-        bar.style.height='';
-        bar.style.padding='';
-        bar.style.border='';
-      }
+  const TRUE_VERSION='v6.15';
+  const TRUE_KEY='kandoo-v6-15-data';
+  const VERSION_RE=/\bv\d+\.\d+\b/g;
+  const $=(s,r=document)=>r.querySelector(s);
+  const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  function safe(fn){try{return fn()}catch(e){console.warn('Kandoo v6.15 version cleanup warning',e)}}
+  function ensureHeaderVersion(){
+    document.title='Kandoo '+TRUE_VERSION;
+    const h1=$('.brand h1') || $('h1');
+    if(!h1) return;
+    let badge=$('.brand h1 .version[data-true-version="1"]') || $('.brand h1 .version') || $('[data-true-version="1"]');
+    if(!badge){
+      badge=document.createElement('span');
+      badge.className='version';
+      h1.appendChild(document.createTextNode(' '));
+      h1.appendChild(badge);
     }
-    if(!isBulk){
-      document.querySelectorAll('#content .bulk-editor-page,#content .bulk-grid,#content [data-bulk-panel="true"]').forEach(el=>{
-        el.hidden=true; el.style.display='none';
-      });
-    }
-    document.querySelectorAll('.bulk-count').forEach(el=>{el.textContent=count+' selected'});
+    badge.dataset.trueVersion='1';
+    badge.textContent=TRUE_VERSION;
+    $$('.version,.kandoo-version,.app-version').forEach(el=>{ if(el!==badge) el.remove(); });
   }
-  function bindClearSafety(){
-    ['bulkClear67','bulkClearPage'].forEach(id=>{
-      const b=$(id); if(!b || b.dataset.v617Bound) return;
-      b.dataset.v617Bound='1';
-      b.addEventListener('click',()=>setTimeout(syncBulkChrome,0),true);
-    });
+  function normalizeSaveStatus(){
+    const s=$('#saveStatus');
+    if(!s) return;
+    const text=(s.textContent||'Saved').trim();
+    if(/Saving/i.test(text)) return;
+    if(/Saved/i.test(text)) s.textContent='Saved just now';
+    else s.textContent=text.replace(VERSION_RE,'').replace(/\s*·\s*(fixes|cleaned UI|helper tools|bulk edit|archive|accessibility|advanced Gantt|notification rules|attachment cabinet|connected-ready|recoverable|bulk route fix)\b/gi,'').replace(/\s*·\s*/g,' · ').replace(/^\s*·|·\s*$/g,'').trim();
   }
-  function tick(){normalizeVersions();syncBulkChrome();bindClearSafety();}
-  const prevRender=window.render;
-  if(typeof prevRender==='function' && !prevRender._v617Wrapped){
-    const wrapped=function(){const r=prevRender.apply(this,arguments); setTimeout(tick,0); return r;};
-    wrapped._v617Wrapped=true; window.render=wrapped;
+  function stripVisibleVersionText(){
+    const root=document.body;
+    if(!root) return;
+    const excluded=new Set(['SCRIPT','STYLE','NOSCRIPT','TEXTAREA','INPUT','SELECT','OPTION']);
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode(node){
+      if(!node.nodeValue || !VERSION_RE.test(node.nodeValue)) return NodeFilter.FILTER_REJECT;
+      VERSION_RE.lastIndex=0;
+      const p=node.parentElement;
+      if(!p || excluded.has(p.tagName)) return NodeFilter.FILTER_REJECT;
+      if(p.matches('[data-true-version="1"], .brand h1 .version')) return NodeFilter.FILTER_REJECT;
+      if(p.closest('[data-true-version="1"]')) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }});
+    const nodes=[]; while(walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(n=>{n.nodeValue=n.nodeValue.replace(VERSION_RE,'').replace(/\s*·\s*(fixes|cleaned UI|helper tools|bulk edit|archive|accessibility|advanced Gantt|notification rules|attachment cabinet|connected-ready|recoverable|bulk route fix)\b/gi,'').replace(/\s*·\s*/g,' · ').replace(/^\s*·|·\s*$/g,'');});
   }
-  const prevRenderView=window.renderView;
-  if(typeof prevRenderView==='function' && !prevRenderView._v617Wrapped){
-    const wrapped=function(){const r=prevRenderView.apply(this,arguments); setTimeout(tick,0); return r;};
-    wrapped._v617Wrapped=true; window.renderView=wrapped;
+  function stamp(){
+    safe(()=>{ if(window.state){ window.state.version=TRUE_VERSION; try{localStorage.setItem(TRUE_KEY,JSON.stringify(window.state));}catch(e){} } });
+    ensureHeaderVersion();
+    stripVisibleVersionText();
+    normalizeSaveStatus();
   }
-  document.addEventListener('click',()=>setTimeout(tick,0),true);
-  document.addEventListener('change',()=>setTimeout(tick,0),true);
-  document.addEventListener('keyup',()=>setTimeout(tick,0),true);
-  new MutationObserver(()=>tick()).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style','hidden']});
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',tick); else tick();
-  setTimeout(tick,60); setTimeout(tick,500);
+  const previousRender=window.render;
+  if(typeof previousRender==='function'){
+    window.render=function(){ const result=previousRender.apply(this,arguments); setTimeout(stamp,0); setTimeout(stamp,75); return result; };
+  }
+  const previousSave=window.saveState;
+  if(typeof previousSave==='function'){
+    window.saveState=function(){
+      safe(()=>{ if(window.state) window.state.version=TRUE_VERSION; });
+      const result=previousSave.apply(this,arguments);
+      setTimeout(()=>{ normalizeSaveStatus(); stamp(); },0);
+      setTimeout(()=>{ normalizeSaveStatus(); stamp(); },900);
+      setTimeout(()=>{ const s=$('#saveStatus'); if(s) s.textContent='Saved just now'; stamp(); },1400);
+      return result;
+    };
+  }
+  safe(()=>{ window.KANDOO_VERSION=TRUE_VERSION; });
+  stamp();
+  setTimeout(stamp,100);
+  setTimeout(stamp,900);
+  const observer=new MutationObserver(()=>{ clearTimeout(window.__kandooV615Timer); window.__kandooV615Timer=setTimeout(stamp,40); });
+  if(document.body) observer.observe(document.body,{childList:true,subtree:true,characterData:true});
 })();
-</script>
+<\/script>
 
 </body></html>`;downloadBlob(new Blob([html],{type:'text/html'}),`${slug(p.name)}-readonly-${VERSION}.html`)}
 function duplicateProject(){const clone=JSON.parse(JSON.stringify(project()));clone.id=uid('project');clone.name=clone.name+' copy';clone.createdAt=now();clone.updatedAt=now();clone.tasks.forEach(t=>{t.id=uid('task');t.projectId=clone.id;(t.subtasks||[]).forEach(s=>s.id=uid('subtask'))});state.projects.push(clone);activeProjectId=clone.id;saveState();render();showToast('Project duplicated')}function deleteProject(){if(state.projects.length===1){alert('Keep at least one project on the wall.');return}if(!confirm('Delete this whole project?'))return;state.projects=state.projects.filter(p=>p.id!==activeProjectId);activeProjectId=state.projects[0].id;saveState();render()}
@@ -402,39 +333,39 @@ document.getElementById('newTaskBtn').onclick=()=>openTaskModal();document.getEl
 <script>
 (function(){
 function normalizeV5(p){p.objective=p.objective||'';p.success=p.success||'';p.outscope=p.outscope||'';p.risks=p.risks||'';p.milestones=p.milestones||[];p.surface=p.surface||'whiteboard';p.cardDensity=p.cardDensity||'standard';p.mascot=p.mascot||'frog';p.reducedMotion=!!p.reducedMotion;p.highContrast=!!p.highContrast;p.shareMode=p.shareMode||'Client view';p.swimlaneBy=p.swimlaneBy||'';p.stageRules=p.stageRules||{};(p.workflowStages||[]).forEach(s=>p.stageRules[s.id]=Object.assign({wipLimit:'',requireAssignee:false,requireSubtasksDone:false,stampComplete:['done','shipped','invoiced'].includes(s.id)},p.stageRules[s.id]||{}));(p.tasks||[]).forEach(t=>{t.expenses=t.expenses||0;t.timerStartedAt=t.timerStartedAt||null;t.archived=!!t.archived;t.acceptanceCriteria=t.acceptanceCriteria||'';t.testNotes=t.testNotes||''});return p}
-function bootV5(){document.title='Kandoo v6.2';document.querySelectorAll('.version').forEach(v=>v.textContent=v.textContent.replace('v4.0','v6.2'));const p=normalizeV5(project());document.body.className=(document.body.className||'').replace(/surface-\w+/g,'')+' surface-'+p.surface;const tabs=document.querySelector('.view-tabs');[['brief','Project Brief'],['milestones','Milestones'],['control','Control Room'],['exports','Exports'],['settings','Settings'],['assist','Can Do Helper']].forEach(a=>{if(tabs&&!tabs.querySelector('[data-view="'+a[0]+'"]')){const b=document.createElement('button');b.className='tab';b.dataset.view=a[0];b.textContent=a[1];b.onclick=()=>{activeView=a[0];renderView()};tabs.appendChild(b)}});const qa=document.getElementById('quickAddBtn');if(qa&&!qa.dataset.v5){qa.dataset.v5='1';qa.onclick=()=>{smartQuickAdd(document.getElementById('quickAddInput').value);document.getElementById('quickAddInput').value=''}}}
+function bootV5(){document.title='Kandoo v6.15';document.querySelectorAll('.version').forEach(v=>v.textContent=v.textContent.replace('v6.15','v6.15'));const p=normalizeV5(project());document.body.className=(document.body.className||'').replace(/surface-\w+/g,'')+' surface-'+p.surface;const tabs=document.querySelector('.view-tabs');[['brief','Project Brief'],['milestones','Milestones'],['control','Control Room'],['exports','Exports'],['settings','Settings'],['assist','Can Do Helper']].forEach(a=>{if(tabs&&!tabs.querySelector('[data-view="'+a[0]+'"]')){const b=document.createElement('button');b.className='tab';b.dataset.view=a[0];b.textContent=a[1];b.onclick=()=>{activeView=a[0];renderView()};tabs.appendChild(b)}});const qa=document.getElementById('quickAddBtn');if(qa&&!qa.dataset.v5){qa.dataset.v5='1';qa.onclick=()=>{smartQuickAdd(document.getElementById('quickAddInput').value);document.getElementById('quickAddInput').value=''}}}
 const _render=render;window.render=function(){bootV5();_render();bootV5()};
 const _renderDetails=renderProjectDetails;window.renderProjectDetails=function(){_renderDetails();const p=normalizeV5(project());[['projectObjective','objective'],['projectSuccess','success'],['projectOutScope','outscope']].forEach(x=>{const e=document.getElementById(x[0]);if(e)e.value=p[x[1]]||''})};
 const _saveProj=document.getElementById('saveProjectBtn').onclick;document.getElementById('saveProjectBtn').onclick=function(){const p=normalizeV5(project());p.objective=document.getElementById('projectObjective')?.value||'';p.success=document.getElementById('projectSuccess')?.value||'';p.outscope=document.getElementById('projectOutScope')?.value||'';_saveProj()};
-const _view=renderView;window.renderView=function(){bootV5();document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.view===activeView));const root=document.getElementById('content');root.innerHTML='';if(activeView==='brief')return renderBrief(root);if(activeView==='milestones')return renderMilestones(root);if(activeView==='control')return renderControl(root);if(activeView==='exports')return renderExports(root);if(activeView==='settings')return renderSettings(root);if(activeView==='assist')return renderAssist(root);_view();document.querySelectorAll('.version').forEach(v=>v.textContent=v.textContent.replace('v4.0','v6.2'))};
+const _view=renderView;window.renderView=function(){bootV5();document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.view===activeView));const root=document.getElementById('content');root.innerHTML='';if(activeView==='brief')return renderBrief(root);if(activeView==='milestones')return renderMilestones(root);if(activeView==='control')return renderControl(root);if(activeView==='exports')return renderExports(root);if(activeView==='settings')return renderSettings(root);if(activeView==='assist')return renderAssist(root);_view();document.querySelectorAll('.version').forEach(v=>v.textContent=v.textContent.replace('v6.15','v6.15'))};
 function health(t){if(t.blocked)return['🚧','Blocked'];if(isOverdue(t))return['🔴','Overdue'];if(t.needByDate&&((new Date(t.needByDate)-new Date(today()))/864e5)<=3)return['🟡','Due soon'];if(['done','shipped','invoiced'].includes(t.stageId))return['✅','Complete'];return['🟢','Healthy']}
 window.noteEl=function(task){const p=normalizeV5(project()),age=task.createdAt?Math.floor((Date.now()-new Date(task.createdAt))/864e5):0,h=health(task),prog=(task.subtasks||[]).length?Math.round(100*(task.subtasks||[]).filter(s=>s.completed).length/(task.subtasks||[]).length):0;const div=document.createElement('article');div.className='note '+p.cardDensity+(age>14?' aged':'');div.draggable=true;div.style.setProperty('--note',task.stickyColor||'#fff176');div.style.setProperty('--rot',p.cardDensity==='dense'?'0deg':(((task.id.charCodeAt(task.id.length-1)%5)-2)*.8+'deg'));const typeClass=task.type==='Bug'?'bug':task.type==='Feature Request'?'feature':'general';div.innerHTML=`<div class="note-title"><span class="health-dot" title="${h[1]}">${h[0]}</span> ${escapeHtml(task.title)}</div><div class="note-desc">${escapeHtml(task.description||'')}</div><div class="progress"><span style="width:${prog}%"></span></div><div class="note-meta"><span class="pill ${typeClass}">${task.type==='Feature Request'?'✨ Feature':task.type==='Bug'?'🐞 Bug':'📝 General'}</span><span class="pill">${escapeHtml(task.priority||'Medium')}</span>${task.responsible?`<span class="pill">👤 ${escapeHtml(task.responsible)}</span>`:''}${task.needByDate?`<span class="pill">📅 ${escapeHtml(task.needByDate)}</span>`:''}${task.blocked?`<span class="pill">🚧 Blocked</span>`:''}${isOverdue(task)?`<span class="pill">🔴 Overdue</span>`:''}${task.subtasks?.length?`<span class="pill">☑ ${task.subtasks.filter(s=>s.completed).length}/${task.subtasks.length}</span>`:''}${task.billable?`<span class="pill">💵 ${money(taskAmount(task))}</span>`:''}${age>0?`<span class="pill">🕰 ${age}d</span>`:''}</div><div class="note-actions"><div class="swatches">${noteColors.slice(0,8).map(c=>`<button class="swatch" data-color="${c}" style="background:${c}"></button>`).join('')}</div><button class="mini">Flip / Edit</button></div>`;div.ondragstart=()=>{draggedTaskId=task.id;div.classList.add('dragging')};div.ondragend=()=>{draggedTaskId=null;div.classList.remove('dragging')};div.querySelector('.mini').onclick=()=>openTaskModal(task.id);div.querySelectorAll('.swatch').forEach(s=>s.onclick=e=>{e.stopPropagation();task.stickyColor=s.dataset.color;task.updatedAt=now();saveState();renderView()});div.ondblclick=()=>openTaskModal(task.id);return div};
 window.moveTask=function(id,stageId){const p=normalizeV5(project()),t=p.tasks.find(x=>x.id===id);if(!t)return;const r=p.stageRules[stageId]||{},n=p.tasks.filter(x=>x.stageId===stageId&&x.id!==id).length;if(r.wipLimit&&n>=Number(r.wipLimit)&&!confirm('This stage is over its WIP limit. Move anyway?'))return;if(r.requireAssignee&&!t.responsible){alert('This stage requires a responsible person.');openTaskModal(id);return}if(r.requireSubtasksDone&&(t.subtasks||[]).some(s=>!s.completed)){alert('Finish all subtasks before moving here.');return}t.stageId=stageId;t.updatedAt=now();if(r.stampComplete&&!t.completedDate)t.completedDate=now();snapshot('task moved');saveState();render()};
 function mood(){const p=project(),over=p.tasks.filter(t=>isOverdue(t)).length,bugs=p.tasks.filter(t=>t.type==='Bug'&&!['done','shipped','invoiced'].includes(t.stageId)).length,blocked=p.tasks.filter(t=>t.blocked).length;let msg='The board is calm and can-do.',m={frog:'🐸',robot:'🤖',cat:'🐱',wizard:'🧙'}[p.mascot||'frog'];if(over)msg='Sunny with a chance of overdue stickies.';if(bugs>2)msg='The bug pile is getting spicy.';if(blocked)msg='A few sticky notes are tangled in red string.';return `<div class="mascot">${m}</div><h3>Mood of the Board</h3><p><strong>${msg}</strong></p>`}
-function renderBrief(root){const p=normalizeV5(project());root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Project Brief <span class="version">v6.2</span></h2><div class="dash-grid"><div class="box"><h3>Brief</h3>${area('Objective','bObjective',p.objective)}${area('Success criteria','bSuccess',p.success)}${area('Out of scope','bOutscope',p.outscope)}${area('Risks','bRisks',p.risks)}</div><div class="box">${mood()}<div class="cards"><div class="stat"><b>${p.tasks.filter(t=>isOverdue(t)).length}</b>Overdue</div><div class="stat"><b>${p.tasks.filter(t=>t.blocked).length}</b>Blocked</div><div class="stat"><b>${p.tasks.filter(t=>['shipped','done','invoiced'].includes(t.stageId)).length}</b>Finished</div></div><h3>Definition of Done</h3><p>${escapeHtml(p.success||'Add success criteria to define done.')}</p></div></div></div>`;[['bObjective','objective'],['bSuccess','success'],['bOutscope','outscope'],['bRisks','risks']].forEach(x=>document.getElementById(x[0]).onchange=e=>{p[x[1]]=e.target.value;p.updatedAt=now();saveState();renderProjectDetails()})}
+function renderBrief(root){const p=normalizeV5(project());root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Project Brief <span class="version">v6.15</span></h2><div class="dash-grid"><div class="box"><h3>Brief</h3>${area('Objective','bObjective',p.objective)}${area('Success criteria','bSuccess',p.success)}${area('Out of scope','bOutscope',p.outscope)}${area('Risks','bRisks',p.risks)}</div><div class="box">${mood()}<div class="cards"><div class="stat"><b>${p.tasks.filter(t=>isOverdue(t)).length}</b>Overdue</div><div class="stat"><b>${p.tasks.filter(t=>t.blocked).length}</b>Blocked</div><div class="stat"><b>${p.tasks.filter(t=>['shipped','done','invoiced'].includes(t.stageId)).length}</b>Finished</div></div><h3>Definition of Done</h3><p>${escapeHtml(p.success||'Add success criteria to define done.')}</p></div></div></div>`;[['bObjective','objective'],['bSuccess','success'],['bOutscope','outscope'],['bRisks','risks']].forEach(x=>document.getElementById(x[0]).onchange=e=>{p[x[1]]=e.target.value;p.updatedAt=now();saveState();renderProjectDetails()})}
 function area(l,id,v){return `<div class="field"><label>${l}</label><textarea id="${id}">${escapeHtml(v||'')}</textarea></div>`}
-function renderMilestones(root){const p=normalizeV5(project());root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Milestones <span class="version">v6.2</span></h2><div class="box"><div class="row"><input id="msName" placeholder="Milestone name"><input id="msDate" type="date"><button class="btn primary" id="addMs">Add Milestone</button></div></div>${p.milestones.sort((a,b)=>(a.date||'').localeCompare(b.date||'')).map(m=>`<div class="milestone"><strong>◆ ${escapeHtml(m.name)}</strong><br><small>${escapeHtml(m.date||'No date')} · ${m.done?'complete':'open'}</small> <button class="mini" onclick="toggleMilestone('${m.id}')">${m.done?'Reopen':'Complete'}</button> <button class="mini" onclick="deleteMilestone('${m.id}')">Delete</button></div>`).join('')||'<div class="empty">No milestones yet.</div>'}</div>`;document.getElementById('addMs').onclick=()=>{const name=document.getElementById('msName').value.trim();if(!name)return;p.milestones.push({id:uid('ms'),name,date:document.getElementById('msDate').value,done:false});saveState();renderView()}}
+function renderMilestones(root){const p=normalizeV5(project());root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Milestones <span class="version">v6.15</span></h2><div class="box"><div class="row"><input id="msName" placeholder="Milestone name"><input id="msDate" type="date"><button class="btn primary" id="addMs">Add Milestone</button></div></div>${p.milestones.sort((a,b)=>(a.date||'').localeCompare(b.date||'')).map(m=>`<div class="milestone"><strong>◆ ${escapeHtml(m.name)}</strong><br><small>${escapeHtml(m.date||'No date')} · ${m.done?'complete':'open'}</small> <button class="mini" onclick="toggleMilestone('${m.id}')">${m.done?'Reopen':'Complete'}</button> <button class="mini" onclick="deleteMilestone('${m.id}')">Delete</button></div>`).join('')||'<div class="empty">No milestones yet.</div>'}</div>`;document.getElementById('addMs').onclick=()=>{const name=document.getElementById('msName').value.trim();if(!name)return;p.milestones.push({id:uid('ms'),name,date:document.getElementById('msDate').value,done:false});saveState();renderView()}}
 window.toggleMilestone=id=>{const m=project().milestones.find(x=>x.id===id);if(m)m.done=!m.done;saveState();renderView()};window.deleteMilestone=id=>{project().milestones=project().milestones.filter(x=>x.id!==id);saveState();renderView()};
-function renderControl(root){const p=normalizeV5(project());root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Control Room <span class="version">v6.2</span></h2><div class="cards"><div class="stat"><b>${avgCycle()}</b>Avg cycle days</div><div class="stat"><b>${bottleneck()}</b>Bottleneck</div><div class="stat"><b>${p.tasks.filter(t=>t.createdAt&&new Date(t.createdAt)>new Date(Date.now()-7*864e5)).length}</b>Added this week</div><div class="stat"><b>${p.tasks.filter(t=>t.completedDate&&new Date(t.completedDate)>new Date(Date.now()-7*864e5)).length}</b>Finished this week</div></div><div class="dash-grid"><div class="box"><h3>Stage Rules + WIP Limits</h3><div class="stage-rule-grid">${p.workflowStages.map(ruleCard).join('')}</div></div><div class="box"><h3>Swimlanes + Bulk Actions</h3><div class="field"><label>Board swimlane grouping</label><select id="swimlaneBy"><option value="">None</option><option>responsible</option><option>priority</option><option>type</option></select></div><button class="btn" onclick="bulkColorOverdue()">Circle overdue in red</button> <button class="btn" onclick="archiveDone()">Archive done tasks</button><h3>Achievements</h3>${achievements()}</div></div></div>`;document.getElementById('swimlaneBy').value=p.swimlaneBy||'';document.getElementById('swimlaneBy').onchange=e=>{p.swimlaneBy=e.target.value;saveState()};p.workflowStages.forEach(bindRule)}
+function renderControl(root){const p=normalizeV5(project());root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Control Room <span class="version">v6.15</span></h2><div class="cards"><div class="stat"><b>${avgCycle()}</b>Avg cycle days</div><div class="stat"><b>${bottleneck()}</b>Bottleneck</div><div class="stat"><b>${p.tasks.filter(t=>t.createdAt&&new Date(t.createdAt)>new Date(Date.now()-7*864e5)).length}</b>Added this week</div><div class="stat"><b>${p.tasks.filter(t=>t.completedDate&&new Date(t.completedDate)>new Date(Date.now()-7*864e5)).length}</b>Finished this week</div></div><div class="dash-grid"><div class="box"><h3>Stage Rules + WIP Limits</h3><div class="stage-rule-grid">${p.workflowStages.map(ruleCard).join('')}</div></div><div class="box"><h3>Swimlanes + Bulk Actions</h3><div class="field"><label>Board swimlane grouping</label><select id="swimlaneBy"><option value="">None</option><option>responsible</option><option>priority</option><option>type</option></select></div><button class="btn" onclick="bulkColorOverdue()">Circle overdue in red</button> <button class="btn" onclick="archiveDone()">Archive done tasks</button><h3>Achievements</h3>${achievements()}</div></div></div>`;document.getElementById('swimlaneBy').value=p.swimlaneBy||'';document.getElementById('swimlaneBy').onchange=e=>{p.swimlaneBy=e.target.value;saveState()};p.workflowStages.forEach(bindRule)}
 function ruleCard(s){const r=project().stageRules[s.id]||{};return `<div class="power-card"><h3>${escapeHtml(s.name)}</h3><div class="field"><label>WIP limit</label><input id="wip_${s.id}" type="number" value="${escapeAttr(r.wipLimit||'')}"></div><label><input id="ass_${s.id}" type="checkbox" ${r.requireAssignee?'checked':''}> require assignee</label><br><label><input id="sub_${s.id}" type="checkbox" ${r.requireSubtasksDone?'checked':''}> require subtasks done</label><br><label><input id="comp_${s.id}" type="checkbox" ${r.stampComplete?'checked':''}> stamp complete here</label></div>`}
 function bindRule(s){['wip','ass','sub','comp'].forEach(()=>{});['wip_'+s.id,'ass_'+s.id,'sub_'+s.id,'comp_'+s.id].forEach(id=>{const e=document.getElementById(id);if(e)e.onchange=()=>{const r=project().stageRules[s.id];r.wipLimit=document.getElementById('wip_'+s.id).value;r.requireAssignee=document.getElementById('ass_'+s.id).checked;r.requireSubtasksDone=document.getElementById('sub_'+s.id).checked;r.stampComplete=document.getElementById('comp_'+s.id).checked;saveState()}})}
 function avgCycle(){const d=project().tasks.filter(t=>t.completedDate&&t.createdAt);return d.length?Math.round(d.reduce((a,t)=>a+(new Date(t.completedDate)-new Date(t.createdAt))/864e5,0)/d.length):'—'}function bottleneck(){const c={};project().tasks.forEach(t=>c[t.stageId]=(c[t.stageId]||0)+1);const id=Object.entries(c).sort((a,b)=>b[1]-a[1])[0]?.[0];return project().workflowStages.find(s=>s.id===id)?.name||'—'}function achievements(){const p=project(),a=[];if(p.tasks.length)a.push('🌱 First sticky');if(p.tasks.some(t=>['shipped','done','invoiced'].includes(t.stageId)))a.push('🚀 Shipped something');if(!p.tasks.some(t=>isOverdue(t)))a.push('✨ Zero overdue');if(p.invoiceStatus==='Paid')a.push('💰 Paid');return a.map(x=>`<span class="achievement">${x}</span>`).join('')||'<p>No stickers yet.</p>'}
 window.bulkColorOverdue=()=>{project().tasks.forEach(t=>{if(isOverdue(t))t.stickyColor='#ffab91'});saveState();render()};window.archiveDone=()=>{project().tasks.forEach(t=>{if(['done','shipped','invoiced'].includes(t.stageId))t.archived=true});saveState();render()};
-function renderExports(root){root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Exports + Integrations <span class="version">v6.2</span></h2><div class="share-grid"><div class="share-card"><h3>CSV</h3><p>Spreadsheet-friendly task export.</p><button class="btn primary" onclick="exportCsv()">Export CSV</button></div><div class="share-card"><h3>ICS Calendar</h3><p>Need-by dates as calendar events.</p><button class="btn primary" onclick="exportIcs()">Export ICS</button></div><div class="share-card"><h3>Markdown</h3><p>Readable project packet for docs or GitHub.</p><button class="btn primary" onclick="exportMarkdown()">Export Markdown</button></div><div class="share-card"><h3>Future Connectors</h3><p>Planned: GitHub, Trello/Jira import, Google/Outlook Calendar, Slack, and email-to-task. CSV/ICS/Markdown work locally today.</p></div></div></div>`}
-function renderSettings(root){const p=normalizeV5(project());root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Settings + Surfaces <span class="version">v6.2</span></h2><div class="dash-grid"><div class="box"><h3>Skeuomorphic Surface</h3><div class="surface-preview">${escapeHtml(p.surface)} surface</div><div class="field"><label>Board surface</label><select id="surfaceSel"><option>whiteboard</option><option>cork</option><option>chalk</option><option>blueprint</option><option>notebook</option></select></div><div class="field"><label>Card density</label><select id="densitySel"><option>standard</option><option>compact</option><option>dense</option><option>giant</option></select></div><div class="field"><label>Mascot</label><select id="mascotSel"><option>frog</option><option>robot</option><option>cat</option><option>wizard</option></select></div></div><div class="box"><h3>Accessibility</h3><div class="switch-row"><span>Reduced motion</span><input id="reducedMotion" type="checkbox" ${p.reducedMotion?'checked':''}></div><div class="switch-row"><span>High contrast mode</span><input id="highContrast" type="checkbox" ${p.highContrast?'checked':''}></div><h3>Keyboard Shortcuts</h3><p><span class="kbd">N</span> New task · <span class="kbd">/</span> Search · <span class="kbd">B</span> Board · <span class="kbd">G</span> Gantt · <span class="kbd">D</span> Dashboard · <span class="kbd">?</span> Help</p></div></div></div>`;['surfaceSel','densitySel','mascotSel'].forEach((id,i)=>{const k=['surface','cardDensity','mascot'][i],e=document.getElementById(id);e.value=p[k];e.onchange=()=>{p[k]=e.value;saveState();render()}});document.getElementById('reducedMotion').onchange=e=>{p.reducedMotion=e.target.checked;saveState()};document.getElementById('highContrast').onchange=e=>{p.highContrast=e.target.checked;document.documentElement.style.setProperty('--line',e.target.checked?'rgba(0,0,0,.55)':'rgba(44,42,37,.24)');saveState()}}
-function renderAssist(root){root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Can Do Helper <span class="version">v6.2</span></h2><div class="dash-grid"><div class="box"><h3>Natural Language Quick Add</h3><div class="nl-box"><input id="assistQuick" placeholder="bug: login fails !critical @Lee due 2026-07-15 #auth"><button class="btn primary" onclick="smartQuickAdd(document.getElementById('assistQuick').value);document.getElementById('assistQuick').value=''">Add</button></div><p style="color:var(--muted)">Understands type prefixes, !priority, @person, #tags, and due YYYY-MM-DD.</p></div><div class="box"><h3>Generate Useful Text</h3><button class="btn" onclick="generateClientUpdate()">Client update</button> <button class="btn" onclick="suggestSprint()">Suggest sprint backlog</button> <button class="btn" onclick="makeTestingChecklist()">Testing checklist</button><pre class="cmd" id="assistOut">Can Do Helper output appears here.</pre></div></div></div>`}
+function renderExports(root){root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Exports + Integrations <span class="version">v6.15</span></h2><div class="share-grid"><div class="share-card"><h3>CSV</h3><p>Spreadsheet-friendly task export.</p><button class="btn primary" onclick="exportCsv()">Export CSV</button></div><div class="share-card"><h3>ICS Calendar</h3><p>Need-by dates as calendar events.</p><button class="btn primary" onclick="exportIcs()">Export ICS</button></div><div class="share-card"><h3>Markdown</h3><p>Readable project packet for docs or GitHub.</p><button class="btn primary" onclick="exportMarkdown()">Export Markdown</button></div><div class="share-card"><h3>Future Connectors</h3><p>Planned: GitHub, Trello/Jira import, Google/Outlook Calendar, Slack, and email-to-task. CSV/ICS/Markdown work locally today.</p></div></div></div>`}
+function renderSettings(root){const p=normalizeV5(project());root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Settings + Surfaces <span class="version">v6.15</span></h2><div class="dash-grid"><div class="box"><h3>Skeuomorphic Surface</h3><div class="surface-preview">${escapeHtml(p.surface)} surface</div><div class="field"><label>Board surface</label><select id="surfaceSel"><option>whiteboard</option><option>cork</option><option>chalk</option><option>blueprint</option><option>notebook</option></select></div><div class="field"><label>Card density</label><select id="densitySel"><option>standard</option><option>compact</option><option>dense</option><option>giant</option></select></div><div class="field"><label>Mascot</label><select id="mascotSel"><option>frog</option><option>robot</option><option>cat</option><option>wizard</option></select></div></div><div class="box"><h3>Accessibility</h3><div class="switch-row"><span>Reduced motion</span><input id="reducedMotion" type="checkbox" ${p.reducedMotion?'checked':''}></div><div class="switch-row"><span>High contrast mode</span><input id="highContrast" type="checkbox" ${p.highContrast?'checked':''}></div><h3>Keyboard Shortcuts</h3><p><span class="kbd">N</span> New task · <span class="kbd">/</span> Search · <span class="kbd">B</span> Board · <span class="kbd">G</span> Gantt · <span class="kbd">D</span> Dashboard · <span class="kbd">?</span> Help</p></div></div></div>`;['surfaceSel','densitySel','mascotSel'].forEach((id,i)=>{const k=['surface','cardDensity','mascot'][i],e=document.getElementById(id);e.value=p[k];e.onchange=()=>{p[k]=e.value;saveState();render()}});document.getElementById('reducedMotion').onchange=e=>{p.reducedMotion=e.target.checked;saveState()};document.getElementById('highContrast').onchange=e=>{p.highContrast=e.target.checked;document.documentElement.style.setProperty('--line',e.target.checked?'rgba(0,0,0,.55)':'rgba(44,42,37,.24)');saveState()}}
+function renderAssist(root){root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Can Do Helper <span class="version">v6.15</span></h2><div class="dash-grid"><div class="box"><h3>Natural Language Quick Add</h3><div class="nl-box"><input id="assistQuick" placeholder="bug: login fails !critical @Lee due 2026-07-15 #auth"><button class="btn primary" onclick="smartQuickAdd(document.getElementById('assistQuick').value);document.getElementById('assistQuick').value=''">Add</button></div><p style="color:var(--muted)">Understands type prefixes, !priority, @person, #tags, and due YYYY-MM-DD.</p></div><div class="box"><h3>Generate Useful Text</h3><button class="btn" onclick="generateClientUpdate()">Client update</button> <button class="btn" onclick="suggestSprint()">Suggest sprint backlog</button> <button class="btn" onclick="makeTestingChecklist()">Testing checklist</button><pre class="cmd" id="assistOut">Can Do Helper output appears here.</pre></div></div></div>`}
 window.smartQuickAdd=function(text){if(!text.trim())return;const p=project();let type='General',title=text.trim();if(/^bug:/i.test(title)){type='Bug';title=title.replace(/^bug:/i,'').trim()}if(/^feature:/i.test(title)){type='Feature Request';title=title.replace(/^feature:/i,'').trim()}const pr=(title.match(/!(low|medium|high|urgent|critical)/i)||[])[1],person=(title.match(/@(\w+)/)||[])[1]||'',due=(title.match(/due\s+(\d{4}-\d{2}-\d{2})/i)||[])[1]||'',tags=[...title.matchAll(/#([\w-]+)/g)].map(m=>m[1]);title=title.replace(/!(low|medium|high|urgent|critical)/ig,'').replace(/@\w+/g,'').replace(/due\s+\d{4}-\d{2}-\d{2}/ig,'').replace(/#[\w-]+/g,'').trim()||'Untitled smart sticky';p.tasks.push({id:uid('task'),projectId:p.id,title,description:'Created with Kandoo smart quick add.',type,stageId:'backlog',priority:pr?pr[0].toUpperCase()+pr.slice(1).toLowerCase():'Medium',responsible:person,startDate:'',needByDate:due,completedDate:null,estimateHours:null,actualHours:null,tags,blocked:false,blockingReason:'',stickyColor:type==='Bug'?'#ffab91':type==='Feature Request'?'#b3e5fc':'#fff176',subtasks:[],comments:[],links:[],dependencies:[],billable:true,hourlyRate:null,loggedHours:null,recurrence:'None',createdAt:now(),updatedAt:now()});snapshot('smart quick add');saveState();render();showToast('Smart sticky added')};
-window.exportCsv=()=>{const rows=[['Title','Type','Stage','Priority','Responsible','Start','Need by','Blocked','Tags','Logged Hours']].concat(project().tasks.map(t=>[t.title,t.type,t.stageId,t.priority,t.responsible,t.startDate,t.needByDate,t.blocked,(t.tags||[]).join('|'),t.loggedHours||'']));downloadBlob(new Blob([rows.map(r=>r.map(x=>'"'+String(x??'').replaceAll('"','""')+'"').join(',')).join('\n')],{type:'text/csv'}),`${slug(project().name)}-tasks-v6.2.csv`)};
-window.exportIcs=()=>{const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Kandoo v6.2//EN'];project().tasks.filter(t=>t.needByDate).forEach(t=>lines.push('BEGIN:VEVENT','UID:'+t.id+'@kandoo','DTSTAMP:'+now().replace(/[-:]/g,'').replace(/\.\d+Z/,'Z'),'DTSTART;VALUE=DATE:'+t.needByDate.replaceAll('-',''),'SUMMARY:'+t.title.replace(/[,;]/g,' '),'DESCRIPTION:'+((t.description||'').replace(/[\n,;]/g,' ')),'END:VEVENT'));lines.push('END:VCALENDAR');downloadBlob(new Blob([lines.join('\r\n')],{type:'text/calendar'}),`${slug(project().name)}-calendar-v6.2.ics`)};
-window.exportMarkdown=()=>{const p=project();let md=`# ${p.name} — Kandoo v6.2\n\n${p.description||''}\n\n## Objective\n${p.objective||''}\n\n## Success Criteria\n${p.success||''}\n\n## Tasks\n`;p.workflowStages.forEach(s=>{md+=`\n### ${s.name}\n`;p.tasks.filter(t=>t.stageId===s.id).forEach(t=>md+=`- **${t.title}** [${t.type}, ${t.priority}] ${t.needByDate?`due ${t.needByDate}`:''}\n`)});downloadBlob(new Blob([md],{type:'text/markdown'}),`${slug(p.name)}-v6.2.md`)};
+window.exportCsv=()=>{const rows=[['Title','Type','Stage','Priority','Responsible','Start','Need by','Blocked','Tags','Logged Hours']].concat(project().tasks.map(t=>[t.title,t.type,t.stageId,t.priority,t.responsible,t.startDate,t.needByDate,t.blocked,(t.tags||[]).join('|'),t.loggedHours||'']));downloadBlob(new Blob([rows.map(r=>r.map(x=>'"'+String(x??'').replaceAll('"','""')+'"').join(',')).join('\n')],{type:'text/csv'}),`${slug(project().name)}-tasks-v6.15.csv`)};
+window.exportIcs=()=>{const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Kandoo v6.15//EN'];project().tasks.filter(t=>t.needByDate).forEach(t=>lines.push('BEGIN:VEVENT','UID:'+t.id+'@kandoo','DTSTAMP:'+now().replace(/[-:]/g,'').replace(/\.\d+Z/,'Z'),'DTSTART;VALUE=DATE:'+t.needByDate.replaceAll('-',''),'SUMMARY:'+t.title.replace(/[,;]/g,' '),'DESCRIPTION:'+((t.description||'').replace(/[\n,;]/g,' ')),'END:VEVENT'));lines.push('END:VCALENDAR');downloadBlob(new Blob([lines.join('\r\n')],{type:'text/calendar'}),`${slug(project().name)}-calendar-v6.15.ics`)};
+window.exportMarkdown=()=>{const p=project();let md=`# ${p.name} — Kandoo v6.15\n\n${p.description||''}\n\n## Objective\n${p.objective||''}\n\n## Success Criteria\n${p.success||''}\n\n## Tasks\n`;p.workflowStages.forEach(s=>{md+=`\n### ${s.name}\n`;p.tasks.filter(t=>t.stageId===s.id).forEach(t=>md+=`- **${t.title}** [${t.type}, ${t.priority}] ${t.needByDate?`due ${t.needByDate}`:''}\n`)});downloadBlob(new Blob([md],{type:'text/markdown'}),`${slug(p.name)}-v6.15.md`)};
 window.generateClientUpdate=()=>{const p=project();document.getElementById('assistOut').textContent=`Project update for ${p.name}\n\nShipped/Done: ${p.tasks.filter(t=>['shipped','done','invoiced'].includes(t.stageId)).length}\nReady to ship: ${p.tasks.filter(t=>t.stageId==='ready-to-ship').map(t=>t.title).join(', ')||'None'}\nBlocked: ${p.tasks.filter(t=>t.blocked).map(t=>t.title).join(', ')||'None'}\nNext focus: ${p.tasks.filter(t=>['sprint-backlog','in-development'].includes(t.stageId)).slice(0,5).map(t=>t.title).join(', ')||'Backlog grooming'}`};
 window.suggestSprint=()=>{const score=t=>({Low:1,Medium:2,High:3,Urgent:4,Critical:5}[t.priority]||2);const c=project().tasks.filter(t=>['backlog','rework-backlog'].includes(t.stageId)&&!t.blocked).sort((a,b)=>score(b)-score(a)).slice(0,6);document.getElementById('assistOut').textContent='Suggested sprint backlog:\n'+c.map(t=>'• '+t.title+' ['+t.priority+']').join('\n')};
 window.makeTestingChecklist=()=>{const f=project().tasks.filter(t=>t.type==='Feature Request');document.getElementById('assistOut').textContent='Testing checklist:\n'+f.slice(0,6).map(t=>`• ${t.title}: happy path, edge case, mobile check, regression check, user acceptance note`).join('\n')};
 const _gantt=renderGantt;window.renderGantt=function(root){_gantt(root);const wrap=root.querySelector('.gantt-wrap');if(!wrap)return;const p=normalizeV5(project()),uns=filteredTasks().filter(t=>!t.startDate||!t.needByDate);const box=document.createElement('div');box.className='unscheduled-pile';box.innerHTML='<strong>Unscheduled sticky pile:</strong> '+(uns.map(t=>`<span class="pill" style="background:${t.stickyColor||'#fff176'}">${escapeHtml(t.title)}</span>`).join('')||'<span class="pill">empty</span>');wrap.appendChild(box);if(p.milestones.length){const m=document.createElement('div');m.className='box';m.style.marginTop='12px';m.innerHTML='<h3>Milestones</h3>'+p.milestones.map(x=>`<span class="achievement">◆ ${escapeHtml(x.name)} ${escapeHtml(x.date||'')}</span>`).join('');wrap.appendChild(m)}};
-window.renderShareCenter=function(root){const p=normalizeV5(project());root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Share Center <span class="version">v6.2</span></h2><div class="dash-grid"><div class="share-card"><h3>Share Mode</h3><select id="shareMode"><option>Client view</option><option>Team view</option><option>Public roadmap</option><option>Executive summary</option><option>QA/testing view</option><option>Invoice view</option></select><p>Each mode changes what the exported read-only site emphasizes.</p><button class="btn good" onclick="shareReadonly()">Export Read-only Site</button> <button class="btn" onclick="exportPdf()">Print / Save PDF</button></div><div class="share-preview" id="sharePreview"></div></div></div>`;document.getElementById('shareMode').value=p.shareMode;document.getElementById('shareMode').onchange=e=>{p.shareMode=e.target.value;saveState();renderView()};document.getElementById('sharePreview').innerHTML=`<h3>${escapeHtml(p.shareMode)}</h3><p>${escapeHtml(p.name)}</p><p>${p.tasks.length} tasks · ${p.tasks.filter(t=>t.blocked).length} blocked · ${p.tasks.filter(t=>['done','shipped','invoiced'].includes(t.stageId)).length} finished</p><p>Hidden stages stay hidden. Internal comments are summarized unless Team view is used.</p>`};
+window.renderShareCenter=function(root){const p=normalizeV5(project());root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Share Center <span class="version">v6.15</span></h2><div class="dash-grid"><div class="share-card"><h3>Share Mode</h3><select id="shareMode"><option>Client view</option><option>Team view</option><option>Public roadmap</option><option>Executive summary</option><option>QA/testing view</option><option>Invoice view</option></select><p>Each mode changes what the exported read-only site emphasizes.</p><button class="btn good" onclick="shareReadonly()">Export Read-only Site</button> <button class="btn" onclick="exportPdf()">Print / Save PDF</button></div><div class="share-preview" id="sharePreview"></div></div></div>`;document.getElementById('shareMode').value=p.shareMode;document.getElementById('shareMode').onchange=e=>{p.shareMode=e.target.value;saveState();renderView()};document.getElementById('sharePreview').innerHTML=`<h3>${escapeHtml(p.shareMode)}</h3><p>${escapeHtml(p.name)}</p><p>${p.tasks.length} tasks · ${p.tasks.filter(t=>t.blocked).length} blocked · ${p.tasks.filter(t=>['done','shipped','invoiced'].includes(t.stageId)).length} finished</p><p>Hidden stages stay hidden. Internal comments are summarized unless Team view is used.</p>`};
 document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,select'))return;if(e.key==='n'||e.key==='N')openTaskModal();if(e.key==='/'){e.preventDefault();document.getElementById('searchBox')?.focus()}if(e.key==='b'||e.key==='B'){activeView='board';renderView()}if(e.key==='g'||e.key==='G'){activeView='gantt';renderView()}if(e.key==='d'||e.key==='D'){activeView='dashboard';renderView()}if(e.key==='?'){activeView='settings';renderView()}});
 
-/* ===== Kandoo v6.2 refinement layer ===== */
+/* ===== Kandoo v6.15 refinement layer ===== */
 let undoStack=[];let redoStack=[];let importPreviewProject=null;let commandItems=[];
 function cloneState(){return JSON.parse(JSON.stringify(state))}
 function pushUndo(label){try{undoStack.push({label,at:now(),state:cloneState()});if(undoStack.length>40)undoStack.shift();redoStack=[];updateUndoUI()}catch(e){console.warn('Undo snapshot skipped',e)}}
@@ -461,7 +392,7 @@ function buildCommands(){const p=project();commandItems=[
 function renderCommandList(){const q=(document.getElementById('commandSearch')?.value||'').toLowerCase();const el=document.getElementById('commandList');if(!el)return;el.innerHTML=commandItems.filter(c=>(c.name+' '+c.hint).toLowerCase().includes(q)).map((c,i)=>`<button class="command-item" data-i="${i}"><span><strong>${escapeHtml(c.name)}</strong><br><small>${escapeHtml(c.hint)}</small></span><span class="pill">${escapeHtml(c.keys||'run')}</span></button>`).join('')||'<div class="empty">No matching commands.</div>';el.querySelectorAll('button').forEach(b=>b.onclick=()=>{const visible=commandItems.filter(c=>(c.name+' '+c.hint).toLowerCase().includes(q));closeCommandPalette();visible[Number(b.dataset.i)].run()})}
 window.openCommandPalette=function(){ensurePolishModals();buildCommands();document.getElementById('commandModal').classList.add('open');setTimeout(()=>document.getElementById('commandSearch').focus(),0)}
 window.closeCommandPalette=function(){document.getElementById('commandModal')?.classList.remove('open')}
-function decorateTaskModal(){const dialog=document.querySelector('#taskModal .dialog');if(!dialog||dialog.dataset.v51)return;dialog.dataset.v51='1';dialog.classList.add('clipboard-dialog');const grid=dialog.querySelector('.form-grid');if(!grid)return;const preview=document.createElement('div');preview.className='task-preview';preview.innerHTML='<article class="note"><div class="note-title" id="taskPreviewTitle">Sticky Task</div><div class="note-desc" id="taskPreviewDesc">Live preview while editing.</div><div class="note-meta"><span class="pill" id="taskPreviewType">📝 General</span><span class="pill" id="taskPreviewPriority">Medium</span><span class="pill" id="taskPreviewNeed"></span></div></article><div class="save-card"><strong>v6.2 editor polish</strong><br><small>Tabbed clipboard layout, live sticky preview, and safer save/delete with undo.</small></div>';
+function decorateTaskModal(){const dialog=document.querySelector('#taskModal .dialog');if(!dialog||dialog.dataset.v51)return;dialog.dataset.v51='1';dialog.classList.add('clipboard-dialog');const grid=dialog.querySelector('.form-grid');if(!grid)return;const preview=document.createElement('div');preview.className='task-preview';preview.innerHTML='<article class="note"><div class="note-title" id="taskPreviewTitle">Sticky Task</div><div class="note-desc" id="taskPreviewDesc">Live preview while editing.</div><div class="note-meta"><span class="pill" id="taskPreviewType">📝 General</span><span class="pill" id="taskPreviewPriority">Medium</span><span class="pill" id="taskPreviewNeed"></span></div></article><div class="save-card"><strong>v6.15 editor polish</strong><br><small>Tabbed clipboard layout, live sticky preview, and safer save/delete with undo.</small></div>';
 const wrap=document.createElement('div');wrap.className='task-workspace';grid.parentNode.insertBefore(wrap,grid);wrap.appendChild(preview);wrap.appendChild(grid);
 const tabbar=document.createElement('div');tabbar.className='task-tabs full';tabbar.innerHTML='<button class="task-tab active" data-sec="basics">Basics</button><button class="task-tab" data-sec="planning">Planning</button><button class="task-tab" data-sec="billing">Billing</button><button class="task-tab" data-sec="subtasks">Subtasks + Notes</button>';
 grid.insertBefore(tabbar,grid.firstChild);[...grid.children].forEach(child=>{if(child===tabbar)return;const txt=(child.textContent||'').toLowerCase();let sec='basics';if(/stage|priority|person|start|need|depends|tags|blocked|blocking|color/.test(txt))sec='planning';if(/estimate|actual|logged|billable|hourly|recurring/.test(txt))sec='billing';if(/subtasks|comments/.test(txt))sec='subtasks';child.classList.add('task-section-item','sec-'+sec)});
@@ -498,7 +429,7 @@ bootV5();render();saveState();
 </style>
 <script id="kandoo-v6-connected">
 (function(){
-const V6='v6.2';
+const V6='v6.15';
 function p(){return window.project()}function esc(s){return window.escapeHtml?escapeHtml(s):String(s??'')}function uid6(prefix){return (window.uid?uid(prefix):prefix+'_'+Math.random().toString(36).slice(2,9))}
 function normalizeV6Project(proj){
   proj.cloud=proj.cloud||{enabled:false,provider:'Local Sync Packet',endpoint:'',lastSync:'',deviceName:'This browser',conflicts:[],syncLog:[]};
@@ -563,7 +494,7 @@ function uploadAttachments(files){const target=by('attachTarget').value;[...file
 window.downloadAttachmentV6=function(id){const all=[...(p().projectAttachments||[]),...p().tasks.flatMap(t=>t.attachments||[])];const a=all.find(x=>x.id===id);if(!a)return;downloadBlob(dataURLtoBlob(a.dataUrl),a.name)}
 function dataURLtoBlob(dataurl){const arr=dataurl.split(','),mime=(arr[0].match(/:(.*?);/)||[])[1]||'application/octet-stream',bstr=atob(arr[1]||''),u8=new Uint8Array(bstr.length);for(let i=0;i<bstr.length;i++)u8[i]=bstr.charCodeAt(i);return new Blob([u8],{type:mime})}
 function exportAttachmentManifest(){const manifest={version:V6,project:p().name,attachments:[...(p().projectAttachments||[]).map(a=>({name:a.name,size:a.size,type:a.type,scope:'project'})),...p().tasks.flatMap(t=>(t.attachments||[]).map(a=>({name:a.name,size:a.size,type:a.type,scope:t.title})))]};downloadBlob(new Blob([JSON.stringify(manifest,null,2)],{type:'application/json'}),`${slug(p().name)}-attachments-manifest-v6.json`)}
-function exportICSv6(){const proj=p();let ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Kandoo//v6.2//EN','CALSCALE:GREGORIAN','X-WR-CALNAME:'+icsText(proj.calendarSync.calendarName||proj.name)];proj.tasks.filter(t=>t.needByDate).forEach(t=>ics.push('BEGIN:VEVENT','UID:'+t.id+'@kandoo','DTSTAMP:'+icsDateTime(new Date()),'DTSTART;VALUE=DATE:'+t.needByDate.replaceAll('-',''),'SUMMARY:'+icsText(t.title),'DESCRIPTION:'+icsText(`${t.type} · ${t.priority||''} · ${t.description||''}`),'END:VEVENT'));(proj.milestones||[]).filter(m=>m.date).forEach(m=>ics.push('BEGIN:VEVENT','UID:'+m.id+'@kandoo','DTSTAMP:'+icsDateTime(new Date()),'DTSTART;VALUE=DATE:'+m.date.replaceAll('-',''),'SUMMARY:'+icsText('◆ '+m.name),'DESCRIPTION:'+icsText('Kandoo milestone'),'END:VEVENT'));ics.push('END:VCALENDAR');proj.calendarSync.lastExport=now();saveState();downloadBlob(new Blob([ics.join('\r\n')],{type:'text/calendar'}),`${slug(proj.name)}-calendar-v6.ics`)}
+function exportICSv6(){const proj=p();let ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Kandoo//v6.15//EN','CALSCALE:GREGORIAN','X-WR-CALNAME:'+icsText(proj.calendarSync.calendarName||proj.name)];proj.tasks.filter(t=>t.needByDate).forEach(t=>ics.push('BEGIN:VEVENT','UID:'+t.id+'@kandoo','DTSTAMP:'+icsDateTime(new Date()),'DTSTART;VALUE=DATE:'+t.needByDate.replaceAll('-',''),'SUMMARY:'+icsText(t.title),'DESCRIPTION:'+icsText(`${t.type} · ${t.priority||''} · ${t.description||''}`),'END:VEVENT'));(proj.milestones||[]).filter(m=>m.date).forEach(m=>ics.push('BEGIN:VEVENT','UID:'+m.id+'@kandoo','DTSTAMP:'+icsDateTime(new Date()),'DTSTART;VALUE=DATE:'+m.date.replaceAll('-',''),'SUMMARY:'+icsText('◆ '+m.name),'DESCRIPTION:'+icsText('Kandoo milestone'),'END:VEVENT'));ics.push('END:VCALENDAR');proj.calendarSync.lastExport=now();saveState();downloadBlob(new Blob([ics.join('\r\n')],{type:'text/calendar'}),`${slug(proj.name)}-calendar-v6.ics`)}
 function importICSv6(file){const r=new FileReader();r.onload=()=>{const txt=r.result;const events=txt.split('BEGIN:VEVENT').slice(1).map(x=>'BEGIN:VEVENT'+x);let count=0;events.forEach(ev=>{const summary=(ev.match(/SUMMARY:(.*)/)||[])[1]||'Imported calendar item';const dt=(ev.match(/DTSTART(?:;VALUE=DATE)?:(\d{8})/)||[])[1];const due=dt?`${dt.slice(0,4)}-${dt.slice(4,6)}-${dt.slice(6,8)}`:'';p().tasks.push({id:uid6('task'),projectId:p().id,title:summary.trim(),description:'Imported from ICS calendar sync.',type:'General',stageId:'backlog',priority:'Medium',responsible:'',startDate:due,needByDate:due,stickyColor:'#b3e5fc',subtasks:[],comments:[],attachments:[],createdAt:now(),updatedAt:now()});count++;});p().calendarSync.lastImport=now();stampNotification('Calendar imported',`${count} calendar events became Kandoo tasks.`,'calendar');saveState();renderView();};r.readAsText(file)}
 function icsText(s){return String(s??'').replace(/[\\;,]/g,'\\$&').replace(/\n/g,'\\n')}function icsDateTime(d){return d.toISOString().replace(/[-:]/g,'').split('.')[0]+'Z'}
 function copyCalendarUrl(){navigator.clipboard?.writeText(location.href.split('#')[0]+'#calendar='+encodeURIComponent(p().id));showToast('Calendar feed URL copied')}
@@ -587,7 +518,7 @@ normalizeAllV6();afterV6Render();saveState();
 
 
 <style id="kandoo-v6-2-gantt-css">
-/* Kandoo v6.2 Advanced Gantt layer */
+/* Kandoo v6.15 Advanced Gantt layer */
 .gantt-advanced{height:100%;overflow:auto;padding:18px;background:var(--board)}
 .gantt-toolbar{display:flex;align-items:end;gap:10px;flex-wrap:wrap;margin:10px 0 12px;padding:10px;border:2px dashed var(--line);border-radius:18px;background:rgba(255,255,255,.48);box-shadow:3px 4px 0 var(--shadow)}
 .gantt-toolbar .field{min-width:135px;margin:0}.gantt-export-note{margin-left:auto;color:var(--muted);font-size:12px}
@@ -599,7 +530,7 @@ normalizeAllV6();afterV6Render();saveState();
 </style>
 <script id="kandoo-v6-2-advanced-gantt">
 (function(){
-const K62='v6.2';
+const K62='v6.15';
 const DAY=86400000;
 const zoomPx={day:34,week:14,month:5};
 function proj(){return project()}
@@ -621,136 +552,98 @@ function drawDependencyLines(pos,width,chain,highlight){const svg=document.getEl
 function wireGanttBars(min,px){document.querySelectorAll('.gantt-bar2').forEach(bar=>{bar.onpointerdown=e=>{const target=e.target;const mode=target.classList.contains('gantt-handle')?target.dataset.mode:'move';const id=bar.dataset.taskId;const t=proj().tasks.find(x=>x.id===id);if(!t)return;e.preventDefault();bar.setPointerCapture(e.pointerId);const startX=e.clientX;const initialLeft=parseFloat(bar.style.left)||0;const initialWidth=parseFloat(bar.style.width)||px;const startDate=parseDate(t.startDate);const endDate=parseDate(t.needByDate);const onMove=ev=>{const dx=ev.clientX-startX;let left=initialLeft,width=initialWidth;if(mode==='move')left=Math.max(0,initialLeft+dx);if(mode==='resize-left'){left=Math.max(0,initialLeft+dx);width=Math.max(px,initialWidth-dx)}if(mode==='resize-right')width=Math.max(px,initialWidth+dx);bar.style.left=left+'px';bar.style.width=width+'px'};const onUp=ev=>{bar.releasePointerCapture(e.pointerId);bar.removeEventListener('pointermove',onMove);bar.removeEventListener('pointerup',onUp);const finalLeft=parseFloat(bar.style.left)||0;const finalWidth=parseFloat(bar.style.width)||px;const startOffset=Math.round(finalLeft/px);const days=Math.max(0,Math.round(finalWidth/px)-1);const newStart=addDays(min,startOffset);const newEnd=addDays(newStart,days);if(window.pushUndo)pushUndo('gantt reschedule');t.startDate=fmt(newStart);t.needByDate=fmt(newEnd);t.updatedAt=now();snapshot('gantt reschedule');saveState();renderView();showToast('Gantt dates updated')};bar.addEventListener('pointermove',onMove);bar.addEventListener('pointerup',onUp)}})}
 window.exportGanttOnly=function(){const settings=ensureGanttSettings();const tasks=filteredTasks().filter(t=>t.startDate&&t.needByDate);const html=`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(proj().name)} Gantt ${K62}</title><style>body{font-family:Trebuchet MS,system-ui;margin:0;padding:22px;background:#fffaf0;color:#222}h1{font-family:cursive}.row{display:grid;grid-template-columns:220px 1fr 120px;gap:10px;align-items:center;border-bottom:1px dashed #aaa;min-height:38px}.track{height:24px;background:repeating-linear-gradient(90deg,#0001 0 1px,transparent 1px 28px);border-radius:99px;position:relative}.bar{position:absolute;top:4px;height:16px;border-radius:99px;border:1px solid #555}.pill{border:1px dashed #999;border-radius:999px;padding:3px 7px;background:#fff8;font-size:12px}</style></head><body><h1>${esc(proj().name)} — Gantt <span class="pill">${K62}</span></h1><p>Exported ${new Date().toLocaleString()} · Grouped by ${esc(settings.groupBy)} · Zoom ${esc(settings.zoom)}</p>${tasks.map(t=>`<div class="row"><strong>${esc(t.title)}</strong><div class="track"><span class="bar" style="left:8px;width:60%;background:${t.stickyColor||'#f7d84a'}"></span></div><small>${esc(t.startDate)} → ${esc(t.needByDate)}</small></div>`).join('')||'<p>No scheduled tasks.</p>'}<h2>Dependencies</h2><ul>${tasks.flatMap(t=>(t.dependencies||[]).map(d=>`<li>${esc((proj().tasks.find(x=>x.id===d)||{}).title||d)} → ${esc(t.title)}</li>`)).join('')||'<li>No dependencies.</li>'}</ul>
 
-<!-- Kandoo v6.17: contextual bulk bar cleanup -->
-<style id="kandoo-v617-contextual-bulkbar-style">
-/* The bulk selection controls are contextual. They should not reserve a giant band on normal views. */
-#bulkBar67,
-.bulk-bar#bulkBar67{
-  display:none !important;
-  height:0 !important;
-  min-height:0 !important;
-  max-height:0 !important;
-  overflow:hidden !important;
-  padding:0 !important;
-  margin:0 !important;
-  border:0 !important;
-}
-body.kandoo-view-bulk #bulkBar67,
-body.kandoo-has-bulk-selection #bulkBar67{
-  display:flex !important;
-  height:auto !important;
-  min-height:0 !important;
-  max-height:none !important;
-  overflow:visible !important;
-  padding:8px 12px !important;
-  margin:0 !important;
-  border-bottom:2px dashed var(--line) !important;
-  background:rgba(255,255,255,.22) !important;
-}
-body:not(.kandoo-view-bulk) #content .bulk-editor-page,
-body:not(.kandoo-view-bulk) #content .bulk-grid,
-body:not(.kandoo-view-bulk) #content [data-bulk-panel="true"]{
-  display:none !important;
-  height:0 !important;
-  max-height:0 !important;
-  overflow:hidden !important;
-  padding:0 !important;
-  margin:0 !important;
-  border:0 !important;
-}
-body:not(.kandoo-view-bulk):not(.kandoo-has-bulk-selection) #bulkQuickMove67{
-  display:none !important;
-}
-.workspace{grid-template-rows:auto auto minmax(0,1fr) !important;}
-.content{padding-top:0 !important;}
+<style id="kandoo-v615-one-version-style">
+/* v6.15: one true visible version. Only the header badge may display a version number. */
+.version:not([data-true-version="1"]),
+.kandoo-version:not([data-true-version="1"]),
+.app-version:not([data-true-version="1"]),
+.project-version,
+.old-version{display:none!important}
+#saveStatus{white-space:nowrap;color:var(--muted)}
 </style>
-<script id="kandoo-v617-contextual-bulkbar-fix">
+<script id="kandoo-v615-one-true-version">
 (function(){
   'use strict';
-  const VERSION='v6.18';
-  function $(id){return document.getElementById(id)}
-  function activeViewValue(){
-    try{
-      if(typeof activeView!=='undefined') return activeView;
-      const active=document.querySelector('.tab.active[data-view],.tab[data-view].active,[data-go-view].active');
-      return active && (active.dataset.view || active.dataset.goView) || '';
-    }catch(e){return ''}
-  }
-  function selectedCount(){
-    try{
-      if(window.kandooBulk67 && window.kandooBulk67.selectedBulk && typeof window.kandooBulk67.selectedBulk.size==='number') return window.kandooBulk67.selectedBulk.size;
-    }catch(e){}
-    try{
-      if(typeof selectedBulk!=='undefined' && selectedBulk && typeof selectedBulk.size==='number') return selectedBulk.size;
-    }catch(e){}
-    try{return document.querySelectorAll('.note.bulk-selected,#bulkTaskList input[type="checkbox"]:checked,.bulk-check input:checked').length}catch(e){return 0}
-  }
-  function normalizeVersions(){
-    document.title='Kandoo '+VERSION;
-    document.querySelectorAll('.version').forEach(v=>{v.textContent=VERSION;});
-    const save=$('saveStatus'); if(save) save.textContent=(save.textContent||'Saved just now').replace(/\s*·\s*v\d+(?:\.\d+)*(?:\s*·\s*[^·]*)?/g,'').replace(/\s+$/,'') || 'Saved just now';
-  }
-  function syncBulkChrome(){
-    const view=activeViewValue();
-    const isBulk=view==='bulk';
-    const count=selectedCount();
-    document.body.classList.toggle('kandoo-view-bulk',isBulk);
-    document.body.classList.toggle('kandoo-has-bulk-selection',count>0);
-    const bar=$('bulkBar67');
-    if(bar){
-      const shouldShow=isBulk || count>0;
-      bar.hidden=!shouldShow;
-      if(!shouldShow){
-        bar.style.display='none';
-        bar.style.height='0';
-        bar.style.padding='0';
-        bar.style.border='0';
-      }else{
-        bar.style.display='flex';
-        bar.style.height='';
-        bar.style.padding='';
-        bar.style.border='';
-      }
+  const TRUE_VERSION='v6.15';
+  const TRUE_KEY='kandoo-v6-15-data';
+  const VERSION_RE=/\bv\d+\.\d+\b/g;
+  const $=(s,r=document)=>r.querySelector(s);
+  const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  function safe(fn){try{return fn()}catch(e){console.warn('Kandoo v6.15 version cleanup warning',e)}}
+  function ensureHeaderVersion(){
+    document.title='Kandoo '+TRUE_VERSION;
+    const h1=$('.brand h1') || $('h1');
+    if(!h1) return;
+    let badge=$('.brand h1 .version[data-true-version="1"]') || $('.brand h1 .version') || $('[data-true-version="1"]');
+    if(!badge){
+      badge=document.createElement('span');
+      badge.className='version';
+      h1.appendChild(document.createTextNode(' '));
+      h1.appendChild(badge);
     }
-    if(!isBulk){
-      document.querySelectorAll('#content .bulk-editor-page,#content .bulk-grid,#content [data-bulk-panel="true"]').forEach(el=>{
-        el.hidden=true; el.style.display='none';
-      });
-    }
-    document.querySelectorAll('.bulk-count').forEach(el=>{el.textContent=count+' selected'});
+    badge.dataset.trueVersion='1';
+    badge.textContent=TRUE_VERSION;
+    $$('.version,.kandoo-version,.app-version').forEach(el=>{ if(el!==badge) el.remove(); });
   }
-  function bindClearSafety(){
-    ['bulkClear67','bulkClearPage'].forEach(id=>{
-      const b=$(id); if(!b || b.dataset.v617Bound) return;
-      b.dataset.v617Bound='1';
-      b.addEventListener('click',()=>setTimeout(syncBulkChrome,0),true);
-    });
+  function normalizeSaveStatus(){
+    const s=$('#saveStatus');
+    if(!s) return;
+    const text=(s.textContent||'Saved').trim();
+    if(/Saving/i.test(text)) return;
+    if(/Saved/i.test(text)) s.textContent='Saved just now';
+    else s.textContent=text.replace(VERSION_RE,'').replace(/\s*·\s*(fixes|cleaned UI|helper tools|bulk edit|archive|accessibility|advanced Gantt|notification rules|attachment cabinet|connected-ready|recoverable|bulk route fix)\b/gi,'').replace(/\s*·\s*/g,' · ').replace(/^\s*·|·\s*$/g,'').trim();
   }
-  function tick(){normalizeVersions();syncBulkChrome();bindClearSafety();}
-  const prevRender=window.render;
-  if(typeof prevRender==='function' && !prevRender._v617Wrapped){
-    const wrapped=function(){const r=prevRender.apply(this,arguments); setTimeout(tick,0); return r;};
-    wrapped._v617Wrapped=true; window.render=wrapped;
+  function stripVisibleVersionText(){
+    const root=document.body;
+    if(!root) return;
+    const excluded=new Set(['SCRIPT','STYLE','NOSCRIPT','TEXTAREA','INPUT','SELECT','OPTION']);
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode(node){
+      if(!node.nodeValue || !VERSION_RE.test(node.nodeValue)) return NodeFilter.FILTER_REJECT;
+      VERSION_RE.lastIndex=0;
+      const p=node.parentElement;
+      if(!p || excluded.has(p.tagName)) return NodeFilter.FILTER_REJECT;
+      if(p.matches('[data-true-version="1"], .brand h1 .version')) return NodeFilter.FILTER_REJECT;
+      if(p.closest('[data-true-version="1"]')) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }});
+    const nodes=[]; while(walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(n=>{n.nodeValue=n.nodeValue.replace(VERSION_RE,'').replace(/\s*·\s*(fixes|cleaned UI|helper tools|bulk edit|archive|accessibility|advanced Gantt|notification rules|attachment cabinet|connected-ready|recoverable|bulk route fix)\b/gi,'').replace(/\s*·\s*/g,' · ').replace(/^\s*·|·\s*$/g,'');});
   }
-  const prevRenderView=window.renderView;
-  if(typeof prevRenderView==='function' && !prevRenderView._v617Wrapped){
-    const wrapped=function(){const r=prevRenderView.apply(this,arguments); setTimeout(tick,0); return r;};
-    wrapped._v617Wrapped=true; window.renderView=wrapped;
+  function stamp(){
+    safe(()=>{ if(window.state){ window.state.version=TRUE_VERSION; try{localStorage.setItem(TRUE_KEY,JSON.stringify(window.state));}catch(e){} } });
+    ensureHeaderVersion();
+    stripVisibleVersionText();
+    normalizeSaveStatus();
   }
-  document.addEventListener('click',()=>setTimeout(tick,0),true);
-  document.addEventListener('change',()=>setTimeout(tick,0),true);
-  document.addEventListener('keyup',()=>setTimeout(tick,0),true);
-  new MutationObserver(()=>tick()).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style','hidden']});
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',tick); else tick();
-  setTimeout(tick,60); setTimeout(tick,500);
+  const previousRender=window.render;
+  if(typeof previousRender==='function'){
+    window.render=function(){ const result=previousRender.apply(this,arguments); setTimeout(stamp,0); setTimeout(stamp,75); return result; };
+  }
+  const previousSave=window.saveState;
+  if(typeof previousSave==='function'){
+    window.saveState=function(){
+      safe(()=>{ if(window.state) window.state.version=TRUE_VERSION; });
+      const result=previousSave.apply(this,arguments);
+      setTimeout(()=>{ normalizeSaveStatus(); stamp(); },0);
+      setTimeout(()=>{ normalizeSaveStatus(); stamp(); },900);
+      setTimeout(()=>{ const s=$('#saveStatus'); if(s) s.textContent='Saved just now'; stamp(); },1400);
+      return result;
+    };
+  }
+  safe(()=>{ window.KANDOO_VERSION=TRUE_VERSION; });
+  stamp();
+  setTimeout(stamp,100);
+  setTimeout(stamp,900);
+  const observer=new MutationObserver(()=>{ clearTimeout(window.__kandooV615Timer); window.__kandooV615Timer=setTimeout(stamp,40); });
+  if(document.body) observer.observe(document.body,{childList:true,subtree:true,characterData:true});
 })();
-</script>
+<\/script>
 
 </body></html>`;downloadBlob(new Blob([html],{type:'text/html'}),`${slug(proj().name)}-advanced-gantt-${K62}.html`)};
 const oldAfterRender=window.afterV6Render;
 if(typeof oldAfterRender==='function'){window.afterV6Render=function(){oldAfterRender();document.title='Kandoo '+K62;document.querySelectorAll('.version').forEach(v=>v.textContent=K62)}}
 const oldSave=window.saveState;window.saveState=function(){try{state.version=K62;proj().ganttSettings=proj().ganttSettings||{zoom:'day',groupBy:'stage',showDependencies:true,highlightBlockedChains:true}}catch(e){}oldSave();setTimeout(()=>{const s=document.getElementById('saveStatus');if(s)s.textContent='Saved just now · '+K62+' · advanced Gantt'},330)};
-document.title='Kandoo '+K62;document.querySelectorAll('.version').forEach(v=>v.textContent=K62);try{ensureGanttSettings();saveState();if(activeView==='gantt')renderView()}catch(e){console.warn('Kandoo v6.2 Gantt layer loaded with warning',e)}
+document.title='Kandoo '+K62;document.querySelectorAll('.version').forEach(v=>v.textContent=K62);try{ensureGanttSettings();saveState();if(activeView==='gantt')renderView()}catch(e){console.warn('Kandoo v6.15 Gantt layer loaded with warning',e)}
 })();
 </script>
 
@@ -760,7 +653,7 @@ document.title='Kandoo '+K62;document.querySelectorAll('.version').forEach(v=>v.
 </style>
 <script id="kandoo-v63-notification-layer">
 (function(){
-const K63='v6.3';
+const K63='v6.15';
 const DONE_STAGES=new Set(['done','shipped','invoiced']);
 const TESTING_STAGES=new Set(['in-internal-testing','in-user-testing','in_internal_testing','in_user_testing']);
 function currentProject(){return (typeof p==='function'?p():(typeof project==='function'?project():null));}
@@ -842,7 +735,7 @@ const prevStamp=window.stampNotification;if(typeof prevStamp==='function'){windo
 window.scanNotifications=scanRulesV63;
 document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,select'))return;if(e.key==='n'||e.key==='N'){activeView='notifications';renderView();}});
 function updateVersion63(){document.title='Kandoo '+K63;document.querySelectorAll('.version').forEach(v=>v.textContent=K63);updateBadge63();}
-try{ensureNotifV63(currentProject());ensureNotifTab63();updateVersion63();saveState();}catch(e){console.warn('Kandoo v6.3 notification layer warning',e)}
+try{ensureNotifV63(currentProject());ensureNotifTab63();updateVersion63();saveState();}catch(e){console.warn('Kandoo v6.15 notification layer warning',e)}
 })();
 </script>
 <style id="kandoo-v64-attachment-styles">
@@ -857,7 +750,7 @@ try{ensureNotifV63(currentProject());ensureNotifTab63();updateVersion63();saveSt
 </style>
 <script id="kandoo-v64-attachments">
 (function(){
-const K64='v6.4';
+const K64='v6.15';
 const $=id=>document.getElementById(id);
 function cp(){return (typeof currentProject==='function'?currentProject():(typeof project==='function'?project():null));}
 function h(s){return (typeof escapeHtml==='function'?escapeHtml(s):String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])))}
@@ -887,7 +780,7 @@ function card(a,selected){return `<article class="attachment-card ${selected?'se
 function thumb(a){if(String(a.type||'').startsWith('image/')&&a.dataUrl)return `<img src="${a.dataUrl}" alt="">`;if(String(a.type||'').startsWith('video/')&&a.dataUrl)return `<video src="${a.dataUrl}" muted></video>`;return `<span class="attachment-file-icon">${fileIcon(a.type,a.name)}</span>`;}
 function preview(a){return `<div class="attachment-preview-shell"><div class="attachment-preview-frame">${previewFrame(a)}</div><div class="box"><strong>${h(a.name)}</strong><p class="attachment-meta">${h(a.type||'unknown type')} · ${bytes(a.size)} · ${a.scope==='task'?'Task: '+h(taskName(a.taskId)):'Project cabinet'}<br>Uploaded ${a.createdAt?new Date(a.createdAt).toLocaleString():''}</p><div class="field"><label>Note</label><textarea id="attPreviewNote64">${h(a.note||'')}</textarea></div><div class="toolbar"><button class="btn good" onclick="KandooAttach64.savePreviewNote('${h(a.id)}')">Save Note</button><button class="btn" onclick="KandooAttach64.download('${h(a.id)}')">Download</button><button class="btn" onclick="KandooAttach64.remove('${h(a.id)}')">Remove</button></div></div></div>`;}
 function previewFrame(a){const t=String(a.type||''),url=a.dataUrl;if(!url)return `<span class="attachment-file-icon">${fileIcon(t,a.name)}</span><p>No local preview data stored.</p>`;if(t.startsWith('image/'))return `<img src="${url}" alt="${h(a.name)}">`;if(t.startsWith('video/'))return `<video src="${url}" controls></video>`;if(t.startsWith('audio/'))return `<audio src="${url}" controls></audio>`;if(t.includes('pdf'))return `<iframe src="${url}" title="${h(a.name)}"></iframe>`;if(t.startsWith('text/')||/\.(txt|md|csv|json|html|css|js)$/i.test(a.name||'')){try{return `<pre>${h(atob(String(url).split(',')[1]||''))}</pre>`}catch(e){return `<span class="attachment-file-icon">📄</span>`}}return `<span class="attachment-file-icon">${fileIcon(t,a.name)}</span><p>${h(a.name)}</p>`;}
-function uploadFiles64(files){files=[...files||[]];if(!files.length){alert('Choose one or more files first.');return;}const proj=normalizeAttachments64(cp()),scope=$('attScope64').value,taskId=scope==='task'?$('attTask64').value:'',note=$('attNote64').value||'';let remaining=files.length,added=0;files.forEach(file=>{if(file.size>4*1024*1024&&!confirm(`${file.name} is ${bytes(file.size)}. Large files may exceed browser storage. Add it anyway?`)){remaining--;return;}const r=new FileReader();r.onload=()=>{proj.attachments64.unshift({id:nid('att'),name:file.name,type:file.type||'application/octet-stream',size:file.size,scope,taskId:scope==='task'?taskId:'',note,dataUrl:r.result,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),source:'v6.4-upload'});added++;remaining--;if(remaining===0){stamp('Attachment uploaded',`${added} file(s) added to ${scope==='task'?taskName(taskId):'the project file cabinet'}.`,'attachment',taskId);if(typeof snapshot==='function')snapshot('attachments uploaded');saveState();renderView();}};r.onerror=()=>{remaining--;alert('Could not read '+file.name);};r.readAsDataURL(file);});}
+function uploadFiles64(files){files=[...files||[]];if(!files.length){alert('Choose one or more files first.');return;}const proj=normalizeAttachments64(cp()),scope=$('attScope64').value,taskId=scope==='task'?$('attTask64').value:'',note=$('attNote64').value||'';let remaining=files.length,added=0;files.forEach(file=>{if(file.size>4*1024*1024&&!confirm(`${file.name} is ${bytes(file.size)}. Large files may exceed browser storage. Add it anyway?`)){remaining--;return;}const r=new FileReader();r.onload=()=>{proj.attachments64.unshift({id:nid('att'),name:file.name,type:file.type||'application/octet-stream',size:file.size,scope,taskId:scope==='task'?taskId:'',note,dataUrl:r.result,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),source:'v6.15-upload'});added++;remaining--;if(remaining===0){stamp('Attachment uploaded',`${added} file(s) added to ${scope==='task'?taskName(taskId):'the project file cabinet'}.`,'attachment',taskId);if(typeof snapshot==='function')snapshot('attachments uploaded');saveState();renderView();}};r.onerror=()=>{remaining--;alert('Could not read '+file.name);};r.readAsDataURL(file);});}
 function exportManifest64(){const proj=normalizeAttachments64(cp());const manifest={exportedFrom:'Kandoo',version:K64,project:{id:proj.id,name:proj.name},generatedAt:new Date().toISOString(),summary:{count:proj.attachments64.length,totalBytes:proj.attachments64.reduce((s,a)=>s+(a.size||0),0)},attachments:proj.attachments64.map(a=>({id:a.id,name:a.name,type:a.type,size:a.size,scope:a.scope,taskId:a.taskId||'',taskTitle:a.taskId?taskName(a.taskId):'',note:a.note||'',createdAt:a.createdAt,updatedAt:a.updatedAt,hasEmbeddedData:!!a.dataUrl}))};dlBlob(new Blob([JSON.stringify(manifest,null,2)],{type:'application/json'}),`${(proj.name||'kandoo').toLowerCase().replace(/[^a-z0-9]+/g,'-')}-attachments-manifest-${K64}.json`);}
 function exportBundle64(){const proj=normalizeAttachments64(cp());const bundle={exportedFrom:'Kandoo',version:K64,project:{id:proj.id,name:proj.name},generatedAt:new Date().toISOString(),attachments:proj.attachments64};dlBlob(new Blob([JSON.stringify(bundle,null,2)],{type:'application/json'}),`${(proj.name||'kandoo').toLowerCase().replace(/[^a-z0-9]+/g,'-')}-attachments-bundle-${K64}.json`);}
 window.KandooAttach64={select(id){normalizeAttachments64(cp()).attachmentSettings64.selectedId=id;saveState();renderView();},download(id){const a=allAttachments().find(x=>x.id===id);if(a&&a.dataUrl)dlBlob(dataURLtoBlob(a.dataUrl),a.name||'attachment');},editNote(id){const a=allAttachments().find(x=>x.id===id);if(!a)return;const note=prompt('Attachment note:',a.note||'');if(note!==null){a.note=note;a.updatedAt=new Date().toISOString();saveState();renderView();}},savePreviewNote(id){const a=allAttachments().find(x=>x.id===id),el=$('attPreviewNote64');if(a&&el){a.note=el.value;a.updatedAt=new Date().toISOString();saveState();renderView();}},remove(id){const proj=normalizeAttachments64(cp());const a=proj.attachments64.find(x=>x.id===id);if(!a||!confirm('Remove this attachment from local storage?'))return;proj.attachments64=proj.attachments64.filter(x=>x.id!==id);if(proj.attachmentSettings64.selectedId===id)proj.attachmentSettings64.selectedId='';stamp('Attachment removed',`${a.name} removed from the local file cabinet.`,'attachment');saveState();renderView();}};
@@ -897,7 +790,7 @@ const prevRender64=window.render;window.render=function(){try{(state.projects||[
 const prevSave64=window.saveState;window.saveState=function(){try{state.version=K64;(state.projects||[]).forEach(normalizeAttachments64);}catch(e){} prevSave64();try{localStorage.setItem('kandoo-v6-4-data',JSON.stringify(state));}catch(e){}setTimeout(()=>{const s=$('saveStatus');if(s)s.textContent='Saved just now · '+K64+' · attachment cabinet'},360);};
 function updateVersion64(){document.title='Kandoo '+K64;document.querySelectorAll('.version').forEach(v=>v.textContent=K64);}
 document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,select'))return;if(e.key==='a'||e.key==='A'){activeView='attachments';renderView();}});
-try{(state.projects||[]).forEach(normalizeAttachments64);ensureAttachmentTab64();updateVersion64();saveState();}catch(e){console.warn('Kandoo v6.4 attachment layer warning',e)}
+try{(state.projects||[]).forEach(normalizeAttachments64);ensureAttachmentTab64();updateVersion64();saveState();}catch(e){console.warn('Kandoo v6.15 attachment layer warning',e)}
 })();
 </script>
 
@@ -914,7 +807,7 @@ try{(state.projects||[]).forEach(normalizeAttachments64);ensureAttachmentTab64()
 <script id="kandoo-v65-share-polish">
 (function(){
   'use strict';
-  const K65='v6.14';
+  const K65='v6.15';
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
   const slug=s=>String(s||'kandoo-project').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')||'kandoo-project';
   function p(){return typeof project==='function'?project():(window.state?.projects||[])[0];}
@@ -925,130 +818,92 @@ try{(state.projects||[]).forEach(normalizeAttachments64);ensureAttachmentTab64()
   function shareInner(pr,settings){const tasks=visibleTasks(pr,settings),stages=visibleStages(pr,settings);const done=tasks.filter(t=>['done','shipped','invoiced'].includes(t.stageId)).length;const overdue=tasks.filter(t=>t.needByDate&&new Date(t.needByDate)<new Date()&&!['done','shipped','invoiced'].includes(t.stageId)).length;const board=stages.map(st=>`<section class="share-col"><h3>${esc(st.name)} <span>${tasks.filter(t=>t.stageId===st.id).length}</span></h3>${tasks.filter(t=>t.stageId===st.id).slice(0,settings.compactNotes?6:999).map(t=>`<article class="share-note" style="--note:${esc(t.stickyColor||'#fff176')}"><strong>${esc(t.title)}</strong><small>${esc(t.type||'Task')} · ${esc(t.priority||'')} ${t.needByDate?'· due '+esc(t.needByDate):''}</small>${settings.showDescriptions&&t.description?`<p>${esc(t.description)}</p>`:''}</article>`).join('')||'<p>No visible tasks.</p>'}</section>`).join('');return `<header class="share-cover"><h1>${esc(settings.title||pr.name)}</h1><p>${esc(settings.subtitle||'Read-only project snapshot')}</p>${settings.includeGeneratedAt?`<small>Generated ${new Date().toLocaleString()} · ${K65}</small>`:''}</header>${settings.showBrief?`<section><h2>Project Brief</h2><p>${esc(settings.intro||pr.description||'')}</p></section>`:''}${settings.showDashboard?`<section class="share-kpis"><div><b>${tasks.length}</b><span>Tasks</span></div><div><b>${done}</b><span>Done/Shipped</span></div><div><b>${tasks.filter(t=>t.blocked).length}</b><span>Blocked</span></div><div><b>${overdue}</b><span>Overdue</span></div></section>`:''}${settings.showBoard?`<section><h2>Board</h2><div class="share-board">${board}</div></section>`:''}${settings.showTaskTable?`<section><h2>Task Table</h2><table><thead><tr><th>Task</th><th>Stage</th><th>Type</th><th>Priority</th>${settings.showPeople?'<th>Person</th>':''}<th>Need-by</th></tr></thead><tbody>${tasks.map(t=>`<tr><td>${esc(t.title)}</td><td>${esc((pr.workflowStages||[]).find(s=>s.id===t.stageId)?.name||t.stageId)}</td><td>${esc(t.type||'')}</td><td>${esc(t.priority||'')}</td>${settings.showPeople?`<td>${esc(t.responsible||'')}</td>`:''}<td>${esc(t.needByDate||'')}</td></tr>`).join('')||'<tr><td colspan="6">No visible tasks.</td></tr>'}</tbody></table></section>`:''}${settings.showGantt?`<section><h2>Gantt Snapshot</h2><pre>${tasks.filter(t=>t.startDate||t.needByDate).map(t=>`${t.startDate||'unscheduled'} → ${t.needByDate||'open'}  ${t.title}`).join('\n')||'No scheduled tasks.'}</pre></section>`:''}${settings.showMilestones?`<section><h2>Milestones</h2><ul>${(pr.milestones||[]).map(m=>`<li>${esc(m.title||m.name||'Milestone')} — ${esc(m.date||m.needByDate||'')}</li>`).join('')||'<li>No milestones yet.</li>'}</ul></section>`:''}${settings.includeKandooBranding?`<footer>Shared from Kandoo ${K65} — Kanban + Can Do.</footer>`:''}`;}
   function fullShareHtml(pr,settings){return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(settings.title||pr.name)} — Kandoo Share</title><style>body{margin:0;padding:18px;background:#f7f1df;color:#2c2a25;font-family:Trebuchet MS,system-ui,sans-serif}main{max-width:1180px;margin:auto;background:#fff8e7;border:3px solid #0002;border-radius:24px;padding:18px;box-shadow:5px 7px 0 #0002}h1,h2,h3{font-family:cursive}.share-cover,.share-kpis>div,section{background:#fff8;border:2px dashed #0002;border-radius:18px;padding:14px;margin:12px 0}.share-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}.share-kpis b{font-size:32px;display:block}.share-board{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.share-col{background:#fff9;border:2px dashed #0002;border-radius:18px;padding:10px}.share-note{background:var(--note,#fff176);border:1px solid #0002;border-radius:4px 4px 12px 4px;box-shadow:2px 3px 6px #0002;margin:8px 0;padding:10px;transform:rotate(-.4deg)}.share-note strong{display:block}.share-note p{font-size:12px}table{width:100%;border-collapse:collapse}td,th{border:1px solid #0002;padding:7px;text-align:left}pre{white-space:pre-wrap;background:#fff;border:1px dashed #0002;border-radius:12px;padding:10px}@media(max-width:700px){body{padding:8px}.share-board{grid-template-columns:1fr}}</style></head><body><main>${shareInner(pr,settings)}</main>
 
-<!-- Kandoo v6.17: contextual bulk bar cleanup -->
-<style id="kandoo-v617-contextual-bulkbar-style">
-/* The bulk selection controls are contextual. They should not reserve a giant band on normal views. */
-#bulkBar67,
-.bulk-bar#bulkBar67{
-  display:none !important;
-  height:0 !important;
-  min-height:0 !important;
-  max-height:0 !important;
-  overflow:hidden !important;
-  padding:0 !important;
-  margin:0 !important;
-  border:0 !important;
-}
-body.kandoo-view-bulk #bulkBar67,
-body.kandoo-has-bulk-selection #bulkBar67{
-  display:flex !important;
-  height:auto !important;
-  min-height:0 !important;
-  max-height:none !important;
-  overflow:visible !important;
-  padding:8px 12px !important;
-  margin:0 !important;
-  border-bottom:2px dashed var(--line) !important;
-  background:rgba(255,255,255,.22) !important;
-}
-body:not(.kandoo-view-bulk) #content .bulk-editor-page,
-body:not(.kandoo-view-bulk) #content .bulk-grid,
-body:not(.kandoo-view-bulk) #content [data-bulk-panel="true"]{
-  display:none !important;
-  height:0 !important;
-  max-height:0 !important;
-  overflow:hidden !important;
-  padding:0 !important;
-  margin:0 !important;
-  border:0 !important;
-}
-body:not(.kandoo-view-bulk):not(.kandoo-has-bulk-selection) #bulkQuickMove67{
-  display:none !important;
-}
-.workspace{grid-template-rows:auto auto minmax(0,1fr) !important;}
-.content{padding-top:0 !important;}
+<style id="kandoo-v615-one-version-style">
+/* v6.15: one true visible version. Only the header badge may display a version number. */
+.version:not([data-true-version="1"]),
+.kandoo-version:not([data-true-version="1"]),
+.app-version:not([data-true-version="1"]),
+.project-version,
+.old-version{display:none!important}
+#saveStatus{white-space:nowrap;color:var(--muted)}
 </style>
-<script id="kandoo-v617-contextual-bulkbar-fix">
+<script id="kandoo-v615-one-true-version">
 (function(){
   'use strict';
-  const VERSION='v6.18';
-  function $(id){return document.getElementById(id)}
-  function activeViewValue(){
-    try{
-      if(typeof activeView!=='undefined') return activeView;
-      const active=document.querySelector('.tab.active[data-view],.tab[data-view].active,[data-go-view].active');
-      return active && (active.dataset.view || active.dataset.goView) || '';
-    }catch(e){return ''}
-  }
-  function selectedCount(){
-    try{
-      if(window.kandooBulk67 && window.kandooBulk67.selectedBulk && typeof window.kandooBulk67.selectedBulk.size==='number') return window.kandooBulk67.selectedBulk.size;
-    }catch(e){}
-    try{
-      if(typeof selectedBulk!=='undefined' && selectedBulk && typeof selectedBulk.size==='number') return selectedBulk.size;
-    }catch(e){}
-    try{return document.querySelectorAll('.note.bulk-selected,#bulkTaskList input[type="checkbox"]:checked,.bulk-check input:checked').length}catch(e){return 0}
-  }
-  function normalizeVersions(){
-    document.title='Kandoo '+VERSION;
-    document.querySelectorAll('.version').forEach(v=>{v.textContent=VERSION;});
-    const save=$('saveStatus'); if(save) save.textContent=(save.textContent||'Saved just now').replace(/\s*·\s*v\d+(?:\.\d+)*(?:\s*·\s*[^·]*)?/g,'').replace(/\s+$/,'') || 'Saved just now';
-  }
-  function syncBulkChrome(){
-    const view=activeViewValue();
-    const isBulk=view==='bulk';
-    const count=selectedCount();
-    document.body.classList.toggle('kandoo-view-bulk',isBulk);
-    document.body.classList.toggle('kandoo-has-bulk-selection',count>0);
-    const bar=$('bulkBar67');
-    if(bar){
-      const shouldShow=isBulk || count>0;
-      bar.hidden=!shouldShow;
-      if(!shouldShow){
-        bar.style.display='none';
-        bar.style.height='0';
-        bar.style.padding='0';
-        bar.style.border='0';
-      }else{
-        bar.style.display='flex';
-        bar.style.height='';
-        bar.style.padding='';
-        bar.style.border='';
-      }
+  const TRUE_VERSION='v6.15';
+  const TRUE_KEY='kandoo-v6-15-data';
+  const VERSION_RE=/\bv\d+\.\d+\b/g;
+  const $=(s,r=document)=>r.querySelector(s);
+  const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  function safe(fn){try{return fn()}catch(e){console.warn('Kandoo v6.15 version cleanup warning',e)}}
+  function ensureHeaderVersion(){
+    document.title='Kandoo '+TRUE_VERSION;
+    const h1=$('.brand h1') || $('h1');
+    if(!h1) return;
+    let badge=$('.brand h1 .version[data-true-version="1"]') || $('.brand h1 .version') || $('[data-true-version="1"]');
+    if(!badge){
+      badge=document.createElement('span');
+      badge.className='version';
+      h1.appendChild(document.createTextNode(' '));
+      h1.appendChild(badge);
     }
-    if(!isBulk){
-      document.querySelectorAll('#content .bulk-editor-page,#content .bulk-grid,#content [data-bulk-panel="true"]').forEach(el=>{
-        el.hidden=true; el.style.display='none';
-      });
-    }
-    document.querySelectorAll('.bulk-count').forEach(el=>{el.textContent=count+' selected'});
+    badge.dataset.trueVersion='1';
+    badge.textContent=TRUE_VERSION;
+    $$('.version,.kandoo-version,.app-version').forEach(el=>{ if(el!==badge) el.remove(); });
   }
-  function bindClearSafety(){
-    ['bulkClear67','bulkClearPage'].forEach(id=>{
-      const b=$(id); if(!b || b.dataset.v617Bound) return;
-      b.dataset.v617Bound='1';
-      b.addEventListener('click',()=>setTimeout(syncBulkChrome,0),true);
-    });
+  function normalizeSaveStatus(){
+    const s=$('#saveStatus');
+    if(!s) return;
+    const text=(s.textContent||'Saved').trim();
+    if(/Saving/i.test(text)) return;
+    if(/Saved/i.test(text)) s.textContent='Saved just now';
+    else s.textContent=text.replace(VERSION_RE,'').replace(/\s*·\s*(fixes|cleaned UI|helper tools|bulk edit|archive|accessibility|advanced Gantt|notification rules|attachment cabinet|connected-ready|recoverable|bulk route fix)\b/gi,'').replace(/\s*·\s*/g,' · ').replace(/^\s*·|·\s*$/g,'').trim();
   }
-  function tick(){normalizeVersions();syncBulkChrome();bindClearSafety();}
-  const prevRender=window.render;
-  if(typeof prevRender==='function' && !prevRender._v617Wrapped){
-    const wrapped=function(){const r=prevRender.apply(this,arguments); setTimeout(tick,0); return r;};
-    wrapped._v617Wrapped=true; window.render=wrapped;
+  function stripVisibleVersionText(){
+    const root=document.body;
+    if(!root) return;
+    const excluded=new Set(['SCRIPT','STYLE','NOSCRIPT','TEXTAREA','INPUT','SELECT','OPTION']);
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode(node){
+      if(!node.nodeValue || !VERSION_RE.test(node.nodeValue)) return NodeFilter.FILTER_REJECT;
+      VERSION_RE.lastIndex=0;
+      const p=node.parentElement;
+      if(!p || excluded.has(p.tagName)) return NodeFilter.FILTER_REJECT;
+      if(p.matches('[data-true-version="1"], .brand h1 .version')) return NodeFilter.FILTER_REJECT;
+      if(p.closest('[data-true-version="1"]')) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }});
+    const nodes=[]; while(walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(n=>{n.nodeValue=n.nodeValue.replace(VERSION_RE,'').replace(/\s*·\s*(fixes|cleaned UI|helper tools|bulk edit|archive|accessibility|advanced Gantt|notification rules|attachment cabinet|connected-ready|recoverable|bulk route fix)\b/gi,'').replace(/\s*·\s*/g,' · ').replace(/^\s*·|·\s*$/g,'');});
   }
-  const prevRenderView=window.renderView;
-  if(typeof prevRenderView==='function' && !prevRenderView._v617Wrapped){
-    const wrapped=function(){const r=prevRenderView.apply(this,arguments); setTimeout(tick,0); return r;};
-    wrapped._v617Wrapped=true; window.renderView=wrapped;
+  function stamp(){
+    safe(()=>{ if(window.state){ window.state.version=TRUE_VERSION; try{localStorage.setItem(TRUE_KEY,JSON.stringify(window.state));}catch(e){} } });
+    ensureHeaderVersion();
+    stripVisibleVersionText();
+    normalizeSaveStatus();
   }
-  document.addEventListener('click',()=>setTimeout(tick,0),true);
-  document.addEventListener('change',()=>setTimeout(tick,0),true);
-  document.addEventListener('keyup',()=>setTimeout(tick,0),true);
-  new MutationObserver(()=>tick()).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style','hidden']});
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',tick); else tick();
-  setTimeout(tick,60); setTimeout(tick,500);
+  const previousRender=window.render;
+  if(typeof previousRender==='function'){
+    window.render=function(){ const result=previousRender.apply(this,arguments); setTimeout(stamp,0); setTimeout(stamp,75); return result; };
+  }
+  const previousSave=window.saveState;
+  if(typeof previousSave==='function'){
+    window.saveState=function(){
+      safe(()=>{ if(window.state) window.state.version=TRUE_VERSION; });
+      const result=previousSave.apply(this,arguments);
+      setTimeout(()=>{ normalizeSaveStatus(); stamp(); },0);
+      setTimeout(()=>{ normalizeSaveStatus(); stamp(); },900);
+      setTimeout(()=>{ const s=$('#saveStatus'); if(s) s.textContent='Saved just now'; stamp(); },1400);
+      return result;
+    };
+  }
+  safe(()=>{ window.KANDOO_VERSION=TRUE_VERSION; });
+  stamp();
+  setTimeout(stamp,100);
+  setTimeout(stamp,900);
+  const observer=new MutationObserver(()=>{ clearTimeout(window.__kandooV615Timer); window.__kandooV615Timer=setTimeout(stamp,40); });
+  if(document.body) observer.observe(document.body,{childList:true,subtree:true,characterData:true});
 })();
-</script>
+<\/script>
 
 </body></html>`;}
   window.renderShareCenter=function(root){const pr=p();if(!pr||!root)return;const s=ensure(pr);root.innerHTML=`<div class="page"><h2>Share-Page Builder <span class="version">${K65}</span></h2><p>Cleaned and consolidated share export builder.</p><div class="toolbar"><button class="btn good" id="share65Export">Export Share Page</button><button class="btn" id="share65Preview">Refresh Preview</button></div><div class="form-grid"><div class="field"><label>Title</label><input id="share65Title" value="${esc(s.title)}"></div><div class="field"><label>Subtitle</label><input id="share65Subtitle" value="${esc(s.subtitle)}"></div><div class="field full"><label>Intro</label><textarea id="share65Intro">${esc(s.intro)}</textarea></div></div><div class="box" id="share65Box"></div></div>`;function sync(){s.title=document.getElementById('share65Title').value;s.subtitle=document.getElementById('share65Subtitle').value;s.intro=document.getElementById('share65Intro').value;if(typeof saveState==='function')saveState();document.getElementById('share65Box').innerHTML=shareInner(pr,s);}['share65Title','share65Subtitle','share65Intro'].forEach(id=>document.getElementById(id).addEventListener('input',sync));document.getElementById('share65Export').onclick=()=>window.shareReadonly();document.getElementById('share65Preview').onclick=sync;sync();};
@@ -1057,9 +912,9 @@ body:not(.kandoo-view-bulk):not(.kandoo-has-bulk-selection) #bulkQuickMove67{
 })();
 </script>
 <script>
-/* Kandoo v6.7 — Stage Rule Enforcement */
+/* Kandoo v6.15 — Stage Rule Enforcement */
 (function(){
-  const K66='v6.7';
+  const K66='v6.15';
   const COMPLETE_STAGES_66=new Set(['shipped','done']);
   const INVOICE_STAGE_66='invoiced';
   const DONE_STAGE_66='done';
@@ -1142,14 +997,14 @@ body:not(.kandoo-view-bulk):not(.kandoo-has-bulk-selection) #bulkQuickMove67{
     aside.appendChild(card);
   }
   const prevRender66=window.render;
-  if(typeof prevRender66==='function') window.render=function(){const out=prevRender66.apply(this,arguments);document.title='Kandoo v6.7';document.querySelectorAll('.version').forEach(el=>{if(/^v6\.\d+$/.test(el.textContent.trim()))el.textContent=K66;});addStageRuleSummary66();return out;};
-  try{if(typeof state==='object'){(state.projects||[]).forEach(normalizeDates66);if(typeof saveState==='function')saveState();}document.title='Kandoo v6.7';document.querySelectorAll('.version').forEach(el=>{if(/^v6\.\d+$/.test(el.textContent.trim()))el.textContent=K66;});const btn=document.getElementById('saveTaskBtn');if(btn)btn.onclick=()=>window.saveTask();addStageRuleSummary66();}catch(e){console.warn('Kandoo v6.7 stage-rule layer warning',e);}
+  if(typeof prevRender66==='function') window.render=function(){const out=prevRender66.apply(this,arguments);document.title='Kandoo v6.15';document.querySelectorAll('.version').forEach(el=>{if(/^v6\.\d+$/.test(el.textContent.trim()))el.textContent=K66;});addStageRuleSummary66();return out;};
+  try{if(typeof state==='object'){(state.projects||[]).forEach(normalizeDates66);if(typeof saveState==='function')saveState();}document.title='Kandoo v6.15';document.querySelectorAll('.version').forEach(el=>{if(/^v6\.\d+$/.test(el.textContent.trim()))el.textContent=K66;});const btn=document.getElementById('saveTaskBtn');if(btn)btn.onclick=()=>window.saveTask();addStageRuleSummary66();}catch(e){console.warn('Kandoo v6.15 stage-rule layer warning',e);}
 })();
 </script>
 
 
 <style id="kandoo-v6-11-ui-cleanup-style">
-/* Kandoo v6.11 UI cleanup: nested menus, tighter navigation, healthier sticky cards */
+/* Kandoo v6.15 UI cleanup: nested menus, tighter navigation, healthier sticky cards */
 header{padding:10px 14px;align-items:flex-start;gap:10px;max-width:100vw;overflow:visible}.brand{flex:1 1 280px}.toolbar{flex:0 1 auto;max-width:min(980px,64vw);display:flex;align-items:flex-start;justify-content:flex-end;gap:8px;overflow:visible}.toolbar .status{align-self:center;min-width:140px}.top-menu{position:relative;display:inline-block}.top-menu>summary{list-style:none}.top-menu>summary::-webkit-details-marker{display:none}.menu-summary{border:2px solid rgba(0,0,0,.18);background:var(--panel);border-radius:12px;padding:8px 10px;box-shadow:2px 3px 0 var(--shadow);font-weight:800;white-space:nowrap}.top-menu[open]>.menu-summary{background:var(--accent);color:#20160c}.menu-panel{position:absolute;right:0;top:calc(100% + 8px);z-index:60;min-width:230px;max-width:min(88vw,340px);padding:8px;background:var(--panel);border:2px solid rgba(0,0,0,.18);border-radius:16px;box-shadow:6px 8px 0 var(--shadow);display:grid;gap:7px}.menu-panel .btn,.menu-panel label.btn,.menu-panel .tab{width:100%;justify-content:flex-start;text-align:left;box-shadow:1px 2px 0 var(--shadow);border-radius:11px}.menu-section-title{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:900;padding:5px 7px 1px}.toolbar .btn.primary.always-visible{font-size:15px}.toolbar .btn.compact-only{padding:8px 10px}.view-tabs{display:flex;align-items:center;gap:8px;flex-wrap:wrap;overflow:visible;padding:8px 12px}.view-tabs .tab{padding:7px 11px}.view-tabs .top-menu .menu-panel{left:0;right:auto}.view-tabs .menu-summary{padding:7px 11px;border-radius:999px;font-weight:700;background:var(--panel)}.view-tabs .top-menu[open]>.menu-summary{background:var(--accent2);color:#071716}.workspace{grid-template-rows:auto auto 1fr}.filterbar{padding:8px 12px}.filterbar input,.filterbar select{max-width:185px}.content{min-width:0}#bulkBar67.bulk-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 12px}#bulkQuickMove67{flex:0 1 230px;max-width:260px}.board{gap:14px;padding:16px;align-items:flex-start}.column{min-width:260px;max-width:280px;align-self:stretch}.dropzone{align-items:stretch}.note{width:100%;max-width:100%;min-height:0!important;height:auto!important;padding:12px 12px 10px;border-radius:4px 4px 14px 5px;display:flex;flex-direction:column;gap:7px;overflow:hidden;contain:layout paint;line-height:1.25}.note:before{width:58px;height:14px;top:-6px}.note-title{display:flex;gap:7px;align-items:flex-start;margin:4px 0 0;font-size:17px;line-height:1.15;max-width:100%;overflow-wrap:anywhere}.note-title .health-dot{flex:0 0 22px;width:22px;height:22px;font-size:12px}.note-desc{font-size:12px;line-height:1.28;-webkit-line-clamp:2;margin:0}.progress{height:8px;border-radius:999px;background:rgba(255,255,255,.52);border:1px solid rgba(0,0,0,.12);overflow:hidden}.progress span{display:block;height:100%;background:rgba(0,0,0,.22);border-radius:999px}.note-meta{display:flex;flex-wrap:wrap;gap:4px;margin-top:0;max-height:58px;overflow:hidden}.pill{font-size:10.5px;padding:2px 6px;line-height:1.35}.note-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;padding-top:3px;border-top:1px dashed rgba(0,0,0,.16)}.swatches{display:flex;gap:4px;flex-wrap:nowrap;overflow:hidden;max-width:150px}.swatch{width:18px;height:18px;min-width:18px}.mini{white-space:nowrap;flex:0 0 auto}.inline-row,.inline-title,.move-select{display:none!important}.note.bulk-selected{outline:4px solid var(--accent2);outline-offset:2px}.bulk-check{top:6px;right:6px}.clean-note-footer{display:flex;align-items:center;justify-content:space-between;gap:8px}.note-menu{position:relative;display:inline-block}.note-menu summary{list-style:none}.note-menu summary::-webkit-details-marker{display:none}.note-menu-panel{position:absolute;right:0;bottom:calc(100% + 6px);z-index:30;background:var(--panel);border:2px solid rgba(0,0,0,.18);border-radius:12px;padding:8px;box-shadow:4px 5px 0 var(--shadow);min-width:150px}.note-menu-panel .swatches{max-width:none;flex-wrap:wrap}.note-menu-panel .swatch{width:22px;height:22px}.clean-card-subline{display:flex;gap:5px;flex-wrap:wrap;align-items:center}.clean-empty-state{font-size:12px;color:var(--muted)}
 @media(max-width:1120px){header{flex-direction:column}.toolbar{max-width:100%;width:100%;justify-content:flex-start}.brand{width:100%}.menu-panel{left:0;right:auto}.view-tabs{position:relative}.filterbar input,.filterbar select{max-width:none;flex:1 1 160px}}
 @media(max-width:760px){header{padding:9px 10px}.logo{width:40px;height:40px;font-size:22px}.toolbar{gap:6px}.toolbar .status{order:10;flex-basis:100%;text-align:left}.toolbar .btn,.menu-summary{padding:7px 8px;font-size:13px}.view-tabs{gap:6px;overflow:visible}.view-tabs .tab,.view-tabs .menu-summary{font-size:13px;padding:7px 9px}.menu-panel{position:fixed;left:10px!important;right:10px!important;top:86px;max-width:none;max-height:70vh;overflow:auto}.board{padding:12px}.column{min-width:86vw;max-width:86vw}.note{transform:rotate(0deg)!important}.note-meta{max-height:72px}.swatches{max-width:120px}#bulkQuickMove67{flex:1 1 100%;max-width:none}.filterbar{gap:6px}}
@@ -1157,7 +1012,7 @@ header{padding:10px 14px;align-items:flex-start;gap:10px;max-width:100vw;overflo
 <script id="kandoo-v6-11-ui-cleanup-layer">
 (()=>{
 'use strict';
-const CLEAN_VERSION='v6.11';
+const CLEAN_VERSION='v6.15';
 const CLEAN_KEY='kandoo-v6-11-data';
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -1225,11 +1080,11 @@ const previousSave=window.saveState;
 window.saveState=function(){state.version=CLEAN_VERSION;if(typeof previousSave==='function')previousSave();try{localStorage.setItem(CLEAN_KEY,JSON.stringify(state));}catch(e){}setTimeout(()=>{const s=$('saveStatus');if(s)s.textContent='Saved just now · '+CLEAN_VERSION+' · cleaned UI';},650)};
 window.noteEl=cleanNoteEl;
 window.kandooCleanUI611={rebuildToolbar,rebuildViewTabs,cleanNoteEl,stamp};
-try{migrate();rebuildToolbar();rebuildViewTabs();bindMenuClosing();makeLayoutNice();stamp();saveState();render();}catch(e){console.warn('Kandoo v6.11 cleanup layer warning',e)}
+try{migrate();rebuildToolbar();rebuildViewTabs();bindMenuClosing();makeLayoutNice();stamp();saveState();render();}catch(e){console.warn('Kandoo v6.15 cleanup layer warning',e)}
 })();
 </script>
 
-<!-- removed malformed v6.5 continuation block during v6.14 cleanup -->
+<!-- removed malformed v6.15 continuation block during v6.15 cleanup -->
 <style id="bulk67Styles">
 .bulk-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 12px;border-bottom:2px dashed var(--line);background:rgba(255,255,255,.26)}
 .bulk-count{font-weight:900;background:var(--accent);border:2px solid rgba(0,0,0,.18);border-radius:999px;padding:5px 9px;box-shadow:2px 3px 0 var(--shadow)}
@@ -1239,7 +1094,7 @@ try{migrate();rebuildToolbar();rebuildViewTabs();bindMenuClosing();makeLayoutNic
 </style>
 <script id="bulk67Script">
 (function(){
-const BULK_VERSION='v6.7';
+const BULK_VERSION='v6.15';
 const selectedBulk=new Set();
 const closedStages=['done','shipped','invoiced'];
 function p(){return typeof project==='function'?project():null}
@@ -1270,7 +1125,7 @@ function bulkDuplicate(){const sel=selectedTasks();if(!sel.length)return toast('
 function selectFiltered(){visibleTasks().forEach(t=>selectedBulk.add(t.id));decorateBulkUI();toast(`Selected ${selectedBulk.size} visible sticky notes.`)}
 function clearSelected(){selectedBulk.clear();decorateBulkUI();toast('Selection cleared.')}
 function selectStage(stageId){visibleTasks().filter(t=>t.stageId===stageId).forEach(t=>selectedBulk.add(t.id));decorateBulkUI()}
-function renderBulkBar(){ensureBulkDefaults();const existing=document.getElementById('bulkBar67');if(existing)existing.remove();const content=document.getElementById('content');if(!content||activeView==='bulk')return;const bar=document.createElement('div');bar.id='bulkBar67';bar.className='bulk-bar';bar.innerHTML=`<span class="bulk-count">${selectedBulk.size} selected</span><button class="btn small" id="bulkSelectVisible67">Select visible</button><button class="btn small" id="bulkClear67">Clear</button><button class="btn small" id="bulkOpen67">Open Bulk Edit</button><select id="bulkQuickMove67"><option value="">Quick move to...</option>${(p()?.workflowStages||[]).filter(s=>!s.hidden).sort((a,b)=>a.order-b.order).map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}</select>`;content.parentNode.insertBefore(bar,content);document.getElementById('bulkSelectVisible67').onclick=selectFiltered;document.getElementById('bulkClear67').onclick=clearSelected;document.getElementById('bulkOpen67').onclick=()=>{activeView='bulk';renderView()};document.getElementById('bulkQuickMove67').onchange=e=>{if(e.target.value)bulkMove(e.target.value)}}
+function renderBulkBar(){ensureBulkDefaults();const existing=document.getElementById('bulkBar67');if(existing)existing.remove();const content=document.getElementById('content');if(!content||activeView==='bulk'||selectedBulk.size===0)return;const bar=document.createElement('div');bar.id='bulkBar67';bar.className='bulk-bar';bar.innerHTML=`<span class="bulk-count">${selectedBulk.size} selected</span><button class="btn small" id="bulkSelectVisible67">Select visible</button><button class="btn small" id="bulkClear67">Clear</button><button class="btn small" id="bulkOpen67">Open Bulk Edit</button><select id="bulkQuickMove67"><option value="">Quick move to...</option>${(p()?.workflowStages||[]).filter(s=>!s.hidden).sort((a,b)=>a.order-b.order).map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}</select>`;content.parentNode.insertBefore(bar,content);document.getElementById('bulkSelectVisible67').onclick=selectFiltered;document.getElementById('bulkClear67').onclick=clearSelected;document.getElementById('bulkOpen67').onclick=()=>{activeView='bulk';renderView()};document.getElementById('bulkQuickMove67').onchange=e=>{if(e.target.value)bulkMove(e.target.value)}}
 function decorateBoard(){const zones=[...document.querySelectorAll('.dropzone[data-stage]')];if(!zones.length)return;const vis=visibleTasks();zones.forEach(zone=>{const stage=zone.dataset.stage;const stageTasks=vis.filter(t=>t.stageId===stage);[...zone.querySelectorAll('.note')].forEach((note,i)=>{const task=stageTasks[i];if(!task||note.dataset.bulkDecorated)return;note.dataset.bulkDecorated='1';note.dataset.taskId=task.id;note.classList.toggle('bulk-selected',selectedBulk.has(task.id));const box=document.createElement('label');box.className='bulk-check';box.innerHTML=`<input type="checkbox" ${selectedBulk.has(task.id)?'checked':''} title="Select for bulk edit">`;box.onclick=e=>e.stopPropagation();box.querySelector('input').onchange=e=>{if(e.target.checked)selectedBulk.add(task.id);else selectedBulk.delete(task.id);decorateBulkUI()};note.appendChild(box);});});}
 function decorateList(){document.querySelectorAll('.list-view tbody tr').forEach((tr,i)=>{const task=visibleTasks()[i];if(!task||tr.dataset.bulkDecorated)return;tr.dataset.bulkDecorated='1';const td=document.createElement('td');td.innerHTML=`<input type="checkbox" ${selectedBulk.has(task.id)?'checked':''}>`;td.querySelector('input').onchange=e=>{if(e.target.checked)selectedBulk.add(task.id);else selectedBulk.delete(task.id);decorateBulkUI()};tr.insertBefore(td,tr.firstChild);});const head=document.querySelector('.list-view thead tr');if(head&&!head.dataset.bulkHead){head.dataset.bulkHead='1';const th=document.createElement('th');th.textContent='Bulk';head.insertBefore(th,head.firstChild)}}
 function decorateBulkUI(){stampVersions();ensureBulkDefaults();addBulkTab();renderBulkBar();decorateBoard();decorateList();document.querySelectorAll('.note[data-task-id]').forEach(note=>note.classList.toggle('bulk-selected',selectedBulk.has(note.dataset.taskId)));document.querySelectorAll('#bulkBar67 .bulk-count').forEach(x=>x.textContent=selectedBulk.size+' selected');}
@@ -1283,7 +1138,7 @@ const previousRender=window.render;window.render=function(){previousRender();set
 const previousSaveTask=window.saveTask;if(previousSaveTask){window.saveTask=function(){previousSaveTask();setTimeout(decorateBulkUI,0)}}
 const prevSave67=window.saveState;
 window.saveState=function(){try{ensureBulkDefaults();state.version=BULK_VERSION;}catch(e){} if(typeof prevSave67==='function')prevSave67();try{localStorage.setItem('kandoo-v6-7-data',JSON.stringify(state));}catch(e){}setTimeout(()=>{const s=document.getElementById('saveStatus');if(s)s.textContent='Saved just now · '+BULK_VERSION+' · bulk edit';},460)};
-try{if(typeof state==='object'){(state.projects||[]).forEach(pr=>{(pr.tasks||[]).forEach(t=>{if(t.archived==null)t.archived=false})});saveState();}}catch(e){console.warn('Kandoo v6.7 bulk save layer warning',e)}
+try{if(typeof state==='object'){(state.projects||[]).forEach(pr=>{(pr.tasks||[]).forEach(t=>{if(t.archived==null)t.archived=false})});saveState();}}catch(e){console.warn('Kandoo v6.15 bulk save layer warning',e)}
 addBulkTab();stampVersions();setTimeout(decorateBulkUI,0);
 })();
 </script>
@@ -1293,7 +1148,7 @@ addBulkTab();stampVersions();setTimeout(decorateBulkUI,0);
 </style>
 <script id="archive68Script">
 (function(){
-const ARCHIVE_VERSION='v6.8';
+const ARCHIVE_VERSION='v6.15';
 const ARCHIVE_KEY='kandoo-v6-8-data';
 const OLD_KEYS=['kandoo-v6-7-data','kandoo-v6-6-data','kandoo-v6-5-data','kandoo-v6-4-data','kandoo-v6-3-data','kandoo-v6-2-data','kandoo-v6-1-data','kandoo-v6-0-data'];
 const $=id=>document.getElementById(id);
@@ -1354,7 +1209,7 @@ const prevRender68=window.render;window.render=function(){ensureArchiveState();p
 const prevSave68=window.saveState;window.saveState=function(){ensureArchiveState();state.version=ARCHIVE_VERSION;if(typeof prevSave68==='function')prevSave68();try{localStorage.setItem(ARCHIVE_KEY,JSON.stringify(state));}catch(e){}setTimeout(()=>{const s=$('saveStatus');if(s)s.textContent='Saved just now · '+ARCHIVE_VERSION+' · archive';},520)};
 function migrate68(){try{const cur=localStorage.getItem(ARCHIVE_KEY);if(cur)return;for(const k of OLD_KEYS){const raw=localStorage.getItem(k);if(raw){localStorage.setItem(ARCHIVE_KEY,raw);break;}}}catch(e){}}
 window.kandooArchive68={archiveCurrentProject68,restoreProject68,archiveCompletedTasks68,restoreTask68,exportArchivedProject68,exportArchiveReport68};
-try{migrate68();ensureArchiveState();addArchiveTab68();stamp68();saveState();}catch(e){console.warn('Kandoo v6.8 archive layer warning',e)}
+try{migrate68();ensureArchiveState();addArchiveTab68();stamp68();saveState();}catch(e){console.warn('Kandoo v6.15 archive layer warning',e)}
 })();
 </script>
 
@@ -1381,7 +1236,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 </style>
 <script id="accessibility69Script">
 (function(){
-const A11Y_VERSION='v6.9';
+const A11Y_VERSION='v6.15';
 const A11Y_KEY='kandoo-v6-9-data';
 const A11Y_OLD_KEYS=['kandoo-v6-8-data','kandoo-v6-7-data','kandoo-v6-6-data','kandoo-v6-5-data','kandoo-v6-4-data','kandoo-v6-3-data','kandoo-v6-2-data','kandoo-v6-1-data','kandoo-v6-0-data'];
 const $=id=>document.getElementById(id);
@@ -1406,7 +1261,7 @@ function moveFocused69(taskId,dir){const pr=project(),t=(pr.tasks||[]).find(x=>x
 function decorateCards69(){const tasks=visibleTasks69();document.querySelectorAll('.dropzone[data-stage]').forEach(zone=>{const stageTasks=tasks.filter(t=>t.stageId===zone.dataset.stage);[...zone.querySelectorAll('.note')].forEach((note,i)=>{const t=stageTasks[i];if(!t)return;note.dataset.taskId=t.id;note.tabIndex=0;note.setAttribute('role','button');note.setAttribute('aria-label',`${t.title||'Task'}; ${t.type||'Task'}; priority ${t.priority||'Medium'}; stage ${zone.dataset.stage}. Press Enter to edit. Alt plus arrow keys move between visible stages.`);if(note.dataset.a11y69)return;note.dataset.a11y69='1';note.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();openTaskModal(t.id);}if(settings69().keyboardMove&&(ev.altKey||ev.ctrlKey||ev.metaKey)&&(ev.key==='ArrowRight'||ev.key==='ArrowLeft')){ev.preventDefault();moveFocused69(t.id,ev.key==='ArrowRight'?1:-1);}});});});}
 function applyPaletteToProject69(){const colors=palette69();const pr=project();if(!pr)return;(pr.tasks||[]).forEach((t,i)=>{t.stickyColor=colors[i%colors.length];t.updatedAt=new Date().toISOString();});pr.updatedAt=new Date().toISOString();if(typeof snapshot==='function')snapshot('applied accessible sticky palette');saveState();render();toast('Applied accessible palette to this project.');}
 function bindToggle(id,key){const el=$(id);if(el)el.onchange=e=>{settings69()[key]=e.target.checked;apply69();saveState();if(key==='plainMode'||key==='reducedTexture')setTimeout(decorateCards69,0);};}
-function renderAccessibilitySettings69(root){const s=settings69();const pal=palette69();const demo=pal.slice(0,6).map((c,i)=>`<article class="note" style="--note:${c};--rot:${s.plainMode?'0deg':((i%3)-1)+'deg'}"><div class="note-title">${['Plan','Build','Test','Ship','Invoice','Done'][i]}</div><div class="note-meta"><span class="pill">Sample</span><span class="pill">${esc(s.colorblindPalette)}</span></div></article>`).join('');root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Accessibility Controls <span class="version">${A11Y_VERSION}</span></h2><p class="a11y-muted69" style="margin-top:0">Tune Kandoo for readability, motion sensitivity, color vision, keyboard navigation, touch targets, and a simplified plain-mode workspace.</p><div class="a11y-grid69"><section class="a11y-panel69"><h3>Readable Display</h3><div class="field"><label>Font size: <strong id="fontOut69">${Math.round((s.fontScale||1)*100)}%</strong></label><input id="fontScale69" type="range" min="0.85" max="1.45" step="0.05" value="${s.fontScale}"></div><div class="field"><label>Sticky/card size: <strong id="cardOut69">${Math.round((s.cardScale||1)*100)}%</strong></label><input id="cardScale69" type="range" min="0.85" max="1.55" step="0.05" value="${s.cardScale}"></div><div class="field"><label>Visible focus color</label><input id="focusColor69" type="color" value="${esc(s.focusColor||'#111111')}"></div><div class="a11y-row69"><span><strong>High contrast preset</strong><br><small>Strengthens borders, text, and panel separation.</small></span><input id="highContrast69" type="checkbox" ${s.highContrast?'checked':''}></div><div class="a11y-row69"><span><strong>Larger touch targets</strong><br><small>Makes buttons and controls easier to tap.</small></span><input id="largeTargets69" type="checkbox" ${s.largeTargets?'checked':''}></div><div class="a11y-row69"><span><strong>Plain mode</strong><br><small>Removes most skeuomorphic decoration and hand-drawn styling.</small></span><input id="plainMode69" type="checkbox" ${s.plainMode?'checked':''}></div></section><section class="a11y-panel69"><h3>Motion, Texture, and Color</h3><div class="a11y-row69"><span><strong>Reduced motion</strong><br><small>Disables animations, transitions, and smooth scrolling.</small></span><input id="reducedMotion69" type="checkbox" ${s.reducedMotion?'checked':''}></div><div class="a11y-row69"><span><strong>Reduced texture</strong><br><small>Simplifies board textures, tape, and patterned backgrounds.</small></span><input id="reducedTexture69" type="checkbox" ${s.reducedTexture?'checked':''}></div><div class="field" style="margin-top:10px"><label>Colorblind-safe sticky palette</label><select id="palette69"><option value="default">Default Kandoo</option><option value="deuteranopia">Deuteranopia-safe</option><option value="protanopia">Protanopia-safe</option><option value="tritanopia">Tritanopia-safe</option><option value="contrast">High-contrast palette</option></select></div><div class="a11y-swatch-row69">${pal.map(c=>`<span class="a11y-swatch69" style="background:${c}" title="${c}"></span>`).join('')}</div><button class="btn" id="applyPalette69">Recolor current project with this palette</button></section><section class="a11y-panel69"><h3>Keyboard Movement</h3><div class="a11y-row69"><span><strong>Keyboard card movement</strong><br><small>Focus a sticky note, then use <span class="a11y-kbd69">Alt</span> + <span class="a11y-kbd69">←</span>/<span class="a11y-kbd69">→</span> to move stages. <span class="a11y-kbd69">Enter</span> opens the task.</small></span><input id="keyboardMove69" type="checkbox" ${s.keyboardMove?'checked':''}></div><div class="a11y-actions69"><button class="btn" id="focusFirst69">Focus first visible sticky</button><button class="btn" id="resetA11y69">Reset accessibility controls</button></div><p class="a11y-muted69">Works with v6.6 stage rules, so keyboard movement still blocks invalid Done moves and stamps shipped/invoiced dates.</p></section><section class="a11y-panel69"><h3>Preview</h3><div class="a11y-demo69">${demo}</div></section></div></div>`;stamp69();$('palette69').value=s.colorblindPalette;const fs=$('fontScale69'),cs=$('cardScale69');fs.oninput=()=>{settings69().fontScale=Number(fs.value);$('fontOut69').textContent=Math.round(Number(fs.value)*100)+'%';apply69();saveState();};cs.oninput=()=>{settings69().cardScale=Number(cs.value);$('cardOut69').textContent=Math.round(Number(cs.value)*100)+'%';apply69();saveState();};$('focusColor69').oninput=e=>{settings69().focusColor=e.target.value;apply69();saveState();};bindToggle('highContrast69','highContrast');bindToggle('largeTargets69','largeTargets');bindToggle('plainMode69','plainMode');bindToggle('reducedMotion69','reducedMotion');bindToggle('reducedTexture69','reducedTexture');bindToggle('keyboardMove69','keyboardMove');$('palette69').onchange=e=>{settings69().colorblindPalette=e.target.value;saveState();renderView();};$('applyPalette69').onclick=applyPaletteToProject69;$('focusFirst69').onclick=()=>{activeView='board';renderView();setTimeout(()=>{const n=document.querySelector('.note[data-task-id]')||document.querySelector('.note');if(n)n.focus();},80);};$('resetA11y69').onclick=()=>{if(!confirm('Reset accessibility controls to v6.9 defaults?'))return;state.accessibility69=defaults69();saveState();apply69();renderView();};}
+function renderAccessibilitySettings69(root){const s=settings69();const pal=palette69();const demo=pal.slice(0,6).map((c,i)=>`<article class="note" style="--note:${c};--rot:${s.plainMode?'0deg':((i%3)-1)+'deg'}"><div class="note-title">${['Plan','Build','Test','Ship','Invoice','Done'][i]}</div><div class="note-meta"><span class="pill">Sample</span><span class="pill">${esc(s.colorblindPalette)}</span></div></article>`).join('');root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Accessibility Controls <span class="version">${A11Y_VERSION}</span></h2><p class="a11y-muted69" style="margin-top:0">Tune Kandoo for readability, motion sensitivity, color vision, keyboard navigation, touch targets, and a simplified plain-mode workspace.</p><div class="a11y-grid69"><section class="a11y-panel69"><h3>Readable Display</h3><div class="field"><label>Font size: <strong id="fontOut69">${Math.round((s.fontScale||1)*100)}%</strong></label><input id="fontScale69" type="range" min="0.85" max="1.45" step="0.05" value="${s.fontScale}"></div><div class="field"><label>Sticky/card size: <strong id="cardOut69">${Math.round((s.cardScale||1)*100)}%</strong></label><input id="cardScale69" type="range" min="0.85" max="1.55" step="0.05" value="${s.cardScale}"></div><div class="field"><label>Visible focus color</label><input id="focusColor69" type="color" value="${esc(s.focusColor||'#111111')}"></div><div class="a11y-row69"><span><strong>High contrast preset</strong><br><small>Strengthens borders, text, and panel separation.</small></span><input id="highContrast69" type="checkbox" ${s.highContrast?'checked':''}></div><div class="a11y-row69"><span><strong>Larger touch targets</strong><br><small>Makes buttons and controls easier to tap.</small></span><input id="largeTargets69" type="checkbox" ${s.largeTargets?'checked':''}></div><div class="a11y-row69"><span><strong>Plain mode</strong><br><small>Removes most skeuomorphic decoration and hand-drawn styling.</small></span><input id="plainMode69" type="checkbox" ${s.plainMode?'checked':''}></div></section><section class="a11y-panel69"><h3>Motion, Texture, and Color</h3><div class="a11y-row69"><span><strong>Reduced motion</strong><br><small>Disables animations, transitions, and smooth scrolling.</small></span><input id="reducedMotion69" type="checkbox" ${s.reducedMotion?'checked':''}></div><div class="a11y-row69"><span><strong>Reduced texture</strong><br><small>Simplifies board textures, tape, and patterned backgrounds.</small></span><input id="reducedTexture69" type="checkbox" ${s.reducedTexture?'checked':''}></div><div class="field" style="margin-top:10px"><label>Colorblind-safe sticky palette</label><select id="palette69"><option value="default">Default Kandoo</option><option value="deuteranopia">Deuteranopia-safe</option><option value="protanopia">Protanopia-safe</option><option value="tritanopia">Tritanopia-safe</option><option value="contrast">High-contrast palette</option></select></div><div class="a11y-swatch-row69">${pal.map(c=>`<span class="a11y-swatch69" style="background:${c}" title="${c}"></span>`).join('')}</div><button class="btn" id="applyPalette69">Recolor current project with this palette</button></section><section class="a11y-panel69"><h3>Keyboard Movement</h3><div class="a11y-row69"><span><strong>Keyboard card movement</strong><br><small>Focus a sticky note, then use <span class="a11y-kbd69">Alt</span> + <span class="a11y-kbd69">←</span>/<span class="a11y-kbd69">→</span> to move stages. <span class="a11y-kbd69">Enter</span> opens the task.</small></span><input id="keyboardMove69" type="checkbox" ${s.keyboardMove?'checked':''}></div><div class="a11y-actions69"><button class="btn" id="focusFirst69">Focus first visible sticky</button><button class="btn" id="resetA11y69">Reset accessibility controls</button></div><p class="a11y-muted69">Works with v6.15 stage rules, so keyboard movement still blocks invalid Done moves and stamps shipped/invoiced dates.</p></section><section class="a11y-panel69"><h3>Preview</h3><div class="a11y-demo69">${demo}</div></section></div></div>`;stamp69();$('palette69').value=s.colorblindPalette;const fs=$('fontScale69'),cs=$('cardScale69');fs.oninput=()=>{settings69().fontScale=Number(fs.value);$('fontOut69').textContent=Math.round(Number(fs.value)*100)+'%';apply69();saveState();};cs.oninput=()=>{settings69().cardScale=Number(cs.value);$('cardOut69').textContent=Math.round(Number(cs.value)*100)+'%';apply69();saveState();};$('focusColor69').oninput=e=>{settings69().focusColor=e.target.value;apply69();saveState();};bindToggle('highContrast69','highContrast');bindToggle('largeTargets69','largeTargets');bindToggle('plainMode69','plainMode');bindToggle('reducedMotion69','reducedMotion');bindToggle('reducedTexture69','reducedTexture');bindToggle('keyboardMove69','keyboardMove');$('palette69').onchange=e=>{settings69().colorblindPalette=e.target.value;saveState();renderView();};$('applyPalette69').onclick=applyPaletteToProject69;$('focusFirst69').onclick=()=>{activeView='board';renderView();setTimeout(()=>{const n=document.querySelector('.note[data-task-id]')||document.querySelector('.note');if(n)n.focus();},80);};$('resetA11y69').onclick=()=>{if(!confirm('Reset accessibility controls to v6.15 defaults?'))return;state.accessibility69=defaults69();saveState();apply69();renderView();};}
 // Override sticky note rendering so swatches reflect the selected accessible palette.
 const previousNoteEl69=window.noteEl;
 window.noteEl=function(task){let div;try{div=previousNoteEl69?previousNoteEl69(task):null;}catch(e){}if(!div){div=document.createElement('article');div.className='note';div.innerHTML='<div class="note-title"></div>';}
@@ -1416,7 +1271,7 @@ const prevRenderView69=window.renderView;window.renderView=function(){apply69();
 const prevRender69=window.render;window.render=function(){apply69();const out=prevRender69.apply(this,arguments);apply69();stamp69();setTimeout(decorateCards69,0);return out;};
 const prevSave69=window.saveState;window.saveState=function(){settings69();state.version=A11Y_VERSION;if(typeof prevSave69==='function')prevSave69();try{localStorage.setItem(A11Y_KEY,JSON.stringify(state));}catch(e){}setTimeout(()=>{const s=$('saveStatus');if(s)s.textContent='Saved just now · '+A11Y_VERSION+' · accessibility';},560)};
 window.kandooAccessibility69={settings:settings69,apply:apply69,palette:palette69,decorateCards:decorateCards69,moveFocused:moveFocused69,applyPalette:applyPaletteToProject69};
-try{migrate69();settings69();apply69();saveState();stamp69();setTimeout(decorateCards69,100);}catch(e){console.warn('Kandoo v6.9 accessibility layer warning',e)}
+try{migrate69();settings69();apply69();saveState();stamp69();setTimeout(decorateCards69,100);}catch(e){console.warn('Kandoo v6.15 accessibility layer warning',e)}
 })();
 </script>
 
@@ -1427,7 +1282,7 @@ try{migrate69();settings69();apply69();saveState();stamp69();setTimeout(decorate
 <script id="kandoo-v6-10-helper-layer">
 (()=>{
 'use strict';
-const HELPER_VERSION='v6.10';
+const HELPER_VERSION='v6.15';
 const HELPER_KEY='kandoo-v6-10-data';
 const $610=id=>document.getElementById(id);
 const esc610=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -1467,7 +1322,7 @@ const prevRenderView610=window.renderView;window.renderView=function(){ensureHel
 const prevRender610=window.render;window.render=function(){const out=prevRender610.apply(this,arguments);addHelperTab610();stamp610();return out;};
 const prevSave610=window.saveState;window.saveState=function(){ensureHelper610();state.version=HELPER_VERSION;if(typeof prevSave610==='function')prevSave610();try{localStorage.setItem(HELPER_KEY,JSON.stringify(state));}catch(e){}setTimeout(()=>{const s=$610('saveStatus');if(s)s.textContent='Saved just now · '+HELPER_VERSION+' · helper tools';},600)};
 window.kandooHelper610={clientUpdate:clientUpdate610,invoiceSummary:invoiceSummary610,diagnostics:diagnosticsText610,staleTasks:staleTasks610,overloadedStages:overloadedStages610,sprintSuggestions:sprintSuggestions610,nextActions:nextActions610,applyChecklist:applyChecklist610};
-try{migrate610();ensureHelper610();saveState();addHelperTab610();stamp610();}catch(e){console.warn('Kandoo v6.10 helper layer warning',e)}
+try{migrate610();ensureHelper610();saveState();addHelperTab610();stamp610();}catch(e){console.warn('Kandoo v6.15 helper layer warning',e)}
 })();
 </script>
 
@@ -1478,14 +1333,14 @@ try{migrate610();ensureHelper610();saveState();addHelperTab610();stamp610();}cat
 
 
 <style id="kandoo-v612-fixes">
-/* v6.12: version consistency + bulk clear repair */
+/* v6.15: version consistency + bulk clear repair */
 .project-item span .old-version,.project-item span .project-version{display:none!important}
 .project-item span{line-height:1.35}
 #bulkBar67 .bulk-count,.bulk-count{min-width:94px;text-align:center}
 </style>
 <script id="kandoo-v612-version-and-bulk-fixes">
 (function(){
-  const KANDOOVERSION='v6.12';
+  const KANDOOVERSION='v6.15';
   const STORAGE='kandoo-v6-12-data';
   const OLD=['kandoo-v6-11-data','kandoo-v6-10-data','kandoo-v6-9-data','kandoo-v6-8-data','kandoo-v6-7-data','kandoo-v6-6-data','kandoo-v6-5-data','kandoo-v6-4-data','kandoo-v6-3-data','kandoo-v6-2-data','kandoo-v6-1-data','kandoo-v6-0-data'];
   const $=id=>document.getElementById(id);
@@ -1569,7 +1424,7 @@ try{migrate610();ensureHelper610();saveState();addHelperTab610();stamp610();}cat
     }catch(e){}
   }
   const oldRenderProjects=window.renderProjects;
-  window.renderProjects=function(){try{return renderProjects612();}catch(e){console.warn('v6.12 renderProjects fallback',e);return oldRenderProjects&&oldRenderProjects();}};
+  window.renderProjects=function(){try{return renderProjects612();}catch(e){console.warn('v6.15 renderProjects fallback',e);return oldRenderProjects&&oldRenderProjects();}};
   const oldRender=window.render;
   window.render=function(){const out=oldRender&&oldRender.apply(this,arguments);setTimeout(()=>{try{renderProjects612();}catch(e){} bindBulkClear612(); stampVersions();},0);return out;};
   const oldRenderView=window.renderView;
@@ -1578,13 +1433,13 @@ try{migrate610();ensureHelper610();saveState();addHelperTab610();stamp610();}cat
   window.saveState=function(){normalizeStateVersion(); if(typeof oldSave==='function') oldSave.apply(this,arguments); try{localStorage.setItem(STORAGE,JSON.stringify(state));}catch(e){} setTimeout(()=>{const s=$('saveStatus'); if(s)s.textContent='Saved just now · '+KANDOOVERSION+' · fixes'; stampVersions();},700);};
   document.addEventListener('click',function(e){const target=e.target&&e.target.closest&&e.target.closest('#bulkClear67,#bulkClearPage'); if(target){e.preventDefault(); e.stopPropagation(); clearBulkSelection612();}},true);
   window.kandooFixes612={stampVersions,renderProjects612,clearBulkSelection612};
-  try{migrate612(); normalizeStateVersion(); stampVersions(); renderProjects612(); bindBulkClear612(); if(typeof saveState==='function') saveState();}catch(e){console.warn('Kandoo v6.12 fix layer warning',e)}
+  try{migrate612(); normalizeStateVersion(); stampVersions(); renderProjects612(); bindBulkClear612(); if(typeof saveState==='function') saveState();}catch(e){console.warn('Kandoo v6.15 fix layer warning',e)}
 })();
 </script>
 
 
 <style id="kandoo-v613-bulk-route-fix-style">
-/* v6.13: make Bulk Edit obey the active feature/view */
+/* v6.15: make Bulk Edit obey the active feature/view */
 body:not(.kandoo-view-bulk) #content > .page.bulk-editor-page,
 body:not(.kandoo-view-bulk) #content > .page:has(.bulk-grid),
 body:not(.kandoo-view-bulk) #content .bulk-grid{
@@ -1599,7 +1454,7 @@ body.kandoo-view-bulk #bulkBar67{
 </style>
 <script id="kandoo-v613-bulk-route-fix">
 (function(){
-  const KANDOOVERSION='v6.13';
+  const KANDOOVERSION='v6.15';
   const STORAGE='kandoo-v6-13-data';
   const OLD=['kandoo-v6-12-data','kandoo-v6-11-data','kandoo-v6-10-data','kandoo-v6-9-data','kandoo-v6-8-data','kandoo-v6-7-data','kandoo-v6-6-data','kandoo-v6-5-data','kandoo-v6-4-data','kandoo-v6-3-data','kandoo-v6-2-data','kandoo-v6-1-data','kandoo-v6-0-data'];
   const $=id=>document.getElementById(id);
@@ -1686,21 +1541,21 @@ body.kandoo-view-bulk #bulkBar67{
     if(nav){ setTimeout(()=>{ markView613(); purgeStrayBulk613(); stamp613(); },0); }
   },true);
   window.kandooFixes613={stamp613,markView613,purgeStrayBulk613,bindNavigation613};
-  try{ migrate613(); stamp613(); markView613(); bindNavigation613(); purgeStrayBulk613(); if(typeof saveState==='function') saveState(); }catch(e){ console.warn('Kandoo v6.13 bulk route fix warning',e); }
+  try{ migrate613(); stamp613(); markView613(); bindNavigation613(); purgeStrayBulk613(); if(typeof saveState==='function') saveState(); }catch(e){ console.warn('Kandoo v6.15 bulk route fix warning',e); }
 })();
 </script>
 
 
 <style id="kandoo-v614-cleanup-style">
-/* Kandoo v6.14 cleanup pass: unified overflow, menu, sticky, and active-view hygiene */
-:root{--kandoo-version-label:"v6.14"}
+/* Kandoo v6.15 cleanup pass: unified overflow, menu, sticky, and active-view hygiene */
+:root{--kandoo-version-label:"v6.15"}
 header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolbar{min-width:0}.toolbar .menu{position:relative}.menu-panel{max-width:min(92vw,340px);right:0;left:auto}.view-tabs{align-items:center}.view-tabs .menu-panel{max-height:70vh;overflow:auto}.content{isolation:isolate}.page[hidden],.board[hidden],.list-view[hidden],.gantt[hidden]{display:none!important}.workspace:not([data-active-view="bulk"]) #bulk67Panel,.workspace:not([data-active-view="bulk"]) .bulk67-page,.workspace:not([data-active-view="bulk"]) [data-bulk-panel="true"]{display:none!important}.note{width:100%;max-width:100%;min-height:0;height:auto;display:grid;grid-template-rows:auto auto auto auto;gap:7px;overflow:hidden;padding:12px 12px 11px}.note-title{margin:5px 0 0;line-height:1.12;max-height:3.4em;overflow:hidden}.note-desc{font-size:12px;line-height:1.25;max-height:3.8em;overflow:hidden}.note-meta{margin-top:2px;gap:4px}.note-actions{margin-top:2px;gap:6px;min-width:0}.note-actions .swatches{max-width:calc(100% - 66px);overflow:hidden}.swatch{width:17px;height:17px;flex:0 0 auto}.note .mini{white-space:nowrap;align-self:end}.dropzone{overflow:visible}.column{contain:layout paint;min-width:255px}.filterbar,.bulk67-bar{max-width:100%;overflow:visible}.filterbar>*{min-width:0}.filterbar input,.filterbar select{max-width:min(220px,100%)}.kandoo-cleanup-badge{font-size:11px;color:var(--muted);white-space:nowrap}.status{white-space:nowrap}@media(max-width:900px){header{align-items:flex-start;flex-direction:column}.brand{max-width:100%}.toolbar{justify-content:flex-start;width:100%}.menu-panel{left:0;right:auto}.workspace{min-width:0}.column{min-width:82vw;max-width:82vw}.filterbar input,.filterbar select{max-width:100%;flex:1 1 160px}}
 </style>
 <script id="kandoo-v614-cleanup-layer">
 (function(){
-  const K='v6.14', STORE='kandoo-v6-14-data';
+  const K='v6.15', STORE='kandoo-v6-14-data';
   const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
-  function safe(fn){try{return fn()}catch(e){console.warn('Kandoo v6.14 cleanup warning',e)}}
+  function safe(fn){try{return fn()}catch(e){console.warn('Kandoo v6.15 cleanup warning',e)}}
   function setVersion(){
     document.title='Kandoo '+K;
     $$('.version,.kandoo-version,.app-version').forEach(el=>{el.textContent=K});
@@ -1750,7 +1605,7 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
       note.style.maxWidth='100%';
       note.style.height='auto';
       $$('.note input,.note select,.note textarea',note).forEach(field=>{
-        // v6.11 stopped showing inline edit controls, but older render paths can still leak them.
+        // v6.15 stopped showing inline edit controls, but older render paths can still leak them.
         if(!field.closest('.note-actions')) field.style.maxWidth='100%';
       });
     });
@@ -1776,396 +1631,91 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
 </script>
 
 
-<style id="kandoo-v616-stability-style">
-  .version:not([data-true-version="1"]){display:none!important}
-  #projectList:not(:empty), #themeGrid:not(:empty){min-height:0}
-  .project-item span{display:block;line-height:1.35}
+
+<style id="kandoo-v615-one-version-style">
+/* v6.15: one true visible version. Only the header badge may display a version number. */
+.version:not([data-true-version="1"]),
+.kandoo-version:not([data-true-version="1"]),
+.app-version:not([data-true-version="1"]),
+.project-version,
+.old-version{display:none!important}
+#saveStatus{white-space:nowrap;color:var(--muted)}
 </style>
-<script id="kandoo-v616-stability-patch">
+<script id="kandoo-v615-one-true-version">
 (function(){
   'use strict';
-  const TRUE_VERSION='v6.18';
-  const TRUE_KEY='kandoo-v6-16-data';
-  const OLD_VERSION_RE=/\s*(?:·\s*)?v\d+(?:\.\d+)?(?:\s*·\s*[^\n]*)?/gi;
-  const $=(sel,root=document)=>root.querySelector(sel);
-  const $$=(sel,root=document)=>Array.from(root.querySelectorAll(sel));
-  const safe=(fn,label)=>{try{return fn()}catch(e){console.warn('Kandoo v6.17 stability patch:',label||'operation',e)}};
-  window.KANDOO_VERSION=TRUE_VERSION;
-  if(typeof window.wireV6Buttons!=='function') window.wireV6Buttons=function(){};
-  function canUseCore(){try{return typeof state!=='undefined' && Array.isArray(state.projects) && typeof normalizeProject==='function' && typeof defaultWorkflow==='function'}catch(e){return false}}
-  function esc(v){try{return typeof escapeHtml==='function'?escapeHtml(String(v??'')):String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}catch(e){return String(v??'')}}
-  function stampOneTrueVersion(){
+  const TRUE_VERSION='v6.15';
+  const TRUE_KEY='kandoo-v6-15-data';
+  const VERSION_RE=/\bv\d+\.\d+\b/g;
+  const $=(s,r=document)=>r.querySelector(s);
+  const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  function safe(fn){try{return fn()}catch(e){console.warn('Kandoo v6.15 version cleanup warning',e)}}
+  function ensureHeaderVersion(){
     document.title='Kandoo '+TRUE_VERSION;
-    const versions=$$('.version');
-    let header=versions.find(v=>v.closest('h1'))||versions[0];
-    versions.forEach(v=>{v.removeAttribute('data-true-version'); v.textContent='';});
-    if(header){header.dataset.trueVersion='1';header.textContent=TRUE_VERSION;header.style.display='inline-block';}
-    const status=$('#saveStatus'); if(status) status.textContent=(status.textContent||'Saved').replace(OLD_VERSION_RE,'').replace(/\s*·\s*$/,'').trim()||'Saved just now';
-    $$('.project-item span').forEach(s=>{s.textContent=(s.textContent||'').replace(OLD_VERSION_RE,'').replace(/\s*·\s*$/,'').trim();});
+    const h1=$('.brand h1') || $('h1');
+    if(!h1) return;
+    let badge=$('.brand h1 .version[data-true-version="1"]') || $('.brand h1 .version') || $('[data-true-version="1"]');
+    if(!badge){
+      badge=document.createElement('span');
+      badge.className='version';
+      h1.appendChild(document.createTextNode(' '));
+      h1.appendChild(badge);
+    }
+    badge.dataset.trueVersion='1';
+    badge.textContent=TRUE_VERSION;
+    $$('.version,.kandoo-version,.app-version').forEach(el=>{ if(el!==badge) el.remove(); });
   }
-  function fallbackProject(){return safe(()=>project()) || (canUseCore()?state.projects[0]:null)}
-  function visibleProjects(){
-    if(!canUseCore()) return [];
-    const showArchived=!!(state.archive68&&state.archive68.showArchivedProjects);
-    let list=(state.projects||[]).filter(p=>showArchived || !p.archived);
-    return list.length?list:(state.projects||[]);
+  function normalizeSaveStatus(){
+    const s=$('#saveStatus');
+    if(!s) return;
+    const text=(s.textContent||'Saved').trim();
+    if(/Saving/i.test(text)) return;
+    if(/Saved/i.test(text)) s.textContent='Saved just now';
+    else s.textContent=text.replace(VERSION_RE,'').replace(/\s*·\s*(fixes|cleaned UI|helper tools|bulk edit|archive|accessibility|advanced Gantt|notification rules|attachment cabinet|connected-ready|recoverable|bulk route fix)\b/gi,'').replace(/\s*·\s*/g,' · ').replace(/^\s*·|·\s*$/g,'').trim();
   }
-  window.renderProjects=function(){
-    if(!canUseCore()) return;
-    const el=$('#projectList'); if(!el) return;
-    el.innerHTML='';
-    visibleProjects().forEach(pr=>{
-      const active=pr.id===activeProjectId;
-      const taskList=Array.isArray(pr.tasks)?pr.tasks:[];
-      const archived=taskList.filter(t=>t.archived).length;
-      const live=taskList.length-archived;
-      const btn=document.createElement('button');
-      btn.type='button';
-      btn.className='project-item'+(active?' active':'')+(pr.archived?' archived-project':'');
-      btn.innerHTML='<strong>'+esc(pr.name||'Untitled Project')+'</strong><span>'+live+' active · '+archived+' archived stickies'+(pr.archived?' · archived project':'')+'</span>';
-      btn.addEventListener('click',()=>{activeProjectId=pr.id; safe(()=>saveState(),'save project selection'); safe(()=>render(),'render after project selection'); setTimeout(stampOneTrueVersion,0);});
-      el.appendChild(btn);
-    });
-  };
-  window.renderThemes=function(){
-    if(!canUseCore()) return;
-    const el=$('#themeGrid'); if(!el) return;
-    const pr=fallbackProject(); if(!pr) return;
-    el.innerHTML='';
-    (typeof themes!=='undefined'?themes:[]).forEach(t=>{
-      const btn=document.createElement('button');
-      btn.type='button';
-      btn.className='theme-card'+(pr.themeId===t.id?' active':'');
-      btn.innerHTML='<div class="theme-sample" style="background:linear-gradient(90deg,'+esc(t.accent)+' 0 34%,'+esc(t.accent2)+' 34% 67%,'+esc(t.board)+' 67%)"></div><strong>'+esc(t.name)+'</strong>';
-      btn.addEventListener('click',()=>{pr.themeId=t.id; safe(()=>saveState(),'save theme'); safe(()=>render(),'render theme'); setTimeout(stampOneTrueVersion,0);});
-      el.appendChild(btn);
-    });
-  };
-  window.closeProjectModal=function(){const m=$('#projectModal'); if(m)m.classList.remove('open');};
-  function openProjectModal(){
-    const m=$('#projectModal'); if(!m)return;
-    const n=$('#newProjectName'); const d=$('#newProjectDesc');
-    if(n)n.value=''; if(d)d.value='';
-    m.classList.add('open');
-    setTimeout(()=>n&&n.focus(),50);
+  function stripVisibleVersionText(){
+    const root=document.body;
+    if(!root) return;
+    const excluded=new Set(['SCRIPT','STYLE','NOSCRIPT','TEXTAREA','INPUT','SELECT','OPTION']);
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode(node){
+      if(!node.nodeValue || !VERSION_RE.test(node.nodeValue)) return NodeFilter.FILTER_REJECT;
+      VERSION_RE.lastIndex=0;
+      const p=node.parentElement;
+      if(!p || excluded.has(p.tagName)) return NodeFilter.FILTER_REJECT;
+      if(p.matches('[data-true-version="1"], .brand h1 .version')) return NodeFilter.FILTER_REJECT;
+      if(p.closest('[data-true-version="1"]')) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }});
+    const nodes=[]; while(walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(n=>{n.nodeValue=n.nodeValue.replace(VERSION_RE,'').replace(/\s*·\s*(fixes|cleaned UI|helper tools|bulk edit|archive|accessibility|advanced Gantt|notification rules|attachment cabinet|connected-ready|recoverable|bulk route fix)\b/gi,'').replace(/\s*·\s*/g,' · ').replace(/^\s*·|·\s*$/g,'');});
   }
-  function createProjectFromModal(){
-    if(!canUseCore()){alert('Kandoo is still starting up. Please try again in a moment.');return;}
-    const name=($('#newProjectName')?.value||'').trim()||'Untitled Project';
-    const desc=$('#newProjectDesc')?.value||'';
-    const id=typeof uid==='function'?uid('project'):'project_'+Date.now();
-    const p=normalizeProject({id,name,description:desc,client:'',budget:null,invoiceStatus:'Not invoiced',invoiceNumber:'',createdAt:(typeof now==='function'?now():new Date().toISOString()),updatedAt:(typeof now==='function'?now():new Date().toISOString()),themeId:'maker',workflowStages:defaultWorkflow(),tasks:[]});
-    state.projects.push(p);
-    activeProjectId=p.id;
-    window.closeProjectModal();
-    safe(()=>saveState(),'save new project');
-    safe(()=>render(),'render new project');
-    safe(()=>renderProjects(),'render project drawer');
-    safe(()=>renderThemes(),'render theme drawer');
-    stampOneTrueVersion();
-    if(typeof showToast==='function') showToast('Project created');
+  function stamp(){
+    safe(()=>{ if(window.state){ window.state.version=TRUE_VERSION; try{localStorage.setItem(TRUE_KEY,JSON.stringify(window.state));}catch(e){} } });
+    ensureHeaderVersion();
+    stripVisibleVersionText();
+    normalizeSaveStatus();
   }
-  function bindCoreButtons(){
-    $$('#newProjectBtn').forEach(btn=>{btn.onclick=e=>{e.preventDefault();openProjectModal();};});
-    $$('#createProjectBtn').forEach(btn=>{btn.onclick=e=>{e.preventDefault();createProjectFromModal();};});
-    $$('#projectModal .iconbtn').forEach(btn=>{btn.onclick=e=>{e.preventDefault();window.closeProjectModal();};});
-    $$('#projectModal').forEach(modal=>{if(modal.dataset.v616Bound)return;modal.dataset.v616Bound='1';modal.addEventListener('click',e=>{if(e.target===modal)window.closeProjectModal();});});
-  }
-  const previousSave=window.saveState;
-  window.saveState=function(){
-    safe(()=>{if(canUseCore()){state.version=TRUE_VERSION;state.activeProjectId=activeProjectId;}},'stamp state before save');
-    let result;
-    try{ if(typeof previousSave==='function') result=previousSave.apply(this,arguments); }
-    catch(e){console.warn('Kandoo v6.17 save fallback:',e); safe(()=>localStorage.setItem(TRUE_KEY,JSON.stringify(state)),'fallback local save');}
-    setTimeout(stampOneTrueVersion,0);
-    return result;
-  };
   const previousRender=window.render;
   if(typeof previousRender==='function'){
-    window.render=function(){
-      let result;
-      try{result=previousRender.apply(this,arguments);}catch(e){console.warn('Kandoo v6.17 render fallback:',e);}
-      safe(()=>renderProjects(),'render project drawer after render');
-      safe(()=>renderThemes(),'render theme drawer after render');
-      bindCoreButtons();
-      stampOneTrueVersion();
+    window.render=function(){ const result=previousRender.apply(this,arguments); setTimeout(stamp,0); setTimeout(stamp,75); return result; };
+  }
+  const previousSave=window.saveState;
+  if(typeof previousSave==='function'){
+    window.saveState=function(){
+      safe(()=>{ if(window.state) window.state.version=TRUE_VERSION; });
+      const result=previousSave.apply(this,arguments);
+      setTimeout(()=>{ normalizeSaveStatus(); stamp(); },0);
+      setTimeout(()=>{ normalizeSaveStatus(); stamp(); },900);
+      setTimeout(()=>{ const s=$('#saveStatus'); if(s) s.textContent='Saved just now'; stamp(); },1400);
       return result;
     };
   }
-  function start(){
-    if(!canUseCore()){setTimeout(start,50);return;}
-    bindCoreButtons();
-    safe(()=>renderProjects(),'initial project drawer');
-    safe(()=>renderThemes(),'initial theme drawer');
-    stampOneTrueVersion();
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',start); else start();
-  const observer=new MutationObserver(()=>{clearTimeout(window.__kandooV616Stamp); window.__kandooV616Stamp=setTimeout(()=>{bindCoreButtons();stampOneTrueVersion();},30);});
+  safe(()=>{ window.KANDOO_VERSION=TRUE_VERSION; });
+  stamp();
+  setTimeout(stamp,100);
+  setTimeout(stamp,900);
+  const observer=new MutationObserver(()=>{ clearTimeout(window.__kandooV615Timer); window.__kandooV615Timer=setTimeout(stamp,40); });
   if(document.body) observer.observe(document.body,{childList:true,subtree:true,characterData:true});
-})();
-</script>
-
-
-
-<!-- Kandoo v6.17: contextual bulk bar cleanup -->
-<style id="kandoo-v617-contextual-bulkbar-style">
-/* The bulk selection controls are contextual. They should not reserve a giant band on normal views. */
-#bulkBar67,
-.bulk-bar#bulkBar67{
-  display:none !important;
-  height:0 !important;
-  min-height:0 !important;
-  max-height:0 !important;
-  overflow:hidden !important;
-  padding:0 !important;
-  margin:0 !important;
-  border:0 !important;
-}
-body.kandoo-view-bulk #bulkBar67,
-body.kandoo-has-bulk-selection #bulkBar67{
-  display:flex !important;
-  height:auto !important;
-  min-height:0 !important;
-  max-height:none !important;
-  overflow:visible !important;
-  padding:8px 12px !important;
-  margin:0 !important;
-  border-bottom:2px dashed var(--line) !important;
-  background:rgba(255,255,255,.22) !important;
-}
-body:not(.kandoo-view-bulk) #content .bulk-editor-page,
-body:not(.kandoo-view-bulk) #content .bulk-grid,
-body:not(.kandoo-view-bulk) #content [data-bulk-panel="true"]{
-  display:none !important;
-  height:0 !important;
-  max-height:0 !important;
-  overflow:hidden !important;
-  padding:0 !important;
-  margin:0 !important;
-  border:0 !important;
-}
-body:not(.kandoo-view-bulk):not(.kandoo-has-bulk-selection) #bulkQuickMove67{
-  display:none !important;
-}
-.workspace{grid-template-rows:auto auto minmax(0,1fr) !important;}
-.content{padding-top:0 !important;}
-</style>
-<script id="kandoo-v617-contextual-bulkbar-fix">
-(function(){
-  'use strict';
-  const VERSION='v6.18';
-  function $(id){return document.getElementById(id)}
-  function activeViewValue(){
-    try{
-      if(typeof activeView!=='undefined') return activeView;
-      const active=document.querySelector('.tab.active[data-view],.tab[data-view].active,[data-go-view].active');
-      return active && (active.dataset.view || active.dataset.goView) || '';
-    }catch(e){return ''}
-  }
-  function selectedCount(){
-    try{
-      if(window.kandooBulk67 && window.kandooBulk67.selectedBulk && typeof window.kandooBulk67.selectedBulk.size==='number') return window.kandooBulk67.selectedBulk.size;
-    }catch(e){}
-    try{
-      if(typeof selectedBulk!=='undefined' && selectedBulk && typeof selectedBulk.size==='number') return selectedBulk.size;
-    }catch(e){}
-    try{return document.querySelectorAll('.note.bulk-selected,#bulkTaskList input[type="checkbox"]:checked,.bulk-check input:checked').length}catch(e){return 0}
-  }
-  function normalizeVersions(){
-    document.title='Kandoo '+VERSION;
-    document.querySelectorAll('.version').forEach(v=>{v.textContent=VERSION;});
-    const save=$('saveStatus'); if(save) save.textContent=(save.textContent||'Saved just now').replace(/\s*·\s*v\d+(?:\.\d+)*(?:\s*·\s*[^·]*)?/g,'').replace(/\s+$/,'') || 'Saved just now';
-  }
-  function syncBulkChrome(){
-    const view=activeViewValue();
-    const isBulk=view==='bulk';
-    const count=selectedCount();
-    document.body.classList.toggle('kandoo-view-bulk',isBulk);
-    document.body.classList.toggle('kandoo-has-bulk-selection',count>0);
-    const bar=$('bulkBar67');
-    if(bar){
-      const shouldShow=isBulk || count>0;
-      bar.hidden=!shouldShow;
-      if(!shouldShow){
-        bar.style.display='none';
-        bar.style.height='0';
-        bar.style.padding='0';
-        bar.style.border='0';
-      }else{
-        bar.style.display='flex';
-        bar.style.height='';
-        bar.style.padding='';
-        bar.style.border='';
-      }
-    }
-    if(!isBulk){
-      document.querySelectorAll('#content .bulk-editor-page,#content .bulk-grid,#content [data-bulk-panel="true"]').forEach(el=>{
-        el.hidden=true; el.style.display='none';
-      });
-    }
-    document.querySelectorAll('.bulk-count').forEach(el=>{el.textContent=count+' selected'});
-  }
-  function bindClearSafety(){
-    ['bulkClear67','bulkClearPage'].forEach(id=>{
-      const b=$(id); if(!b || b.dataset.v617Bound) return;
-      b.dataset.v617Bound='1';
-      b.addEventListener('click',()=>setTimeout(syncBulkChrome,0),true);
-    });
-  }
-  function tick(){normalizeVersions();syncBulkChrome();bindClearSafety();}
-  const prevRender=window.render;
-  if(typeof prevRender==='function' && !prevRender._v617Wrapped){
-    const wrapped=function(){const r=prevRender.apply(this,arguments); setTimeout(tick,0); return r;};
-    wrapped._v617Wrapped=true; window.render=wrapped;
-  }
-  const prevRenderView=window.renderView;
-  if(typeof prevRenderView==='function' && !prevRenderView._v617Wrapped){
-    const wrapped=function(){const r=prevRenderView.apply(this,arguments); setTimeout(tick,0); return r;};
-    wrapped._v617Wrapped=true; window.renderView=wrapped;
-  }
-  document.addEventListener('click',()=>setTimeout(tick,0),true);
-  document.addEventListener('change',()=>setTimeout(tick,0),true);
-  document.addEventListener('keyup',()=>setTimeout(tick,0),true);
-  new MutationObserver(()=>tick()).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style','hidden']});
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',tick); else tick();
-  setTimeout(tick,60); setTimeout(tick,500);
-})();
-</script>
-
-
-
-<!-- Kandoo v6.18: repair Tools dropdown routing -->
-<script id="kandoo-v618-tools-routing-fix">
-(function(){
-  'use strict';
-  const VERSION='v6.18';
-  const ROUTES={
-    bulk:'bulk',
-    archive:'archive',
-    attachments:'attachments',
-    attachment:'attachments',
-    notifications:'notifications',
-    notification:'notifications',
-    helper610:'helper610',
-    helper:'helper610',
-    assist:'helper610',
-    settings:'settings',
-    accessibility:'settings',
-    dashboard:'dashboard',
-    board:'board',
-    whiteboard:'board',
-    list:'list',
-    gantt:'gantt',
-    calendar:'calendar',
-    reports:'reports',
-    activity:'activity',
-    templates:'templates',
-    sharecenter:'sharecenter',
-    worklog:'worklog',
-    dependencies:'dependencies',
-    invoice:'invoice',
-    brief:'brief',
-    milestones:'milestones',
-    connect:'connect',
-    connection:'connect',
-    control:'control',
-    exports:'exports'
-  };
-  const $=(sel,root=document)=>root.querySelector(sel);
-  const $$=(sel,root=document)=>Array.from(root.querySelectorAll(sel));
-  function stamp(){
-    try{document.title='Kandoo '+VERSION;}catch(e){}
-    try{
-      const versions=$$('.version');
-      let header=versions.find(v=>v.closest('h1'))||versions[0];
-      versions.forEach(v=>{v.removeAttribute('data-true-version');v.textContent='';});
-      if(header){header.dataset.trueVersion='1';header.textContent=VERSION;header.style.display='inline-block';}
-      const save=$('#saveStatus');
-      if(save) save.textContent=(save.textContent||'Saved just now').replace(/\s*·\s*v\d+(?:\.\d+)*(?:\s*·\s*[^·]*)?/g,'').trim()||'Saved just now';
-    }catch(e){}
-    try{ if(typeof state!=='undefined') state.version=VERSION; }catch(e){}
-  }
-  function closeMenus(){
-    $$('details.top-menu[open],details.note-menu[open]').forEach(d=>d.removeAttribute('open'));
-  }
-  function setActiveView(view){
-    const next=ROUTES[String(view||'').trim()]||String(view||'').trim();
-    if(!next) return false;
-    try{ activeView=next; }catch(e){ window.activeView=next; }
-    try{ document.body.dataset.kandooView=next; document.body.dataset.activeView=next; }catch(e){}
-    const ws=$('.workspace'); if(ws) ws.dataset.activeView=next;
-    $$('.view-tabs .tab[data-view], [data-go-view]').forEach(el=>{
-      const v=ROUTES[el.dataset.view||el.dataset.goView] || el.dataset.view || el.dataset.goView;
-      el.classList.toggle('active', v===next);
-    });
-    try{ closeMenus(); }catch(e){}
-    try{
-      if(typeof renderView==='function') renderView();
-      else if(typeof render==='function') render();
-    }catch(err){
-      console.error('Kandoo v6.18 route render failed:',err);
-      try{ alert('Could not open '+next+'. See console for details.'); }catch(e){}
-    }
-    setTimeout(()=>{stamp(); repairToolButtons();},0);
-    setTimeout(()=>{stamp(); repairToolButtons();},100);
-    return true;
-  }
-  function repairToolButtons(){
-    // Re-bind every dropdown/tool route button, including buttons rebuilt by older cleanup layers.
-    $$('[data-go-view]').forEach(btn=>{
-      if(btn.dataset.v618RouteBound==='1') return;
-      btn.dataset.v618RouteBound='1';
-      btn.type='button';
-      btn.addEventListener('click',function(ev){
-        ev.preventDefault();
-        ev.stopPropagation();
-        if(typeof ev.stopImmediatePropagation==='function') ev.stopImmediatePropagation();
-        setActiveView(btn.dataset.goView);
-      },true);
-    });
-    $$('.view-tabs .tab[data-view]').forEach(btn=>{
-      if(btn.dataset.v618TabBound==='1') return;
-      btn.dataset.v618TabBound='1';
-      btn.type='button';
-      btn.addEventListener('click',function(ev){
-        ev.preventDefault();
-        ev.stopPropagation();
-        if(typeof ev.stopImmediatePropagation==='function') ev.stopImmediatePropagation();
-        setActiveView(btn.dataset.view);
-      },true);
-    });
-  }
-  // Global capture fallback catches menu buttons even if a later patch forgets to call repairToolButtons after rebuilding the toolbar.
-  document.addEventListener('click',function(ev){
-    const route=ev.target && ev.target.closest && ev.target.closest('[data-go-view]');
-    if(!route) return;
-    ev.preventDefault();
-    ev.stopPropagation();
-    if(typeof ev.stopImmediatePropagation==='function') ev.stopImmediatePropagation();
-    setActiveView(route.dataset.goView);
-  },true);
-  const oldRender=window.render;
-  if(typeof oldRender==='function' && !oldRender.__v618Tools){
-    const wrapped=function(){const r=oldRender.apply(this,arguments);setTimeout(()=>{repairToolButtons();stamp();},0);return r;};
-    wrapped.__v618Tools=true;window.render=wrapped;
-  }
-  const oldRenderView=window.renderView;
-  if(typeof oldRenderView==='function' && !oldRenderView.__v618Tools){
-    const wrapped=function(){const r=oldRenderView.apply(this,arguments);setTimeout(()=>{repairToolButtons();stamp();},0);return r;};
-    wrapped.__v618Tools=true;window.renderView=wrapped;
-  }
-  const oldSave=window.saveState;
-  if(typeof oldSave==='function' && !oldSave.__v618Tools){
-    const wrapped=function(){try{if(typeof state!=='undefined')state.version=VERSION;}catch(e){}const r=oldSave.apply(this,arguments);setTimeout(stamp,0);return r;};
-    wrapped.__v618Tools=true;window.saveState=wrapped;
-  }
-  window.kandooRouteToView=setActiveView;
-  window.kandooToolsRouting618={setActiveView,repairToolButtons,stamp};
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>{repairToolButtons();stamp();});
-  else {repairToolButtons();stamp();}
-  new MutationObserver(()=>{clearTimeout(window.__kandooTools618);window.__kandooTools618=setTimeout(()=>{repairToolButtons();stamp();},25);}).observe(document.documentElement,{childList:true,subtree:true});
-  setTimeout(()=>{repairToolButtons();stamp();},100);
-  setTimeout(()=>{repairToolButtons();stamp();},600);
 })();
 </script>
 
