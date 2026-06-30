@@ -33,6 +33,84 @@
    remaining height regardless of how many auto-sized siblings sit above it. */
 .workspace{display:flex!important;flex-direction:column;min-width:0;min-height:0}
 .workspace>.content,.workspace>#content{flex:1 1 auto;min-height:0;min-width:0}
+
+/* v6.15 swatch fix: the a11y-large-targets rule at line 1232 applies
+   min-height:var(--a11y-hit) to EVERY button, including the decorative color
+   pickers. That overrides .swatch{height:17px} (min-height wins over height)
+   and combined with border-radius:50% turns the round swatches into tall
+   ellipses. Opt the pickers back out. Note: this means swatches stay at
+   their visual size and remain below the 44px touch target even when Large
+   Targets is on; the proper v6.16 fix is to swap them for a larger picker
+   when largeTargets is enabled. */
+body.a11y-large-targets .swatch,
+body.a11y-large-targets .bulk-swatch{min-height:0;min-width:0}
+
+/* v6.15 toolbar reshuffle fix: 14 different saveState wrappers each schedule
+   a setTimeout that rewrites #saveStatus.textContent with a different version
+   suffix ("Saved just now · v6.15 · cleaned UI", "...attachment cabinet", etc).
+   Five separate stamp() observers race to strip those suffixes back off. The
+   net effect is the saveStatus element bouncing between roughly 140px and
+   280px wide for the first ~1.4s after every interaction. Because the
+   toolbar is display:flex with justify-content:flex-end, every other button
+   in the row shifts left and right by the delta. Pinning the status to a
+   fixed width with internal ellipsis decouples the text churn from the
+   layout. Text still updates; buttons stop moving. */
+header .toolbar #saveStatus,
+header .toolbar .status{
+  flex:0 0 280px;
+  width:280px;
+  max-width:280px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  text-align:right;
+}
+
+/* v6.15 duplicate-tab hide: Bulk Edit, Archive, and Can Do Helper are added
+   to the view-tabs row by addBulkTab/addArchiveTab68/addHelperTab610 on every
+   render, AND independently exposed in the top Tools dropdown by
+   rebuildToolbar. That's two access points for the same view. Hide the
+   view-tabs copies; the Tools menu remains the canonical entry. The selector
+   matches the buttons wherever they end up inside .view-tabs, so this also
+   covers the case where rebuildViewTabs eventually groups them into the
+   Operate / Share+Settings dropdowns. */
+.view-tabs .tab[data-view="bulk"],
+.view-tabs .tab[data-view="archive"],
+.view-tabs .tab[data-view="helper610"]{display:none!important}
+
+/* Focus Mode: hide all chrome and show only the whiteboard, a floating
+   "new sticky" button, and an "exit focus" button. Themed via existing
+   CSS variables so the look adapts to whichever theme is active. */
+.focus-fab{
+  position:fixed;z-index:200;border:2px solid rgba(0,0,0,.22);
+  background:var(--panel);color:var(--ink);
+  border-radius:14px;padding:10px 14px;
+  box-shadow:3px 4px 0 var(--shadow);
+  font-family:var(--font-ui);font-weight:800;font-size:14px;
+  cursor:pointer;line-height:1;
+}
+.focus-fab:active{transform:translate(2px,2px);box-shadow:1px 2px 0 var(--shadow)}
+#focusEnterBtn{top:14px;right:14px}
+#focusExitBtn{top:14px;right:14px;background:var(--accent);color:#20160c;display:none}
+#focusNewStickyBtn{bottom:20px;right:20px;padding:14px 20px;font-size:16px;
+  background:var(--accent);color:#20160c;display:none}
+
+/* When focus mode is on, hide the entire chrome and let the board fill the
+   viewport. Show the exit + new-sticky FABs. */
+body.kandoo-focus header,
+body.kandoo-focus aside,
+body.kandoo-focus .view-tabs,
+body.kandoo-focus .filterbar,
+body.kandoo-focus .mobile-stagebar,
+body.kandoo-focus #bulkBar67,
+body.kandoo-focus #focusEnterBtn{display:none!important}
+body.kandoo-focus #focusExitBtn,
+body.kandoo-focus #focusNewStickyBtn{display:block!important}
+body.kandoo-focus .app{display:block;height:100vh}
+body.kandoo-focus main{display:block;height:100vh;grid-template-columns:1fr}
+body.kandoo-focus .workspace{height:100vh}
+body.kandoo-focus .content{height:100vh}
+body.kandoo-focus .board{height:100vh}
 </style>
 </head>
 <body>
@@ -69,32 +147,32 @@ const noteColors=['#fff176','#ffab91','#f8bbd0','#b3e5fc','#c8e6c9','#d1c4e9','#
 const themes=[
 {id:'maker',name:'Maker Workshop',bg:'#f7f1df',board:'#fffdf5',ink:'#2c2a25',muted:'#6e675d',accent:'#e28d3d',accent2:'#6ca6a3',panel:'#fff8e7'},
 {id:'candy',name:'Candy Shop',bg:'#ffe6f0',board:'#fff9fc',ink:'#3d2632',muted:'#7a5265',accent:'#ff7eb6',accent2:'#9be7ff',panel:'#fff0f7'},
-{id:'forest',name:'Forest Cabin',bg:'#dfe8d4',board:'#fbfff2',ink:'#24311f',muted:'#66745c',accent:'#9f7a4f',accent2:'#7bb274',panel:'#f6f2df'},
+{id:'forest',name:'Forest Cabin',bg:'#dfe8d4',board:'#fbfff2',ink:'#24311f',muted:'#5d6953',accent:'#9f7a4f',accent2:'#7bb274',panel:'#f6f2df'},
 {id:'ocean',name:'Ocean Boardwalk',bg:'#dff4fb',board:'#fffef2',ink:'#16303d',muted:'#55717c',accent:'#ffb45c',accent2:'#56b6c2',panel:'#f3fbff'},
 {id:'blueprint',name:'Blueprint Studio',bg:'#133c63',board:'#1f5c8a',ink:'#f1fbff',muted:'#c4ddeb',accent:'#fbd46d',accent2:'#7ee2ff',panel:'#eaf7ff'},
 {id:'chalk',name:'Chalkboard Classroom',bg:'#20372e',board:'#28493d',ink:'#fbfff6',muted:'#d6dfd2',accent:'#f7d879',accent2:'#b4dfb1',panel:'#fffbe7'},
 {id:'arcade',name:'Arcade Neon',bg:'#20162d',board:'#2c2240',ink:'#fff7ff',muted:'#d9c3e8',accent:'#ff4fd8',accent2:'#4dffdf',panel:'#fff6ff'},
-{id:'stationery',name:'Vintage Stationery',bg:'#eadcc4',board:'#fff7e8',ink:'#3b2a1e',muted:'#78675a',accent:'#b85c38',accent2:'#4f8574',panel:'#f9ecd4'},
-{id:'cork',name:'Corkboard Wall',bg:'#c8915b',board:'#d6a06a',ink:'#332014',muted:'#6d4b32',accent:'#f4cc70',accent2:'#75a99c',panel:'#f5dfbd'},
-{id:'notebook',name:'Notebook Paper',bg:'#dbe8ff',board:'#f9fbff',ink:'#17264a',muted:'#647091',accent:'#ff6b6b',accent2:'#4d96ff',panel:'#ffffff'},
+{id:'stationery',name:'Vintage Stationery',bg:'#eadcc4',board:'#fff7e8',ink:'#3b2a1e',muted:'#6f5f53',accent:'#b85c38',accent2:'#4f8574',panel:'#f9ecd4'},
+{id:'cork',name:'Corkboard Wall',bg:'#c8915b',board:'#d6a06a',ink:'#332014',muted:'#422e1e',accent:'#f4cc70',accent2:'#75a99c',panel:'#f5dfbd'},
+{id:'notebook',name:'Notebook Paper',bg:'#dbe8ff',board:'#f9fbff',ink:'#17264a',muted:'#5c6785',accent:'#ff6b6b',accent2:'#4d96ff',panel:'#ffffff'},
 {id:'solarpunk',name:'Solarpunk Garden',bg:'#f1f5c4',board:'#ffffe8',ink:'#26351f',muted:'#607055',accent:'#ffb703',accent2:'#6abf69',panel:'#fbffe6'},
 {id:'darkdesk',name:'Dark Desk',bg:'#18191d',board:'#272a30',ink:'#f6f2e8',muted:'#c4baaa',accent:'#e8a95b',accent2:'#8bc6c0',panel:'#f2e6d0'},
-{id:'detective',name:'Corkboard Detective',bg:'#8b5a35',board:'#c49461',ink:'#2c1b12',muted:'#68452c',accent:'#c42126',accent2:'#315f72',panel:'#f4d8a6'},
+{id:'detective',name:'Corkboard Detective',bg:'#8b5a35',board:'#c49461',ink:'#000000',muted:'#000000',accent:'#c42126',accent2:'#315f72',panel:'#f4d8a6'},
 {id:'comic',name:'Comic Book',bg:'#ffe45e',board:'#fff9cc',ink:'#141414',muted:'#515151',accent:'#ff3b30',accent2:'#007aff',panel:'#fff2a8'},
-{id:'winter',name:'Winter Workshop',bg:'#dceeff',board:'#f9fdff',ink:'#18344a',muted:'#557085',accent:'#77b7d9',accent2:'#e0719e',panel:'#eef8ff'},
+{id:'winter',name:'Winter Workshop',bg:'#dceeff',board:'#f9fdff',ink:'#18344a',muted:'#546e83',accent:'#77b7d9',accent2:'#e0719e',panel:'#eef8ff'},
 {id:'retro',name:'Retro Mac',bg:'#d8d2c4',board:'#f7f2e8',ink:'#222',muted:'#555',accent:'#6c7a89',accent2:'#81a1c1',panel:'#fbfaf7'},
-{id:'garage',name:'Garage Workbench',bg:'#b8a17a',board:'#e8ddc5',ink:'#2b241b',muted:'#695d4b',accent:'#f28c28',accent2:'#4e8277',panel:'#efe2c8'},
-{id:'coffee',name:'Coffee Shop Table',bg:'#6f4e37',board:'#f7ead7',ink:'#2f2118',muted:'#7b5b47',accent:'#d99a52',accent2:'#7aa095',panel:'#fff0dc'},
-{id:'glass',name:'Glass Wall',bg:'#d8f5ff',board:'#eefcff',ink:'#17313d',muted:'#5d7580',accent:'#73d2de',accent2:'#f7a072',panel:'#f7feff'},
-{id:'classic-yellow',name:'Classic Yellow Sticky',bg:'#f4ecd4',board:'#fffdf3',ink:'#2d2818',muted:'#756b52',accent:'#f7d84a',accent2:'#78a6c8',panel:'#fff8cf'},
+{id:'garage',name:'Garage Workbench',bg:'#b8a17a',board:'#e8ddc5',ink:'#2b241b',muted:'#3e372d',accent:'#f28c28',accent2:'#4e8277',panel:'#efe2c8'},
+{id:'coffee',name:'Coffee Shop Table',bg:'#6f4e37',board:'#f7ead7',ink:'#000000',muted:'#000000',accent:'#d99a52',accent2:'#7aa095',panel:'#fff0dc'},
+{id:'glass',name:'Glass Wall',bg:'#d8f5ff',board:'#eefcff',ink:'#17313d',muted:'#5a717c',accent:'#73d2de',accent2:'#f7a072',panel:'#f7feff'},
+{id:'classic-yellow',name:'Classic Yellow Sticky',bg:'#f4ecd4',board:'#fffdf3',ink:'#2d2818',muted:'#726850',accent:'#f7d84a',accent2:'#78a6c8',panel:'#fff8cf'},
 {id:'dark-neon',name:'Dark Neon Arcade',bg:'#090a16',board:'#111827',ink:'#f8f7ff',muted:'#b9b2d6',accent:'#00f5ff',accent2:'#ff2bd6',panel:'#1b1830'},
 {id:'halloween',name:'Halloween Lab',bg:'#22142b',board:'#2f2038',ink:'#fff4e6',muted:'#d7c5b5',accent:'#ff8c1a',accent2:'#84d66b',panel:'#3a2944'},
-{id:'graph-paper',name:'Graph Paper',bg:'#dfe9f7',board:'#fbfdff',ink:'#1f2c44',muted:'#61708b',accent:'#3f7fd7',accent2:'#ff6f61',panel:'#ffffff'},
-{id:'notebook-doodles',name:'Notebook Doodles',bg:'#eef4ff',board:'#fffef9',ink:'#1b2a4b',muted:'#66718d',accent:'#ff7a59',accent2:'#61c9a8',panel:'#fffdf2'},
-{id:'library',name:'Library Card Catalog',bg:'#8f7b5f',board:'#efe3ca',ink:'#2f2418',muted:'#6e5a43',accent:'#9f3f2f',accent2:'#3e6b5f',panel:'#f8edda'},
-{id:'classroom-whiteboard',name:'Classroom Whiteboard',bg:'#d9e8ec',board:'#fbffff',ink:'#263238',muted:'#607d8b',accent:'#1976d2',accent2:'#43a047',panel:'#f6ffff'}
+{id:'graph-paper',name:'Graph Paper',bg:'#dfe9f7',board:'#fbfdff',ink:'#1f2c44',muted:'#5a6881',accent:'#3f7fd7',accent2:'#ff6f61',panel:'#ffffff'},
+{id:'notebook-doodles',name:'Notebook Doodles',bg:'#eef4ff',board:'#fffef9',ink:'#1b2a4b',muted:'#656f8b',accent:'#ff7a59',accent2:'#61c9a8',panel:'#fffdf2'},
+{id:'library',name:'Library Card Catalog',bg:'#8f7b5f',board:'#efe3ca',ink:'#18120c',muted:'#16120e',accent:'#9f3f2f',accent2:'#3e6b5f',panel:'#f8edda'},
+{id:'classroom-whiteboard',name:'Classroom Whiteboard',bg:'#d9e8ec',board:'#fbffff',ink:'#263238',muted:'#516a76',accent:'#1976d2',accent2:'#43a047',panel:'#f6ffff'}
 ];
-let state=loadState();let activeProjectId=state.activeProjectId||state.projects[0].id;let activeView='dashboard';let draggedTaskId=null;let saveTimer=null;
+var state=loadState();var activeProjectId=state.activeProjectId||state.projects[0].id;var activeView='dashboard';var draggedTaskId=null;var saveTimer=null;
 function slug(s){return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')||'item'}function uid(p){return p+'_'+Math.random().toString(36).slice(2,9)}function now(){return new Date().toISOString()}function today(){return new Date().toISOString().slice(0,10)}function defaultWorkflow(){return workflowNames.map((name,i)=>({id:slug(name),name,hidden:false,order:i+1}))}function seedProject(){return{id:uid('project'),name:'My Whimsical Project',description:'A playful place to plan, build, test, ship, invoice, and finish work.',createdAt:now(),updatedAt:now(),themeId:'maker',workflowStages:defaultWorkflow(),tasks:[{id:uid('task'),projectId:'seed',title:'Sketch the first sticky note',description:'Create a task, drag it around, and change its color.',type:'General',stageId:'backlog',priority:'Medium',responsible:'MP',startDate:today(),needByDate:'',completedDate:null,estimateHours:1,actualHours:null,tags:['starter'],blocked:false,blockingReason:'',stickyColor:'#fff176',subtasks:[{id:uid('subtask'),title:'Open task details',completed:false,responsible:'MP',needByDate:'',notes:''}],comments:[],links:[],createdAt:now(),updatedAt:now()},{id:uid('task'),projectId:'seed',title:'Add a bug-shaped problem',description:'Bug tasks get their own little label so they are easy to spot.',type:'Bug',stageId:'icebox',priority:'High',responsible:'',startDate:'',needByDate:'',completedDate:null,estimateHours:null,actualHours:null,tags:['quality'],blocked:false,blockingReason:'',stickyColor:'#ffab91',subtasks:[],comments:[],links:[],createdAt:now(),updatedAt:now()}]}}
 function normalizeProject(p){p.id=p.id||uid('project');p.themeId=p.themeId||'maker';p.client=p.client||'';p.budget=p.budget??null;p.invoiceStatus=p.invoiceStatus||'Not invoiced';p.invoiceNumber=p.invoiceNumber||'';p.shareOptions=p.shareOptions||{hidePeople:false,hideComments:true,hideInvoice:false};p.workflowStages=p.workflowStages&&p.workflowStages.length?p.workflowStages:defaultWorkflow();p.tasks=(p.tasks||[]).map(t=>Object.assign({id:uid('task'),projectId:p.id,type:'General',stageId:'backlog',priority:'Medium',responsible:'',startDate:'',needByDate:'',completedDate:null,estimateHours:null,actualHours:null,tags:[],blocked:false,blockingReason:'',stickyColor:'#fff176',subtasks:[],comments:[],links:[],dependencies:[],billable:true,hourlyRate:null,loggedHours:null,recurrence:'None',createdAt:now(),updatedAt:now()},t));return p}
 function loadState(){let raw=localStorage.getItem(STORAGE_KEY);if(!raw){for(const k of OLD_KEYS){raw=localStorage.getItem(k);if(raw)break}}try{if(raw){const s=JSON.parse(raw);s.projects=(s.projects||[]).map(normalizeProject);if(s.projects.length)return s}}catch(e){}const p=normalizeProject(seedProject());return{version:VERSION,activeProjectId:p.id,projects:[p],history:[]}}
@@ -333,7 +411,7 @@ document.getElementById('newTaskBtn').onclick=()=>openTaskModal();document.getEl
 <script>
 (function(){
 function normalizeV5(p){p.objective=p.objective||'';p.success=p.success||'';p.outscope=p.outscope||'';p.risks=p.risks||'';p.milestones=p.milestones||[];p.surface=p.surface||'whiteboard';p.cardDensity=p.cardDensity||'standard';p.mascot=p.mascot||'frog';p.reducedMotion=!!p.reducedMotion;p.highContrast=!!p.highContrast;p.shareMode=p.shareMode||'Client view';p.swimlaneBy=p.swimlaneBy||'';p.stageRules=p.stageRules||{};(p.workflowStages||[]).forEach(s=>p.stageRules[s.id]=Object.assign({wipLimit:'',requireAssignee:false,requireSubtasksDone:false,stampComplete:['done','shipped','invoiced'].includes(s.id)},p.stageRules[s.id]||{}));(p.tasks||[]).forEach(t=>{t.expenses=t.expenses||0;t.timerStartedAt=t.timerStartedAt||null;t.archived=!!t.archived;t.acceptanceCriteria=t.acceptanceCriteria||'';t.testNotes=t.testNotes||''});return p}
-function bootV5(){document.title='Kandoo v6.15';document.querySelectorAll('.version').forEach(v=>v.textContent=v.textContent.replace('v6.15','v6.15'));const p=normalizeV5(project());document.body.className=(document.body.className||'').replace(/surface-\w+/g,'')+' surface-'+p.surface;const tabs=document.querySelector('.view-tabs');[['brief','Project Brief'],['milestones','Milestones'],['control','Control Room'],['exports','Exports'],['settings','Settings'],['assist','Can Do Helper']].forEach(a=>{if(tabs&&!tabs.querySelector('[data-view="'+a[0]+'"]')){const b=document.createElement('button');b.className='tab';b.dataset.view=a[0];b.textContent=a[1];b.onclick=()=>{activeView=a[0];renderView()};tabs.appendChild(b)}});const qa=document.getElementById('quickAddBtn');if(qa&&!qa.dataset.v5){qa.dataset.v5='1';qa.onclick=()=>{smartQuickAdd(document.getElementById('quickAddInput').value);document.getElementById('quickAddInput').value=''}}}
+function bootV5(){document.title='Kandoo v6.15';document.querySelectorAll('.version').forEach(v=>v.textContent=v.textContent.replace('v6.15','v6.15'));const p=normalizeV5(project());document.body.className=(document.body.className||'').replace(/surface-\w+/g,'')+' surface-'+p.surface;const tabs=document.querySelector('.view-tabs');[['brief','Project Brief'],['milestones','Milestones'],['control','Control Room'],['exports','Exports'],['settings','Settings'],['assist','Natural Language Helper']].forEach(a=>{if(tabs&&!tabs.querySelector('[data-view="'+a[0]+'"]')){const b=document.createElement('button');b.className='tab';b.dataset.view=a[0];b.textContent=a[1];b.onclick=()=>{activeView=a[0];renderView()};tabs.appendChild(b)}});const qa=document.getElementById('quickAddBtn');if(qa&&!qa.dataset.v5){qa.dataset.v5='1';qa.onclick=()=>{smartQuickAdd(document.getElementById('quickAddInput').value);document.getElementById('quickAddInput').value=''}}}
 const _render=render;window.render=function(){bootV5();_render();bootV5()};
 const _renderDetails=renderProjectDetails;window.renderProjectDetails=function(){_renderDetails();const p=normalizeV5(project());[['projectObjective','objective'],['projectSuccess','success'],['projectOutScope','outscope']].forEach(x=>{const e=document.getElementById(x[0]);if(e)e.value=p[x[1]]||''})};
 const _saveProj=document.getElementById('saveProjectBtn').onclick;document.getElementById('saveProjectBtn').onclick=function(){const p=normalizeV5(project());p.objective=document.getElementById('projectObjective')?.value||'';p.success=document.getElementById('projectSuccess')?.value||'';p.outscope=document.getElementById('projectOutScope')?.value||'';_saveProj()};
@@ -353,7 +431,7 @@ function avgCycle(){const d=project().tasks.filter(t=>t.completedDate&&t.created
 window.bulkColorOverdue=()=>{project().tasks.forEach(t=>{if(isOverdue(t))t.stickyColor='#ffab91'});saveState();render()};window.archiveDone=()=>{project().tasks.forEach(t=>{if(['done','shipped','invoiced'].includes(t.stageId))t.archived=true});saveState();render()};
 function renderExports(root){root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Exports + Integrations <span class="version">v6.15</span></h2><div class="share-grid"><div class="share-card"><h3>CSV</h3><p>Spreadsheet-friendly task export.</p><button class="btn primary" onclick="exportCsv()">Export CSV</button></div><div class="share-card"><h3>ICS Calendar</h3><p>Need-by dates as calendar events.</p><button class="btn primary" onclick="exportIcs()">Export ICS</button></div><div class="share-card"><h3>Markdown</h3><p>Readable project packet for docs or GitHub.</p><button class="btn primary" onclick="exportMarkdown()">Export Markdown</button></div><div class="share-card"><h3>Future Connectors</h3><p>Planned: GitHub, Trello/Jira import, Google/Outlook Calendar, Slack, and email-to-task. CSV/ICS/Markdown work locally today.</p></div></div></div>`}
 function renderSettings(root){const p=normalizeV5(project());root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Settings + Surfaces <span class="version">v6.15</span></h2><div class="dash-grid"><div class="box"><h3>Skeuomorphic Surface</h3><div class="surface-preview">${escapeHtml(p.surface)} surface</div><div class="field"><label>Board surface</label><select id="surfaceSel"><option>whiteboard</option><option>cork</option><option>chalk</option><option>blueprint</option><option>notebook</option></select></div><div class="field"><label>Card density</label><select id="densitySel"><option>standard</option><option>compact</option><option>dense</option><option>giant</option></select></div><div class="field"><label>Mascot</label><select id="mascotSel"><option>frog</option><option>robot</option><option>cat</option><option>wizard</option></select></div></div><div class="box"><h3>Accessibility</h3><div class="switch-row"><span>Reduced motion</span><input id="reducedMotion" type="checkbox" ${p.reducedMotion?'checked':''}></div><div class="switch-row"><span>High contrast mode</span><input id="highContrast" type="checkbox" ${p.highContrast?'checked':''}></div><h3>Keyboard Shortcuts</h3><p><span class="kbd">N</span> New task · <span class="kbd">/</span> Search · <span class="kbd">B</span> Board · <span class="kbd">G</span> Gantt · <span class="kbd">D</span> Dashboard · <span class="kbd">?</span> Help</p></div></div></div>`;['surfaceSel','densitySel','mascotSel'].forEach((id,i)=>{const k=['surface','cardDensity','mascot'][i],e=document.getElementById(id);e.value=p[k];e.onchange=()=>{p[k]=e.value;saveState();render()}});document.getElementById('reducedMotion').onchange=e=>{p.reducedMotion=e.target.checked;saveState()};document.getElementById('highContrast').onchange=e=>{p.highContrast=e.target.checked;document.documentElement.style.setProperty('--line',e.target.checked?'rgba(0,0,0,.55)':'rgba(44,42,37,.24)');saveState()}}
-function renderAssist(root){root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Can Do Helper <span class="version">v6.15</span></h2><div class="dash-grid"><div class="box"><h3>Natural Language Quick Add</h3><div class="nl-box"><input id="assistQuick" placeholder="bug: login fails !critical @Lee due 2026-07-15 #auth"><button class="btn primary" onclick="smartQuickAdd(document.getElementById('assistQuick').value);document.getElementById('assistQuick').value=''">Add</button></div><p style="color:var(--muted)">Understands type prefixes, !priority, @person, #tags, and due YYYY-MM-DD.</p></div><div class="box"><h3>Generate Useful Text</h3><button class="btn" onclick="generateClientUpdate()">Client update</button> <button class="btn" onclick="suggestSprint()">Suggest sprint backlog</button> <button class="btn" onclick="makeTestingChecklist()">Testing checklist</button><pre class="cmd" id="assistOut">Can Do Helper output appears here.</pre></div></div></div>`}
+function renderAssist(root){root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Natural Language Helper <span class="version">v6.15</span></h2><div class="dash-grid"><div class="box"><h3>Natural Language Quick Add</h3><div class="nl-box"><input id="assistQuick" placeholder="bug: login fails !critical @Lee due 2026-07-15 #auth"><button class="btn primary" onclick="smartQuickAdd(document.getElementById('assistQuick').value);document.getElementById('assistQuick').value=''">Add</button></div><p style="color:var(--muted)">Understands type prefixes, !priority, @person, #tags, and due YYYY-MM-DD.</p></div><div class="box"><h3>Generate Useful Text</h3><button class="btn" onclick="generateClientUpdate()">Client update</button> <button class="btn" onclick="suggestSprint()">Suggest sprint backlog</button> <button class="btn" onclick="makeTestingChecklist()">Testing checklist</button><pre class="cmd" id="assistOut">Natural Language Helper output appears here.</pre></div></div></div>`}
 window.smartQuickAdd=function(text){if(!text.trim())return;const p=project();let type='General',title=text.trim();if(/^bug:/i.test(title)){type='Bug';title=title.replace(/^bug:/i,'').trim()}if(/^feature:/i.test(title)){type='Feature Request';title=title.replace(/^feature:/i,'').trim()}const pr=(title.match(/!(low|medium|high|urgent|critical)/i)||[])[1],person=(title.match(/@(\w+)/)||[])[1]||'',due=(title.match(/due\s+(\d{4}-\d{2}-\d{2})/i)||[])[1]||'',tags=[...title.matchAll(/#([\w-]+)/g)].map(m=>m[1]);title=title.replace(/!(low|medium|high|urgent|critical)/ig,'').replace(/@\w+/g,'').replace(/due\s+\d{4}-\d{2}-\d{2}/ig,'').replace(/#[\w-]+/g,'').trim()||'Untitled smart sticky';p.tasks.push({id:uid('task'),projectId:p.id,title,description:'Created with Kandoo smart quick add.',type,stageId:'backlog',priority:pr?pr[0].toUpperCase()+pr.slice(1).toLowerCase():'Medium',responsible:person,startDate:'',needByDate:due,completedDate:null,estimateHours:null,actualHours:null,tags,blocked:false,blockingReason:'',stickyColor:type==='Bug'?'#ffab91':type==='Feature Request'?'#b3e5fc':'#fff176',subtasks:[],comments:[],links:[],dependencies:[],billable:true,hourlyRate:null,loggedHours:null,recurrence:'None',createdAt:now(),updatedAt:now()});snapshot('smart quick add');saveState();render();showToast('Smart sticky added')};
 window.exportCsv=()=>{const rows=[['Title','Type','Stage','Priority','Responsible','Start','Need by','Blocked','Tags','Logged Hours']].concat(project().tasks.map(t=>[t.title,t.type,t.stageId,t.priority,t.responsible,t.startDate,t.needByDate,t.blocked,(t.tags||[]).join('|'),t.loggedHours||'']));downloadBlob(new Blob([rows.map(r=>r.map(x=>'"'+String(x??'').replaceAll('"','""')+'"').join(',')).join('\n')],{type:'text/csv'}),`${slug(project().name)}-tasks-v6.15.csv`)};
 window.exportIcs=()=>{const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Kandoo v6.15//EN'];project().tasks.filter(t=>t.needByDate).forEach(t=>lines.push('BEGIN:VEVENT','UID:'+t.id+'@kandoo','DTSTAMP:'+now().replace(/[-:]/g,'').replace(/\.\d+Z/,'Z'),'DTSTART;VALUE=DATE:'+t.needByDate.replaceAll('-',''),'SUMMARY:'+t.title.replace(/[,;]/g,' '),'DESCRIPTION:'+((t.description||'').replace(/[\n,;]/g,' ')),'END:VEVENT'));lines.push('END:VCALENDAR');downloadBlob(new Blob([lines.join('\r\n')],{type:'text/calendar'}),`${slug(project().name)}-calendar-v6.15.ics`)};
@@ -400,7 +478,7 @@ grid.insertBefore(tabbar,grid.firstChild);[...grid.children].forEach(child=>{if(
 tabbar.querySelectorAll('.task-tab').forEach(b=>b.onclick=()=>{tabbar.querySelectorAll('.task-tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');grid.querySelectorAll('.task-section').forEach(s=>s.classList.toggle('active',s.dataset.sec===b.dataset.sec))});
 ['taskTitle','taskDesc','taskType','taskPriority','taskNeed','taskColor'].forEach(id=>document.getElementById(id)?.addEventListener('input',updateTaskPreview));}
 function updateTaskPreview(){const title=document.getElementById('taskTitle')?.value||'Sticky Task';const desc=document.getElementById('taskDesc')?.value||'Live preview while editing.';const type=document.getElementById('taskType')?.value||'General';const pri=document.getElementById('taskPriority')?.value||'Medium';const need=document.getElementById('taskNeed')?.value||'';const color=document.getElementById('taskColor')?.value||'#fff176';const pt=document.getElementById('taskPreviewTitle');if(!pt)return;pt.textContent=title;document.getElementById('taskPreviewDesc').textContent=desc;document.getElementById('taskPreviewType').textContent=type==='Bug'?'🐞 Bug':type==='Feature Request'?'✨ Feature':'📝 General';document.getElementById('taskPreviewPriority').textContent=pri;document.getElementById('taskPreviewNeed').textContent=need?'📅 '+need:'';pt.closest('.note').style.setProperty('--note',color)}
-const _openTaskModal51=openTaskModal;window.openTaskModal=function(id){_openTaskModal51(id);decorateTaskModal();updateTaskPreview()}
+const _openTaskModal51=openTaskModal;window.openTaskModal=function(id){_openTaskModal51(id);decorateTaskModal();const _tm=document.querySelector('#taskModal .dialog');if(_tm){_tm.querySelectorAll('.task-tab').forEach(t=>t.classList.toggle('active',t.dataset.sec==='basics'));_tm.querySelectorAll('.task-section').forEach(s=>s.classList.toggle('active',s.dataset.sec==='basics'));}updateTaskPreview()}
 const _saveTask51=saveTask;window.saveTask=function(){pushUndo(document.getElementById('taskId').value?'task edited':'task created');_saveTask51();updateUndoUI()}
 const _deleteTask51=deleteTask;window.deleteTask=function(){pushUndo('task deleted');_deleteTask51();updateUndoUI()}
 const _moveTask51=moveTask;window.moveTask=function(id,stageId){pushUndo('task moved');_moveTask51(id,stageId);updateUndoUI()}
@@ -1043,7 +1121,7 @@ ${menu('Tools',`<button class="btn" data-go-view="bulk">Bulk Edit</button><butto
 }
 function availableViews(){const existing=[...document.querySelectorAll('.view-tabs .tab[data-view]')].map(b=>({view:b.dataset.view,label:b.textContent.trim()}));const seen=new Set();return existing.filter(x=>x.view&&!seen.has(x.view)&&seen.add(x.view));}
 function viewButton(view,label){return `<button class="tab" data-view="${esc(view)}">${esc(label)}</button>`}
-function rebuildViewTabs(){const tabs=document.querySelector('.view-tabs');if(!tabs)return;const av=availableViews();const labelFor=v=>(av.find(x=>x.view===v)||{}).label||({board:'Whiteboard',dashboard:'Dashboard',list:'Task List',gantt:'Gantt Chart',calendar:'Calendar',reports:'Reports',activity:'Activity',templates:'Templates',sharecenter:'Share Center',worklog:'Worklog',dependencies:'Dependency Map',invoice:'Invoice Desk',brief:'Project Brief',milestones:'Milestones',connection:'Connection Hub',connect:'Connection Hub',notifications63:'Notifications',notifications:'Notifications',attachments64:'Attachments',attachments:'Attachments',bulk:'Bulk Edit',archive:'Archive',settings:'Accessibility',helper610:'Can Do Helper',assist:'Can Do Helper',control:'Control Room',exports:'Exports'}[v]||v);
+function rebuildViewTabs(){const tabs=document.querySelector('.view-tabs');if(!tabs)return;const av=availableViews();const labelFor=v=>(av.find(x=>x.view===v)||{}).label||({board:'Whiteboard',dashboard:'Dashboard',list:'Task List',gantt:'Gantt Chart',calendar:'Calendar',reports:'Reports',activity:'Activity',templates:'Templates',sharecenter:'Share Center',worklog:'Worklog',dependencies:'Dependency Map',invoice:'Invoice Desk',brief:'Project Brief',milestones:'Milestones',connection:'Connection Hub',connect:'Connection Hub',notifications63:'Notifications',notifications:'Notifications',attachments64:'Attachments',attachments:'Attachments',bulk:'Bulk Edit',archive:'Archive',settings:'Accessibility',helper610:'Can Do Helper',assist:'Natural Language Helper',control:'Control Room',exports:'Exports'}[v]||v);
  const primary=['dashboard','board','list','gantt'].filter(v=>av.some(x=>x.view===v));
  const planning=['calendar','reports','control','brief','milestones','activity','templates'].filter(v=>av.some(x=>x.view===v));
  const ops=['worklog','dependencies','invoice','bulk','archive','attachments','attachments64'].filter(v=>av.some(x=>x.view===v));
@@ -1719,5 +1797,72 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
 })();
 </script>
 
+<script id="kandoo-focus-mode">
+(function(){
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',init);
+  }else{
+    init();
+  }
+  function init(){
+    if(document.getElementById('focusEnterBtn'))return;
+    var enterBtn=document.createElement('button');
+    enterBtn.id='focusEnterBtn';enterBtn.className='focus-fab';
+    enterBtn.type='button';enterBtn.title='Enter Focus Mode';
+    enterBtn.textContent='Focus';
+    var exitBtn=document.createElement('button');
+    exitBtn.id='focusExitBtn';exitBtn.className='focus-fab';
+    exitBtn.type='button';exitBtn.title='Exit Focus Mode (Esc)';
+    exitBtn.textContent='Exit Focus';
+    var newBtn=document.createElement('button');
+    newBtn.id='focusNewStickyBtn';newBtn.className='focus-fab';
+    newBtn.type='button';newBtn.title='New Sticky Task';
+    newBtn.textContent='+ New Sticky';
+    document.body.appendChild(enterBtn);
+    document.body.appendChild(exitBtn);
+    document.body.appendChild(newBtn);
+
+    function enter(){
+      try{if(typeof window.activeView!=='undefined'){
+        window.activeView='board';
+        if(typeof window.renderView==='function')try{window.renderView();}catch(e){}
+      }}catch(e){}
+      document.body.classList.add('kandoo-focus');
+      try{
+        var de=document.documentElement;
+        var req=de.requestFullscreen||de.webkitRequestFullscreen||de.msRequestFullscreen;
+        if(req)req.call(de);
+      }catch(e){}
+    }
+    function exit(){
+      document.body.classList.remove('kandoo-focus');
+      try{
+        if(document.fullscreenElement||document.webkitFullscreenElement){
+          var ef=document.exitFullscreen||document.webkitExitFullscreen||document.msExitFullscreen;
+          if(ef)ef.call(document);
+        }
+      }catch(e){}
+    }
+    enterBtn.onclick=enter;
+    exitBtn.onclick=exit;
+    newBtn.onclick=function(){
+      if(typeof window.openTaskModal==='function')window.openTaskModal();
+    };
+    document.addEventListener('keydown',function(e){
+      if(e.key==='Escape'&&document.body.classList.contains('kandoo-focus')){
+        // Only exit if no modal is currently open (so Esc closes modals first as normal)
+        var openModal=document.querySelector('.modal.open');
+        if(!openModal)exit();
+      }
+    });
+    // If user exits fullscreen via browser UI (F11 / Esc), drop the class too.
+    document.addEventListener('fullscreenchange',function(){
+      if(!document.fullscreenElement&&document.body.classList.contains('kandoo-focus')){
+        document.body.classList.remove('kandoo-focus');
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>
