@@ -80,7 +80,10 @@ header .toolbar .status{
 
 /* Focus Mode: hide all chrome and show only the whiteboard, a floating
    "new sticky" button, and an "exit focus" button. Themed via existing
-   CSS variables so the look adapts to whichever theme is active. */
+   CSS variables so the look adapts to whichever theme is active. The
+   Enter button itself lives inside the toolbar as a regular .btn so it
+   doesn't overlap the saveStatus text; the Exit and New Sticky FABs
+   only appear once focus mode is on and the chrome is hidden anyway. */
 .focus-fab{
   position:fixed;z-index:200;border:2px solid rgba(0,0,0,.22);
   background:var(--panel);color:var(--ink);
@@ -90,7 +93,6 @@ header .toolbar .status{
   cursor:pointer;line-height:1;
 }
 .focus-fab:active{transform:translate(2px,2px);box-shadow:1px 2px 0 var(--shadow)}
-#focusEnterBtn{top:14px;right:14px}
 #focusExitBtn{top:14px;right:14px;background:var(--accent);color:#20160c;display:none}
 #focusNewStickyBtn{bottom:20px;right:20px;padding:14px 20px;font-size:16px;
   background:var(--accent);color:#20160c;display:none}
@@ -102,8 +104,7 @@ body.kandoo-focus aside,
 body.kandoo-focus .view-tabs,
 body.kandoo-focus .filterbar,
 body.kandoo-focus .mobile-stagebar,
-body.kandoo-focus #bulkBar67,
-body.kandoo-focus #focusEnterBtn{display:none!important}
+body.kandoo-focus #bulkBar67{display:none!important}
 body.kandoo-focus #focusExitBtn,
 body.kandoo-focus #focusNewStickyBtn{display:block!important}
 body.kandoo-focus .app{display:block;height:100vh}
@@ -111,6 +112,123 @@ body.kandoo-focus main{display:block;height:100vh;grid-template-columns:1fr}
 body.kandoo-focus .workspace{height:100vh}
 body.kandoo-focus .content{height:100vh}
 body.kandoo-focus .board{height:100vh}
+
+/* Dark-theme contrast rescue: blueprint, chalk, arcade, and darkdesk all
+   have dark workspace surfaces (--bg, --board) paired with LIGHT panels.
+   A single light --ink is invisible on the light panels, and a single
+   dark --ink would be invisible on the dark workspace. The fix is to
+   keep --ink light at the document root (workspace text stays readable
+   on the dark board, column headers and stickies look right) and to
+   redefine --ink and --muted ONLY within the chrome scope (header,
+   sidebar, filter bar, view tabs, dropdown panels, modals). Because CSS
+   custom properties cascade through the DOM, any descendant of these
+   containers that reads var(--ink) picks up the dark value. */
+body.theme-blueprint header,
+body.theme-blueprint aside,
+body.theme-blueprint .filterbar,
+body.theme-blueprint .view-tabs,
+body.theme-blueprint .menu-panel,
+body.theme-blueprint .modal,
+body.theme-blueprint .toast{--ink:#133c63;--muted:#2c4566;color:var(--ink)}
+
+body.theme-chalk header,
+body.theme-chalk aside,
+body.theme-chalk .filterbar,
+body.theme-chalk .view-tabs,
+body.theme-chalk .menu-panel,
+body.theme-chalk .modal,
+body.theme-chalk .toast{--ink:#20372e;--muted:#3a5448;color:var(--ink)}
+
+body.theme-arcade header,
+body.theme-arcade aside,
+body.theme-arcade .filterbar,
+body.theme-arcade .view-tabs,
+body.theme-arcade .menu-panel,
+body.theme-arcade .modal,
+body.theme-arcade .toast{--ink:#20162d;--muted:#3d2956;color:var(--ink)}
+
+body.theme-darkdesk header,
+body.theme-darkdesk aside,
+body.theme-darkdesk .filterbar,
+body.theme-darkdesk .view-tabs,
+body.theme-darkdesk .menu-panel,
+body.theme-darkdesk .modal,
+body.theme-darkdesk .toast{--ink:#18191d;--muted:#34302a;color:var(--ink)}
+
+/* Swatch overflow fix: later cleanup layers set .swatches to
+   flex-wrap:nowrap; overflow:hidden; max-width:calc(100% - 66px) which
+   doesn't fit 8 swatches (8x17 + 7x4 = 164px needed, ~137px available).
+   The rightmost swatches are clipped horizontally, and each swatch's
+   2px box-shadow is clipped by overflow:hidden + tight container height.
+   Shrink swatches and tighten the gap so all 8 fit on one row inside a
+   typical 234px-wide note. Math: 8 x 15 + 7 x 3 = 141px, leaving 6px of
+   safety margin against the ~147px available after Edit reserves space.
+   Keep flex-wrap:wrap as a fallback for any future layout where the note
+   is even narrower. The .note > .note-actions > .swatches > .swatch
+   chain scopes the size override to the in-card swatches only, leaving
+   the .note-menu-panel popup swatches at their larger 22px size for
+   easier clicking. */
+.note .swatches{
+  flex-wrap:wrap!important;
+  overflow:visible!important;
+  max-width:100%!important;
+  gap:3px!important;
+  padding-bottom:3px;
+}
+.note .note-actions > .swatches > .swatch{
+  width:15px!important;
+  height:15px!important;
+  min-width:15px;
+  min-height:15px;
+}
+
+/* Large Targets color picker: when body.a11y-large-targets is on, the
+   inline 15px swatch strip drops below WCAG's touch-target spec by quite
+   a lot. Swap it for a single 44px Color button that opens a popup with
+   32x32 swatches in a 4-column grid. The popup's swatches delegate to
+   the existing inline-swatch click handlers (the .swatches row is still
+   in the DOM, just display:none'd) so all the save/render/state logic
+   stays in one place. Toggled entirely on body class so flipping the
+   accessibility setting takes effect at next render with no extra wiring. */
+body.a11y-large-targets .note > .note-actions > .swatches{display:none!important}
+.note-color-picker{position:relative;display:none}
+body.a11y-large-targets .note > .note-actions > .note-color-picker{display:inline-block}
+.note-color-picker > summary{
+  list-style:none;cursor:pointer;
+  background:rgba(255,255,255,.72);
+  border:1px solid rgba(0,0,0,.18);
+  border-radius:10px;
+  padding:8px 14px;
+  min-height:44px;min-width:44px;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:var(--font-ui);font-weight:800;font-size:13px;
+  color:var(--ink);
+  box-shadow:1px 2px 0 var(--shadow);
+  white-space:nowrap;
+}
+.note-color-picker > summary::-webkit-details-marker{display:none}
+.note-color-picker > summary::marker{content:""}
+.note-color-picker[open] > summary{background:var(--accent);color:#20160c}
+.note-color-picker > summary:active{transform:translate(1px,1px);box-shadow:0 1px 0 var(--shadow)}
+.note-color-picker-panel{
+  position:absolute;left:0;bottom:calc(100% + 6px);z-index:35;
+  background:var(--panel);color:var(--ink);
+  border:2px solid rgba(0,0,0,.18);
+  border-radius:14px;padding:10px;
+  box-shadow:4px 5px 0 var(--shadow);
+  display:grid;grid-template-columns:repeat(4, 32px);gap:6px;
+}
+.note-color-picker-panel .picker-swatch{
+  width:32px;height:32px;min-width:32px;min-height:32px;
+  border-radius:50%;
+  border:2px solid rgba(0,0,0,.22);
+  box-shadow:1px 2px 0 rgba(0,0,0,.18);
+  cursor:pointer;padding:0;
+  transition:transform .08s ease;
+}
+.note-color-picker-panel .picker-swatch:hover{transform:scale(1.1)}
+.note-color-picker-panel .picker-swatch:focus{outline:3px solid var(--accent);outline-offset:2px}
+.note-color-picker-panel .picker-swatch:active{transform:translate(1px,1px);box-shadow:0 1px 0 rgba(0,0,0,.18)}
 </style>
 </head>
 <body>
@@ -178,7 +296,7 @@ function normalizeProject(p){p.id=p.id||uid('project');p.themeId=p.themeId||'mak
 function loadState(){let raw=localStorage.getItem(STORAGE_KEY);if(!raw){for(const k of OLD_KEYS){raw=localStorage.getItem(k);if(raw)break}}try{if(raw){const s=JSON.parse(raw);s.projects=(s.projects||[]).map(normalizeProject);if(s.projects.length)return s}}catch(e){}const p=normalizeProject(seedProject());return{version:VERSION,activeProjectId:p.id,projects:[p],history:[]}}
 function saveState(){state.version=VERSION;state.activeProjectId=activeProjectId;localStorage.setItem(STORAGE_KEY,JSON.stringify(state));clearTimeout(saveTimer);document.getElementById('saveStatus').textContent='Saving...';saveTimer=setTimeout(()=>document.getElementById('saveStatus').textContent='Saved just now · '+VERSION,250)}
 function project(){return state.projects.find(p=>p.id===activeProjectId)||state.projects[0]}function filteredTasks(){const p=project();const q=document.getElementById('searchBox')?.value.trim().toLowerCase()||'';const type=document.getElementById('typeFilter')?.value||'';const pr=document.getElementById('priorityFilter')?.value||'';const person=document.getElementById('personFilter')?.value||'';return p.tasks.filter(t=>{const blob=[t.title,t.description,t.responsible,t.priority,t.type,(t.tags||[]).join(' '),(t.subtasks||[]).map(s=>s.title).join(' ')].join(' ').toLowerCase();return(!q||blob.includes(q))&&(!type||t.type===type)&&(!pr||t.priority===pr)&&(!person||t.responsible===person)})}
-function applyTheme(){const p=project();const t=themes.find(x=>x.id===p.themeId)||themes[0];for(const [k,v]of Object.entries(t)){if(k!=='id'&&k!=='name')document.documentElement.style.setProperty('--'+k,v)}}
+function applyTheme(){const p=project();const t=themes.find(x=>x.id===p.themeId)||themes[0];for(const [k,v]of Object.entries(t)){if(k!=='id'&&k!=='name')document.documentElement.style.setProperty('--'+k,v)}document.body.className=(document.body.className||'').replace(/\btheme-\S+/g,'').replace(/\s+/g,' ').trim()+' theme-'+t.id;}
 function render(){applyTheme();renderProjects();renderProjectDetails();renderStageToggles();renderThemes();renderPeopleFilter();renderMobileStageJump();renderView()}
 function renderProjects(){const el=document.getElementById('projectList');el.innerHTML='';state.projects.forEach(p=>{const b=document.createElement('button');b.className='project-item'+(p.id===activeProjectId?' active':'');b.innerHTML=`<strong>${escapeHtml(p.name)}</strong><span>${p.tasks.length} sticky tasks · ${VERSION}</span>`;b.onclick=()=>{activeProjectId=p.id;saveState();render()};el.appendChild(b)})}
 function renderProjectDetails(){const p=project();document.getElementById('projectName').value=p.name||'';document.getElementById('projectDesc').value=p.description||'';document.getElementById('projectClient').value=p.client||'';document.getElementById('projectBudget').value=p.budget??'';document.getElementById('projectInvoiceStatus').value=p.invoiceStatus||'Not invoiced';document.getElementById('projectInvoiceNumber').value=p.invoiceNumber||''}
@@ -1107,6 +1225,7 @@ function rebuildToolbar(){const bar=document.querySelector('header .toolbar');if
 <button class="btn always-visible" id="newProjectBtn">+ Project</button>
 ${menu('Export',`<div class="menu-section-title">Project files</div><button class="btn" id="exportJsonBtn">Export JSON</button><label class="btn" for="importJsonInput">Import JSON</label><input id="importJsonInput" type="file" accept="application/json" hidden><button class="btn" id="backupBtn">Backup Bundle</button><div class="menu-section-title">Readable outputs</div><button class="btn" id="pdfBtn">Beautiful PDF</button><button class="btn good" id="shareBtn">Read-only Share</button><button class="btn" id="quickInvoiceBtn">Invoice Sheet</button>`)}
 ${menu('Tools',`<button class="btn" data-go-view="bulk">Bulk Edit</button><button class="btn" data-go-view="archive">Archive</button><button class="btn" data-go-view="attachments">Attachments</button><button class="btn" data-go-view="notifications">Notifications</button><button class="btn" data-go-view="helper610">Can Do Helper</button><button class="btn" data-go-view="settings">Accessibility</button>`)}
+<button class="btn" id="focusEnterBtn" title="Enter Focus Mode" onclick="if(window.kandooFocusEnter)window.kandooFocusEnter()">Focus</button>
 <div class="status" id="saveStatus">Saved just now · ${CLEAN_VERSION} · cleaned UI</div>`;
   // Re-bind existing controls, preserving original functions.
   if($('newTaskBtn'))$('newTaskBtn').onclick=()=>typeof openTaskModal==='function'&&openTaskModal();
@@ -1804,50 +1923,54 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
   }else{
     init();
   }
-  function init(){
-    if(document.getElementById('focusEnterBtn'))return;
-    var enterBtn=document.createElement('button');
-    enterBtn.id='focusEnterBtn';enterBtn.className='focus-fab';
-    enterBtn.type='button';enterBtn.title='Enter Focus Mode';
-    enterBtn.textContent='Focus';
-    var exitBtn=document.createElement('button');
-    exitBtn.id='focusExitBtn';exitBtn.className='focus-fab';
-    exitBtn.type='button';exitBtn.title='Exit Focus Mode (Esc)';
-    exitBtn.textContent='Exit Focus';
-    var newBtn=document.createElement('button');
-    newBtn.id='focusNewStickyBtn';newBtn.className='focus-fab';
-    newBtn.type='button';newBtn.title='New Sticky Task';
-    newBtn.textContent='+ New Sticky';
-    document.body.appendChild(enterBtn);
-    document.body.appendChild(exitBtn);
-    document.body.appendChild(newBtn);
+  function enter(){
+    try{if(typeof window.activeView!=='undefined'){
+      window.activeView='board';
+      if(typeof window.renderView==='function')try{window.renderView();}catch(e){}
+    }}catch(e){}
+    document.body.classList.add('kandoo-focus');
+    try{
+      var de=document.documentElement;
+      var req=de.requestFullscreen||de.webkitRequestFullscreen||de.msRequestFullscreen;
+      if(req)req.call(de);
+    }catch(e){}
+  }
+  function exit(){
+    document.body.classList.remove('kandoo-focus');
+    try{
+      if(document.fullscreenElement||document.webkitFullscreenElement){
+        var ef=document.exitFullscreen||document.webkitExitFullscreen||document.msExitFullscreen;
+        if(ef)ef.call(document);
+      }
+    }catch(e){}
+  }
+  // Expose enter on window so the toolbar's onclick attribute (which
+  // survives every rebuildToolbar wipe) can call it.
+  window.kandooFocusEnter=enter;
+  window.kandooFocusExit=exit;
 
-    function enter(){
-      try{if(typeof window.activeView!=='undefined'){
-        window.activeView='board';
-        if(typeof window.renderView==='function')try{window.renderView();}catch(e){}
-      }}catch(e){}
-      document.body.classList.add('kandoo-focus');
-      try{
-        var de=document.documentElement;
-        var req=de.requestFullscreen||de.webkitRequestFullscreen||de.msRequestFullscreen;
-        if(req)req.call(de);
-      }catch(e){}
+  function init(){
+    // Only append the floating Exit and New Sticky buttons. The Enter
+    // button lives inside the toolbar (injected via rebuildToolbar) so
+    // it doesn't overlap saveStatus.
+    if(!document.getElementById('focusExitBtn')){
+      var exitBtn=document.createElement('button');
+      exitBtn.id='focusExitBtn';exitBtn.className='focus-fab';
+      exitBtn.type='button';exitBtn.title='Exit Focus Mode (Esc)';
+      exitBtn.textContent='Exit Focus';
+      exitBtn.onclick=exit;
+      document.body.appendChild(exitBtn);
     }
-    function exit(){
-      document.body.classList.remove('kandoo-focus');
-      try{
-        if(document.fullscreenElement||document.webkitFullscreenElement){
-          var ef=document.exitFullscreen||document.webkitExitFullscreen||document.msExitFullscreen;
-          if(ef)ef.call(document);
-        }
-      }catch(e){}
+    if(!document.getElementById('focusNewStickyBtn')){
+      var newBtn=document.createElement('button');
+      newBtn.id='focusNewStickyBtn';newBtn.className='focus-fab';
+      newBtn.type='button';newBtn.title='New Sticky Task';
+      newBtn.textContent='+ New Sticky';
+      newBtn.onclick=function(){
+        if(typeof window.openTaskModal==='function')window.openTaskModal();
+      };
+      document.body.appendChild(newBtn);
     }
-    enterBtn.onclick=enter;
-    exitBtn.onclick=exit;
-    newBtn.onclick=function(){
-      if(typeof window.openTaskModal==='function')window.openTaskModal();
-    };
     document.addEventListener('keydown',function(e){
       if(e.key==='Escape'&&document.body.classList.contains('kandoo-focus')){
         // Only exit if no modal is currently open (so Esc closes modals first as normal)
@@ -1861,6 +1984,105 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
         document.body.classList.remove('kandoo-focus');
       }
     });
+  }
+})();
+</script>
+<script id="kandoo-a11y-color-picker">
+(function(){
+  // Inject a <details class="note-color-picker"> into each .note-actions
+  // when Large Targets accessibility is active. The picker's swatches
+  // delegate to the existing inline-swatch click handlers so we don't
+  // duplicate the state/save logic. Idempotent so re-running on every
+  // render is cheap. When Large Targets is OFF, strip out any pickers
+  // that were injected previously so the inline strip is the only UI.
+  function injectColorPickers(){
+    var on = document.body.classList.contains('a11y-large-targets');
+    if(!on){
+      document.querySelectorAll('.note-color-picker').forEach(function(p){p.remove();});
+      return;
+    }
+    document.querySelectorAll('.note > .note-actions').forEach(function(actions){
+      // Skip if a picker is already attached
+      if(actions.querySelector(':scope > .note-color-picker'))return;
+      var swatches=actions.querySelector(':scope > .swatches');
+      if(!swatches)return;
+      var origSwatches=[].slice.call(swatches.querySelectorAll('.swatch'));
+      var colors=origSwatches.map(function(b){return b.dataset.color;}).filter(Boolean);
+      if(!colors.length)return;
+
+      var details=document.createElement('details');
+      details.className='note-color-picker';
+      var summary=document.createElement('summary');
+      summary.textContent='Color';
+      summary.title='Pick sticky color';
+      details.appendChild(summary);
+
+      var panel=document.createElement('div');
+      panel.className='note-color-picker-panel';
+      colors.forEach(function(color,i){
+        var btn=document.createElement('button');
+        btn.className='picker-swatch';
+        btn.type='button';
+        btn.style.background=color;
+        btn.title=color;
+        btn.dataset.color=color;
+        btn.onclick=function(e){
+          e.stopPropagation();
+          // Delegate to the original inline swatch click handler so we
+          // reuse its undo push, state mutation, save, and renderView.
+          var orig=swatches.querySelector('.swatch[data-color="'+color+'"]')||origSwatches[i];
+          if(orig)orig.click();
+          details.removeAttribute('open');
+        };
+        panel.appendChild(btn);
+      });
+      details.appendChild(panel);
+      actions.insertBefore(details,swatches);
+    });
+  }
+
+  // Wrap renderView so injection runs after each board render. Guard
+  // against double-wrapping if this script ever runs twice.
+  function installHook(){
+    var prev=window.renderView;
+    if(typeof prev!=='function'||prev._a11yPickerHooked)return;
+    window.renderView=function(){
+      var out;
+      try{
+        out=prev.apply(this,arguments);
+      }finally{
+        // Defer so any later setTimeouts from inner wrappers also settle
+        // before we inject; otherwise our pickers risk being wiped by a
+        // late re-render. try/finally guarantees this fires even when an
+        // inner wrapper throws (the file has a pre-existing
+        // wireV6Buttons-undefined throw that's swallowed elsewhere but
+        // would otherwise skip our scheduling here).
+        setTimeout(injectColorPickers,0);
+      }
+      return out;
+    };
+    window.renderView._a11yPickerHooked=true;
+  }
+
+  // Outside-click and Escape close any open picker
+  document.addEventListener('click',function(e){
+    document.querySelectorAll('.note-color-picker[open]').forEach(function(d){
+      if(!d.contains(e.target))d.removeAttribute('open');
+    });
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){
+      document.querySelectorAll('.note-color-picker[open]').forEach(function(d){
+        d.removeAttribute('open');
+      });
+    }
+  });
+
+  function go(){installHook();injectColorPickers();}
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',go);
+  }else{
+    go();
   }
 })();
 </script>
