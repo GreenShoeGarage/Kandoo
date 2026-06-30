@@ -211,7 +211,7 @@ function exportInvoiceSheet(){const p=project();const items=p.tasks.filter(t=>t.
   const observer=new MutationObserver(()=>{ clearTimeout(window.__kandooV615Timer); window.__kandooV615Timer=setTimeout(stamp,40); });
   if(document.body) observer.observe(document.body,{childList:true,subtree:true,characterData:true});
 })();
-</script>
+<\/script>
 
 </body></html>`;downloadBlob(new Blob([html],{type:'text/html'}),`${slug(p.name)}-invoice-${VERSION}.html`)}
 
@@ -315,7 +315,7 @@ function shareReadonly(){const p=project();const theme=themes.find(t=>t.id===p.t
   const observer=new MutationObserver(()=>{ clearTimeout(window.__kandooV615Timer); window.__kandooV615Timer=setTimeout(stamp,40); });
   if(document.body) observer.observe(document.body,{childList:true,subtree:true,characterData:true});
 })();
-</script>
+<\/script>
 
 </body></html>`;downloadBlob(new Blob([html],{type:'text/html'}),`${slug(p.name)}-readonly-${VERSION}.html`)}
 function duplicateProject(){const clone=JSON.parse(JSON.stringify(project()));clone.id=uid('project');clone.name=clone.name+' copy';clone.createdAt=now();clone.updatedAt=now();clone.tasks.forEach(t=>{t.id=uid('task');t.projectId=clone.id;(t.subtasks||[]).forEach(s=>s.id=uid('subtask'))});state.projects.push(clone);activeProjectId=clone.id;saveState();render();showToast('Project duplicated')}function deleteProject(){if(state.projects.length===1){alert('Keep at least one project on the wall.');return}if(!confirm('Delete this whole project?'))return;state.projects=state.projects.filter(p=>p.id!==activeProjectId);activeProjectId=state.projects[0].id;saveState();render()}
@@ -629,7 +629,7 @@ window.exportGanttOnly=function(){const settings=ensureGanttSettings();const tas
   const observer=new MutationObserver(()=>{ clearTimeout(window.__kandooV615Timer); window.__kandooV615Timer=setTimeout(stamp,40); });
   if(document.body) observer.observe(document.body,{childList:true,subtree:true,characterData:true});
 })();
-</script>
+<\/script>
 
 </body></html>`;downloadBlob(new Blob([html],{type:'text/html'}),`${slug(proj().name)}-advanced-gantt-${K62}.html`)};
 const oldAfterRender=window.afterV6Render;
@@ -895,7 +895,7 @@ try{(state.projects||[]).forEach(normalizeAttachments64);ensureAttachmentTab64()
   const observer=new MutationObserver(()=>{ clearTimeout(window.__kandooV615Timer); window.__kandooV615Timer=setTimeout(stamp,40); });
   if(document.body) observer.observe(document.body,{childList:true,subtree:true,characterData:true});
 })();
-</script>
+<\/script>
 
 </body></html>`;}
   window.renderShareCenter=function(root){const pr=p();if(!pr||!root)return;const s=ensure(pr);root.innerHTML=`<div class="page"><h2>Share-Page Builder <span class="version">${K65}</span></h2><p>Cleaned and consolidated share export builder.</p><div class="toolbar"><button class="btn good" id="share65Export">Export Share Page</button><button class="btn" id="share65Preview">Refresh Preview</button></div><div class="form-grid"><div class="field"><label>Title</label><input id="share65Title" value="${esc(s.title)}"></div><div class="field"><label>Subtitle</label><input id="share65Subtitle" value="${esc(s.subtitle)}"></div><div class="field full"><label>Intro</label><textarea id="share65Intro">${esc(s.intro)}</textarea></div></div><div class="box" id="share65Box"></div></div>`;function sync(){s.title=document.getElementById('share65Title').value;s.subtitle=document.getElementById('share65Subtitle').value;s.intro=document.getElementById('share65Intro').value;if(typeof saveState==='function')saveState();document.getElementById('share65Box').innerHTML=shareInner(pr,s);}['share65Title','share65Subtitle','share65Intro'].forEach(id=>document.getElementById(id).addEventListener('input',sync));document.getElementById('share65Export').onclick=()=>window.shareReadonly();document.getElementById('share65Preview').onclick=sync;sync();};
