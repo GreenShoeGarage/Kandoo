@@ -1373,6 +1373,249 @@ body.kandoo-bottom-sheets #taskModal select{
   white-space:nowrap;
   text-transform:uppercase;
 }
+
+/* v6.16+ Expanded Reports: section headings between chart groups, the
+   throughput segmented control, blocked-work table, and the dual
+   priority+type layout. */
+.report-section-heading{
+  font-family:var(--font-hand,cursive);
+  font-size:22px;
+  margin:24px 0 10px;
+  padding-bottom:4px;
+  border-bottom:2px dashed var(--line,#999);
+  color:var(--ink);
+}
+.report-section-heading:first-of-type{margin-top:20px}
+.chart-segment-row{
+  display:inline-flex;
+  gap:0;
+  margin:0 0 8px;
+  border:1px solid var(--line,#999);
+  border-radius:8px;
+  overflow:hidden;
+  background:rgba(255,255,255,.4);
+}
+.chart-segment-btn{
+  padding:4px 12px;
+  border:none;
+  background:transparent;
+  cursor:pointer;
+  font-size:12px;
+  color:var(--muted);
+  text-transform:capitalize;
+  font-weight:600;
+  transition:background .1s,color .1s;
+  border-right:1px solid var(--line,#999);
+}
+.chart-segment-btn:last-child{border-right:none}
+.chart-segment-btn:hover{background:rgba(0,0,0,.04)}
+.chart-segment-btn.active{
+  background:var(--accent,#c33);
+  color:#fff;
+}
+.blocked-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+  min-width:0;
+}
+.blocked-table th{
+  text-align:left;
+  padding:8px 6px;
+  color:var(--muted);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  border-bottom:2px solid var(--line,#999);
+}
+.blocked-table td{
+  padding:8px 6px;
+  border-bottom:1px dashed var(--line,#999);
+  background:transparent;
+  border-radius:0;
+}
+.blocked-table td:first-child{border-radius:0}
+.blocked-table td:last-child{border-radius:0}
+.blocked-table tr:last-child td{border-bottom:none}
+.priority-type-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+@media(max-width:640px){
+  .priority-type-grid{grid-template-columns:1fr}
+}
+.cfd-legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 14px;
+  margin-top:8px;
+  font-size:11px;
+  color:var(--muted);
+}
+.cfd-legend .chart-legend-swatch{
+  display:inline-block;
+  width:12px;height:12px;
+  border-radius:2px;
+  margin-right:4px;
+  vertical-align:middle;
+}
+
+/* v6.16+ Chart fullscreen mode: each chart card in the Reports view
+   gets a small maximize button in the top-right. Click opens the chart
+   in a fullscreen overlay for detailed inspection. SVG charts naturally
+   scale via viewBox; tables render at readable size. */
+.chart-card{position:relative}
+.chart-fullscreen-btn{
+  position:absolute;
+  top:12px;
+  right:12px;
+  width:28px;
+  height:28px;
+  padding:0;
+  border:1px solid var(--line,#999);
+  background:rgba(255,255,255,.7);
+  border-radius:6px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  line-height:1;
+  color:var(--muted);
+  transition:background .12s,color .12s,transform .08s;
+  z-index:2;
+}
+.chart-fullscreen-btn:hover{
+  background:var(--accent,#c33);
+  color:#fff;
+  transform:translateY(-1px);
+}
+.chart-fullscreen-btn:focus-visible{
+  outline:2px solid var(--accent,#c33);
+  outline-offset:2px;
+}
+.chart-fullscreen-overlay{
+  position:fixed;
+  inset:0;
+  z-index:200;
+  background:rgba(20,15,10,.75);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  backdrop-filter:blur(4px);
+  animation:fadeIn .15s ease-out;
+}
+.chart-fullscreen-overlay.open{display:flex}
+.chart-fullscreen-inner{
+  background:var(--panel,#fff);
+  border:3px solid var(--line,#999);
+  border-radius:20px;
+  box-shadow:9px 12px 0 rgba(0,0,0,.3);
+  padding:24px;
+  width:min(1200px,95vw);
+  height:min(90vh,900px);
+  display:flex;
+  flex-direction:column;
+  animation:pillPop .18s ease-out;
+}
+.chart-fullscreen-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:14px;
+  padding-bottom:10px;
+  border-bottom:2px dashed var(--line,#999);
+}
+.chart-fullscreen-head h3{
+  font-family:var(--font-hand,cursive);
+  font-size:26px;
+  margin:0;
+}
+.chart-fullscreen-body{
+  flex:1;
+  overflow:auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.chart-fullscreen-body svg{
+  width:100%;
+  height:100%;
+  max-height:100%;
+}
+.chart-fullscreen-body .blocked-table{
+  width:100%;
+  font-size:15px;
+}
+.chart-fullscreen-body .priority-type-grid{
+  width:100%;
+  gap:32px;
+}
+
+/* v6.16+ Report export toolbar: sits above the report grid with
+   Export HTML and Export PDF buttons plus a Fullscreen All toggle. */
+.report-export-toolbar{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center;
+  margin:0 0 14px;
+  padding:10px 14px;
+  background:rgba(255,255,255,.4);
+  border:2px dashed var(--line,#999);
+  border-radius:14px;
+}
+.report-export-toolbar-label{
+  font-size:13px;
+  color:var(--muted);
+  font-weight:600;
+  margin-right:8px;
+}
+/* Hide the toolbar and per-card fullscreen buttons from print output */
+@media print{
+  .report-export-toolbar,
+  .chart-fullscreen-btn,
+  .chart-fullscreen-overlay,
+  .gantt-focus-exit-btn{display:none!important}
+}
+
+/* v6.16+ Gantt focus escape hatch: sits fixed in top-right when
+   body.gantt-focus-export is active, giving the user a clear way back
+   to normal layout after clicking Focus / Print. Hidden in print
+   output via the block above. */
+.gantt-focus-exit-btn{
+  position:fixed;
+  top:12px;
+  right:12px;
+  z-index:250;
+  padding:10px 16px;
+  border:2px solid rgba(0,0,0,.25);
+  border-radius:12px;
+  background:var(--accent,#c33);
+  color:#fff;
+  font-family:var(--font-ui,system-ui);
+  font-size:14px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:3px 4px 0 rgba(0,0,0,.25);
+  transition:transform .1s,box-shadow .1s;
+  letter-spacing:.02em;
+}
+.gantt-focus-exit-btn:hover{
+  transform:translate(-1px,-1px);
+  box-shadow:4px 5px 0 rgba(0,0,0,.25);
+}
+.gantt-focus-exit-btn:active{
+  transform:translate(2px,2px);
+  box-shadow:1px 1px 0 rgba(0,0,0,.25);
+}
+.gantt-focus-exit-btn:focus-visible{
+  outline:3px solid rgba(255,255,255,.7);
+  outline-offset:2px;
+}
 </style>
 </head>
 <div class="app">
@@ -3077,6 +3320,885 @@ window.rebuildTaskIdsWithNewPrefix=rebuildTaskIdsWithNewPrefix;
   }
   window.injectTaskIdSection=inject;
 })();
+/* ============================================================
+   v6.16+ Expanded Reports layer
+   Adds 9 new report charts to the Reports view:
+   - Cumulative Flow Diagram (stacked area over time)
+   - Cycle Time (scatter of active-time-to-done per completed task)
+   - Lead Time (scatter of created-to-done per completed task)
+   - Throughput (bars with day/week/month toggle)
+   - Aging WIP (horizontal bars of active tasks colored by age)
+   - WIP by Column (bars per stage with over-limit highlighting)
+   - Blocked Work (table with reason and time-blocked)
+   - Cards by Assignee (horizontal bars per person)
+   - Cards by Priority + Type (dual mini-charts)
+
+   Also tracks task.stageHistory going forward so future CFDs and
+   cycle-time calculations become accurate. History backfills with a
+   single {stageId, at:createdAt} entry when missing; subsequent stage
+   changes get appended on next render. Existing Burndown and Velocity
+   charts are kept; the older Stage Distribution and Type Breakdown are
+   replaced by the richer new charts.
+   ============================================================ */
+(function(){
+  var PRE_ACTIVE=new Set(['icebox','backlog']);
+  var DONE_STAGES=new Set(['done','shipped','invoiced']);
+  function isDone(id){return DONE_STAGES.has(String(id||'').toLowerCase());}
+  function isPreActive(id){return PRE_ACTIVE.has(String(id||'').toLowerCase());}
+  function daysBetween(a,b){
+    if(!a||!b)return null;
+    var da=new Date(a),db=new Date(b);
+    if(isNaN(da)||isNaN(db))return null;
+    return (db-da)/864e5;
+  }
+  function nowIso(){return new Date().toISOString();}
+  /* Stage history normalizer: on every render, ensure every task has a
+     stageHistory array. Backfill missing history with a single entry at
+     createdAt. If the task's current stageId differs from the last
+     recorded history entry, append a new entry (this catches drag-drop
+     moves and any other save path that changes stage). */
+  function ensureStageHistory(task){
+    if(!task)return;
+    if(!Array.isArray(task.stageHistory))task.stageHistory=[];
+    if(task.stageHistory.length===0&&task.stageId){
+      task.stageHistory.push({stageId:task.stageId,at:task.createdAt||nowIso()});
+    }
+    var last=task.stageHistory[task.stageHistory.length-1];
+    if(last&&task.stageId&&last.stageId!==task.stageId){
+      task.stageHistory.push({stageId:task.stageId,at:task.updatedAt||nowIso()});
+    }
+  }
+  if(window.kandooRenderPipeline){
+    window.kandooRenderPipeline.preRender.push(function(){
+      try{
+        (state.projects||[]).forEach(function(proj){
+          (proj.tasks||[]).forEach(ensureStageHistory);
+        });
+      }catch(e){}
+    });
+  }
+  // View switches (tab clicks) only fire the renderView pipeline; without
+  // this, moving from Board to Reports doesn't append pending stage
+  // transitions to history.
+  if(window.kandooRenderViewPipeline){
+    window.kandooRenderViewPipeline.preRender.push(function(){
+      try{
+        (state.projects||[]).forEach(function(proj){
+          (proj.tasks||[]).forEach(ensureStageHistory);
+        });
+      }catch(e){}
+    });
+  }
+  window.ensureStageHistory=ensureStageHistory;
+  /* Returns the task's stage ID on a given date (YYYY-MM-DD). Uses
+     history if present; null if task didn't exist yet on that date. */
+  function stageOnDate(task,dateStr){
+    if(!task)return null;
+    var created=(task.createdAt||'').slice(0,10);
+    if(created&&created>dateStr)return null;
+    var hist=task.stageHistory||[];
+    if(hist.length===0)return task.stageId;
+    var latest=null;
+    for(var i=0;i<hist.length;i++){
+      var at=(hist[i].at||'').slice(0,10);
+      if(at<=dateStr)latest=hist[i].stageId;
+      else break;
+    }
+    return latest||task.stageId;
+  }
+  /* First entry in history where stage is neither pre-active nor done.
+     Falls back to createdAt if the task jumped straight into active. */
+  function firstActiveAt(task){
+    var hist=task.stageHistory||[];
+    for(var i=0;i<hist.length;i++){
+      var s=hist[i].stageId;
+      if(!isPreActive(s)&&!isDone(s))return hist[i].at;
+    }
+    // No active entry recorded; fall back to createdAt if current stage
+    // is already active (task never sat in pre-active).
+    if(!isPreActive(task.stageId)&&!isDone(task.stageId))return task.createdAt;
+    return null;
+  }
+  /* Palette for CFD stacked areas. Cycles through a distinct set of
+     colors that render legibly on both screen and print. Not tied to
+     the theme system since these are semantic (stage-count areas). */
+  var CFD_COLORS=[
+    '#8ecae6','#219ebc','#ffb703','#fb8500','#e63946',
+    '#a8dadc','#457b9d','#f4a261','#2a9d8f','#e76f51'
+  ];
+  /* --------------------------------------------------------------
+     Chart 1: Cumulative Flow Diagram (stacked area over 30 days)
+     -------------------------------------------------------------- */
+  function chartCFD(tasks,stages){
+    if(!tasks.length){
+      return '<div class="chart-card wide"><h3>Cumulative Flow Diagram</h3><div class="chart-empty">No tasks yet. Add some stickies and stage history will start accumulating.</div></div>';
+    }
+    var days=30;
+    var todayD=new Date(today()+'T00:00:00');
+    // Build stage order: pre-active first, active middle, done last (bottom-up in stack)
+    var stageOrder=(stages||[]).map(function(s){return s.id;});
+    // Points: for each day, count tasks in each stage
+    var series=stageOrder.map(function(sid){return {stageId:sid,name:(stages.find(function(s){return s.id===sid;})||{}).name||sid,counts:[]};});
+    var xLabels=[];
+    for(var i=days;i>=0;i--){
+      var dayDate=new Date(todayD.getTime()-i*864e5);
+      var dayStr=dayDate.toISOString().slice(0,10);
+      xLabels.push({str:dayStr,offset:i});
+      var perStage={};
+      stageOrder.forEach(function(sid){perStage[sid]=0;});
+      tasks.forEach(function(t){
+        var s=stageOnDate(t,dayStr);
+        if(s&&perStage.hasOwnProperty(s))perStage[s]++;
+      });
+      series.forEach(function(sr){sr.counts.push(perStage[sr.stageId]||0);});
+    }
+    // Compute totals per day for Y scale
+    var totals=xLabels.map(function(_,idx){
+      return series.reduce(function(a,sr){return a+sr.counts[idx];},0);
+    });
+    var maxY=Math.max.apply(null,totals)||1;
+    var W=700,H=280,pad={l:40,r:110,t:16,b:34};
+    var innerW=W-pad.l-pad.r,innerH=H-pad.t-pad.b;
+    var px=function(i){return pad.l+(i/(xLabels.length-1))*innerW;};
+    var py=function(v){return pad.t+(1-v/maxY)*innerH;};
+    // Build stacked polygons: for each series, area from cumulative below to cumulative including this
+    var cumulative=xLabels.map(function(){return 0;});
+    var areas=series.map(function(sr,seriesIdx){
+      var pointsBelow=cumulative.slice();
+      cumulative=cumulative.map(function(c,i){return c+sr.counts[i];});
+      var top=cumulative.slice();
+      // Polygon: top-forward + bottom-backward
+      var d='M';
+      for(var i=0;i<xLabels.length;i++){d+=px(i)+','+py(top[i])+(i<xLabels.length-1?' L':'');}
+      for(var j=xLabels.length-1;j>=0;j--){d+=' L'+px(j)+','+py(pointsBelow[j]);}
+      d+=' Z';
+      var color=CFD_COLORS[seriesIdx%CFD_COLORS.length];
+      return '<path d="'+d+'" fill="'+color+'" opacity="0.75" stroke="'+color+'" stroke-width="0.5"><title>'+escapeHtml(sr.name)+'</title></path>';
+    }).join('');
+    // Y-axis ticks
+    var ticks=[];
+    var tickCount=Math.min(5,maxY);
+    for(var t=0;t<=tickCount;t++){
+      var v=Math.round(maxY*t/tickCount);
+      ticks.push('<line class="chart-grid-line" x1="'+pad.l+'" y1="'+py(v)+'" x2="'+(pad.l+innerW)+'" y2="'+py(v)+'"/>'+
+                 '<text class="chart-axis-label" x="'+(pad.l-4)+'" y="'+(py(v)+3)+'" text-anchor="end">'+v+'</text>');
+    }
+    // X-axis (every 10 days)
+    var xlabelsHtml=[];
+    for(var d=0;d<xLabels.length;d+=10){
+      xlabelsHtml.push('<text class="chart-axis-label" x="'+px(d)+'" y="'+(H-pad.b+14)+'" text-anchor="middle">-'+xLabels[d].offset+'d</text>');
+    }
+    // Legend
+    var legend='<div class="chart-legend cfd-legend">'+series.map(function(sr,i){
+      return '<span><span class="chart-legend-swatch" style="background:'+CFD_COLORS[i%CFD_COLORS.length]+';opacity:.75"></span>'+escapeHtml(sr.name)+'</span>';
+    }).join('')+'</div>';
+    return '<div class="chart-card wide"><h3>Cumulative Flow Diagram</h3>'+
+      '<svg class="chart-svg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Cumulative flow diagram">'+
+      ticks.join('')+
+      '<line class="chart-axis-line" x1="'+pad.l+'" y1="'+pad.t+'" x2="'+pad.l+'" y2="'+(H-pad.b)+'"/>'+
+      '<line class="chart-axis-line" x1="'+pad.l+'" y1="'+(H-pad.b)+'" x2="'+(pad.l+innerW)+'" y2="'+(H-pad.b)+'"/>'+
+      areas+
+      xlabelsHtml.join('')+
+      '</svg>'+
+      legend+
+      '<p style="color:var(--muted);font-size:12px;margin:6px 0 0">Widening bands indicate work piling up. Look for expanding gaps between stages to find bottlenecks.</p>'+
+      '</div>';
+  }
+  /* --------------------------------------------------------------
+     Chart 2: Cycle Time (scatter of active-time to done)
+     -------------------------------------------------------------- */
+  function chartCycleTime(tasks){
+    var points=tasks.map(function(t){
+      if(!t.completedDate)return null;
+      var active=firstActiveAt(t);
+      if(!active)return null;
+      var days=daysBetween(active,t.completedDate);
+      if(days===null||days<0)return null;
+      return {taskId:t.id,title:t.title,completedDate:t.completedDate.slice(0,10),days:days,taskCode:t.taskId||''};
+    }).filter(Boolean);
+    if(!points.length){
+      return '<div class="chart-card"><h3>Cycle Time</h3><div class="chart-empty">No completed tasks with active-work history yet.</div></div>';
+    }
+    var sortedByDate=points.slice().sort(function(a,b){return a.completedDate<b.completedDate?-1:1;});
+    var minD=sortedByDate[0].completedDate;
+    var maxD=sortedByDate[sortedByDate.length-1].completedDate;
+    var maxY=Math.max.apply(null,points.map(function(p){return p.days;}))||1;
+    // Median line
+    var sortedDays=points.map(function(p){return p.days;}).sort(function(a,b){return a-b;});
+    var median=sortedDays[Math.floor(sortedDays.length/2)];
+    var W=400,H=200,pad={l:35,r:15,t:15,b:30};
+    var innerW=W-pad.l-pad.r,innerH=H-pad.t-pad.b;
+    var minMs=new Date(minD+'T00:00:00').getTime();
+    var maxMs=new Date(maxD+'T00:00:00').getTime();
+    var range=Math.max(1,maxMs-minMs);
+    var px=function(dateStr){return pad.l+((new Date(dateStr+'T00:00:00').getTime()-minMs)/range)*innerW;};
+    var py=function(v){return pad.t+(1-v/maxY)*innerH;};
+    var dots=points.map(function(p){
+      var color=p.days<=3?'#2a9d8f':p.days<=7?'#e9c46a':p.days<=14?'#f4a261':'#e63946';
+      return '<circle cx="'+px(p.completedDate)+'" cy="'+py(p.days)+'" r="4" fill="'+color+'" stroke="rgba(0,0,0,0.3)" stroke-width="0.5"><title>'+(p.taskCode?p.taskCode+': ':'')+escapeHtml(p.title)+' ('+p.days.toFixed(1)+'d)</title></circle>';
+    }).join('');
+    var medianY=py(median);
+    return '<div class="chart-card"><h3>Cycle Time</h3>'+
+      '<svg class="chart-svg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Cycle time scatter">'+
+      '<line class="chart-axis-line" x1="'+pad.l+'" y1="'+pad.t+'" x2="'+pad.l+'" y2="'+(H-pad.b)+'"/>'+
+      '<line class="chart-axis-line" x1="'+pad.l+'" y1="'+(H-pad.b)+'" x2="'+(pad.l+innerW)+'" y2="'+(H-pad.b)+'"/>'+
+      '<line x1="'+pad.l+'" y1="'+medianY+'" x2="'+(pad.l+innerW)+'" y2="'+medianY+'" stroke="#c33" stroke-dasharray="4 3" stroke-width="1"/>'+
+      '<text class="chart-axis-label" x="'+(pad.l+innerW-4)+'" y="'+(medianY-4)+'" text-anchor="end" fill="#c33">median '+median.toFixed(1)+'d</text>'+
+      '<text class="chart-axis-label" x="'+(pad.l-4)+'" y="'+py(maxY)+'" text-anchor="end">'+Math.round(maxY)+'d</text>'+
+      '<text class="chart-axis-label" x="'+(pad.l-4)+'" y="'+(H-pad.b)+'" text-anchor="end">0d</text>'+
+      dots+
+      '</svg>'+
+      '<p style="color:var(--muted);font-size:12px;margin:6px 0 0">'+points.length+' completed tasks · median '+median.toFixed(1)+' days from first active work to done</p>'+
+      '</div>';
+  }
+  /* --------------------------------------------------------------
+     Chart 3: Lead Time (scatter of created-to-done)
+     -------------------------------------------------------------- */
+  function chartLeadTime(tasks){
+    var points=tasks.map(function(t){
+      if(!t.completedDate||!t.createdAt)return null;
+      var days=daysBetween(t.createdAt,t.completedDate);
+      if(days===null||days<0)return null;
+      return {taskId:t.id,title:t.title,completedDate:t.completedDate.slice(0,10),days:days,taskCode:t.taskId||''};
+    }).filter(Boolean);
+    if(!points.length){
+      return '<div class="chart-card"><h3>Lead Time</h3><div class="chart-empty">No completed tasks yet.</div></div>';
+    }
+    var sortedByDate=points.slice().sort(function(a,b){return a.completedDate<b.completedDate?-1:1;});
+    var minD=sortedByDate[0].completedDate;
+    var maxD=sortedByDate[sortedByDate.length-1].completedDate;
+    var maxY=Math.max.apply(null,points.map(function(p){return p.days;}))||1;
+    var sortedDays=points.map(function(p){return p.days;}).sort(function(a,b){return a-b;});
+    var median=sortedDays[Math.floor(sortedDays.length/2)];
+    var W=400,H=200,pad={l:35,r:15,t:15,b:30};
+    var innerW=W-pad.l-pad.r,innerH=H-pad.t-pad.b;
+    var minMs=new Date(minD+'T00:00:00').getTime();
+    var maxMs=new Date(maxD+'T00:00:00').getTime();
+    var range=Math.max(1,maxMs-minMs);
+    var px=function(dateStr){return pad.l+((new Date(dateStr+'T00:00:00').getTime()-minMs)/range)*innerW;};
+    var py=function(v){return pad.t+(1-v/maxY)*innerH;};
+    var dots=points.map(function(p){
+      var color=p.days<=7?'#2a9d8f':p.days<=21?'#e9c46a':p.days<=45?'#f4a261':'#e63946';
+      return '<circle cx="'+px(p.completedDate)+'" cy="'+py(p.days)+'" r="4" fill="'+color+'" stroke="rgba(0,0,0,0.3)" stroke-width="0.5"><title>'+(p.taskCode?p.taskCode+': ':'')+escapeHtml(p.title)+' ('+p.days.toFixed(1)+'d)</title></circle>';
+    }).join('');
+    var medianY=py(median);
+    return '<div class="chart-card"><h3>Lead Time</h3>'+
+      '<svg class="chart-svg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Lead time scatter">'+
+      '<line class="chart-axis-line" x1="'+pad.l+'" y1="'+pad.t+'" x2="'+pad.l+'" y2="'+(H-pad.b)+'"/>'+
+      '<line class="chart-axis-line" x1="'+pad.l+'" y1="'+(H-pad.b)+'" x2="'+(pad.l+innerW)+'" y2="'+(H-pad.b)+'"/>'+
+      '<line x1="'+pad.l+'" y1="'+medianY+'" x2="'+(pad.l+innerW)+'" y2="'+medianY+'" stroke="#c33" stroke-dasharray="4 3" stroke-width="1"/>'+
+      '<text class="chart-axis-label" x="'+(pad.l+innerW-4)+'" y="'+(medianY-4)+'" text-anchor="end" fill="#c33">median '+median.toFixed(1)+'d</text>'+
+      '<text class="chart-axis-label" x="'+(pad.l-4)+'" y="'+py(maxY)+'" text-anchor="end">'+Math.round(maxY)+'d</text>'+
+      '<text class="chart-axis-label" x="'+(pad.l-4)+'" y="'+(H-pad.b)+'" text-anchor="end">0d</text>'+
+      dots+
+      '</svg>'+
+      '<p style="color:var(--muted);font-size:12px;margin:6px 0 0">'+points.length+' completed tasks · median '+median.toFixed(1)+' days from request to done</p>'+
+      '</div>';
+  }
+  /* --------------------------------------------------------------
+     Chart 4: Throughput (day/week/month toggle)
+     -------------------------------------------------------------- */
+  function chartThroughput(tasks){
+    var period=localStorage.getItem('kandoo-throughput-period')||'week';
+    var bucketCount=period==='day'?14:period==='week'?8:6;
+    var bucketDays=period==='day'?1:period==='week'?7:30;
+    var todayD=new Date(today()+'T00:00:00');
+    var buckets=[];
+    for(var i=bucketCount-1;i>=0;i--){
+      var end=new Date(todayD.getTime()-(i*bucketDays)*864e5);
+      var start=new Date(end.getTime()-bucketDays*864e5);
+      buckets.push({start:start.toISOString().slice(0,10),end:end.toISOString().slice(0,10),count:0});
+    }
+    tasks.forEach(function(t){
+      var dd=(t.completedDate||'').slice(0,10);
+      if(!dd)return;
+      for(var i=0;i<buckets.length;i++){
+        if(dd>=buckets[i].start&&dd<=buckets[i].end){buckets[i].count++;break;}
+      }
+    });
+    var total=buckets.reduce(function(a,b){return a+b.count;},0);
+    var avg=(total/bucketCount).toFixed(1);
+    // Segmented control (uses global click delegation below to react)
+    var segments=['day','week','month'].map(function(p){
+      return '<button type="button" class="chart-segment-btn'+(p===period?' active':'')+'" data-throughput="'+p+'">'+p+'</button>';
+    }).join('');
+    if(total===0){
+      return '<div class="chart-card"><h3>Throughput</h3>'+
+        '<div class="chart-segment-row">'+segments+'</div>'+
+        '<div class="chart-empty">No completed tasks in this period.</div>'+
+        '</div>';
+    }
+    var maxV=Math.max.apply(null,buckets.map(function(b){return b.count;}))||1;
+    var W=400,H=180,pad={l:30,r:15,t:15,b:35};
+    var bw=(W-pad.l-pad.r)/buckets.length;
+    var bars=buckets.map(function(b,i){
+      var x=pad.l+i*bw+4;
+      var bWidth=bw-8;
+      var bHeight=(b.count/maxV)*(H-pad.t-pad.b);
+      var y=H-pad.b-bHeight;
+      var labelDate=period==='day'?b.end.slice(5):period==='week'?b.start.slice(5):b.start.slice(0,7);
+      return '<rect class="chart-bar" x="'+x+'" y="'+y+'" width="'+bWidth+'" height="'+bHeight+'" rx="2"><title>'+b.count+' completed '+b.start+' to '+b.end+'</title></rect>'+
+             (b.count>0?'<text class="chart-bar-label" x="'+(x+bWidth/2)+'" y="'+(y-3)+'">'+b.count+'</text>':'')+
+             '<text class="chart-axis-label" x="'+(x+bWidth/2)+'" y="'+(H-pad.b+14)+'" text-anchor="middle">'+labelDate+'</text>';
+    }).join('');
+    return '<div class="chart-card"><h3>Throughput</h3>'+
+      '<div class="chart-segment-row">'+segments+'</div>'+
+      '<svg class="chart-svg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Throughput bar chart">'+
+      '<line class="chart-axis-line" x1="'+pad.l+'" y1="'+(H-pad.b)+'" x2="'+(W-pad.r)+'" y2="'+(H-pad.b)+'"/>'+
+      '<line class="chart-axis-line" x1="'+pad.l+'" y1="'+pad.t+'" x2="'+pad.l+'" y2="'+(H-pad.b)+'"/>'+
+      bars+
+      '</svg>'+
+      '<p style="color:var(--muted);font-size:12px;margin:6px 0 0">'+total+' completed · avg '+avg+' per '+period+'</p>'+
+      '</div>';
+  }
+  /* --------------------------------------------------------------
+     Chart 5: Aging WIP (active tasks colored by age)
+     -------------------------------------------------------------- */
+  function chartAgingWIP(tasks){
+    var todayMs=Date.now();
+    var active=tasks.filter(function(t){return !isDone(t.stageId);}).map(function(t){
+      // Age = time since entering current stage (or createdAt if history missing)
+      var stageEntry=(t.stageHistory||[]).slice().reverse().find(function(h){return h.stageId===t.stageId;});
+      var since=stageEntry?stageEntry.at:t.createdAt;
+      var days=since?Math.floor((todayMs-new Date(since).getTime())/864e5):0;
+      return {taskId:t.id,title:t.title,taskCode:t.taskId||'',days:days,stage:t.stageId};
+    }).filter(function(x){return x.days>=1;}).sort(function(a,b){return b.days-a.days;}).slice(0,15);
+    if(!active.length){
+      return '<div class="chart-card"><h3>Aging WIP</h3><div class="chart-empty">No active tasks aging in place. Fresh flow.</div></div>';
+    }
+    var maxD=Math.max.apply(null,active.map(function(a){return a.days;}))||1;
+    var W=500,H=Math.max(160,active.length*24+30);
+    var pad={l:170,r:35,t:8,b:20};
+    var rowH=(H-pad.t-pad.b)/active.length;
+    var bars=active.map(function(a,i){
+      var y=pad.t+i*rowH+rowH*0.15;
+      var bH=rowH*0.7;
+      var bW=(a.days/maxD)*(W-pad.l-pad.r);
+      var color=a.days<=7?'#2a9d8f':a.days<=14?'#e9c46a':a.days<=30?'#f4a261':'#e63946';
+      var label=(a.taskCode?a.taskCode+' ':'')+a.title;
+      if(label.length>22)label=label.slice(0,21)+'…';
+      return '<text class="chart-axis-label" x="'+(pad.l-6)+'" y="'+(y+bH/2+4)+'" text-anchor="end">'+escapeHtml(label)+'</text>'+
+             '<rect x="'+pad.l+'" y="'+y+'" width="'+bW+'" height="'+bH+'" rx="2" fill="'+color+'" opacity="0.85"><title>'+escapeHtml(a.title)+' - '+a.days+' days in '+a.stage+'</title></rect>'+
+             '<text class="chart-bar-label" x="'+(pad.l+bW+6)+'" y="'+(y+bH/2+4)+'" text-anchor="start">'+a.days+'d</text>';
+    }).join('');
+    return '<div class="chart-card wide"><h3>Aging WIP</h3>'+
+      '<svg class="chart-svg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Aging WIP chart">'+
+      bars+
+      '</svg>'+
+      '<p style="color:var(--muted);font-size:12px;margin:6px 0 0">Top '+active.length+' oldest active tasks. Green: fresh, red: '+String.fromCharCode(62)+'30 days.</p>'+
+      '</div>';
+  }
+  /* --------------------------------------------------------------
+     Chart 6: WIP by Column (bars with over-limit highlighting)
+     -------------------------------------------------------------- */
+  function chartWIPByColumn(tasks,stages,stageRules){
+    var byStage=stages.map(function(s){
+      var count=tasks.filter(function(t){return t.stageId===s.id;}).length;
+      var limit=stageRules&&stageRules[s.id]?Number(stageRules[s.id].wipLimit)||0:0;
+      return {id:s.id,name:s.name,count:count,limit:limit,over:limit>0&&count>limit};
+    }).filter(function(r){return r.count>0||r.limit>0;});
+    if(!byStage.length){
+      return '<div class="chart-card"><h3>WIP by Column</h3><div class="chart-empty">No tasks in any stage yet.</div></div>';
+    }
+    var maxC=Math.max.apply(null,byStage.map(function(r){return Math.max(r.count,r.limit);}))||1;
+    var W=500,H=220,pad={l:35,r:15,t:15,b:60};
+    var bw=(W-pad.l-pad.r)/byStage.length;
+    var bars=byStage.map(function(r,i){
+      var x=pad.l+i*bw+6;
+      var bWidth=bw-12;
+      var bHeight=(r.count/maxC)*(H-pad.t-pad.b);
+      var y=H-pad.b-bHeight;
+      var fill=r.over?'#e63946':'#457b9d';
+      var limitLine='';
+      if(r.limit>0){
+        var limitY=H-pad.b-(r.limit/maxC)*(H-pad.t-pad.b);
+        limitLine='<line x1="'+(x-3)+'" y1="'+limitY+'" x2="'+(x+bWidth+3)+'" y2="'+limitY+'" stroke="#c33" stroke-dasharray="3 3" stroke-width="1.5"/>'+
+                  '<text class="chart-axis-label" x="'+(x+bWidth/2)+'" y="'+(limitY-4)+'" text-anchor="middle" fill="#c33" font-size="9">WIP '+r.limit+'</text>';
+      }
+      var stageLabel=escapeHtml(r.name);
+      if(stageLabel.length>10)stageLabel=stageLabel.slice(0,9)+'…';
+      return '<rect x="'+x+'" y="'+y+'" width="'+bWidth+'" height="'+bHeight+'" rx="2" fill="'+fill+'" opacity="0.85"><title>'+escapeHtml(r.name)+': '+r.count+' tasks'+(r.limit?' (limit '+r.limit+')':'')+'</title></rect>'+
+             '<text class="chart-bar-label" x="'+(x+bWidth/2)+'" y="'+(y-4)+'">'+r.count+'</text>'+
+             limitLine+
+             '<text class="chart-axis-label" x="'+(x+bWidth/2)+'" y="'+(H-pad.b+14)+'" text-anchor="middle" transform="rotate(-25 '+(x+bWidth/2)+' '+(H-pad.b+14)+')">'+stageLabel+'</text>';
+    }).join('');
+    var overCount=byStage.filter(function(r){return r.over;}).length;
+    return '<div class="chart-card wide"><h3>WIP by Column</h3>'+
+      '<svg class="chart-svg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" role="img" aria-label="WIP by column">'+
+      '<line class="chart-axis-line" x1="'+pad.l+'" y1="'+(H-pad.b)+'" x2="'+(W-pad.r)+'" y2="'+(H-pad.b)+'"/>'+
+      '<line class="chart-axis-line" x1="'+pad.l+'" y1="'+pad.t+'" x2="'+pad.l+'" y2="'+(H-pad.b)+'"/>'+
+      bars+
+      '</svg>'+
+      (overCount>0?'<p style="color:#c33;font-size:12px;margin:6px 0 0;font-weight:700">'+overCount+' stage'+(overCount>1?'s':'')+' over WIP limit</p>':'<p style="color:var(--muted);font-size:12px;margin:6px 0 0">All stages within WIP limits.</p>')+
+      '</div>';
+  }
+  /* --------------------------------------------------------------
+     Chart 7: Blocked Work (table with reason and time-blocked)
+     -------------------------------------------------------------- */
+  function chartBlockedWork(tasks){
+    var todayMs=Date.now();
+    var blocked=tasks.filter(function(t){return t.blocked;}).map(function(t){
+      var since=t.updatedAt||t.createdAt;
+      var days=since?Math.floor((todayMs-new Date(since).getTime())/864e5):0;
+      return {taskId:t.id,title:t.title,taskCode:t.taskId||'',reason:t.blockingReason||'(no reason given)',assignee:t.responsible||'Unassigned',days:days};
+    }).sort(function(a,b){return b.days-a.days;});
+    if(!blocked.length){
+      return '<div class="chart-card wide"><h3>Blocked Work</h3><div class="chart-empty">Nothing is currently blocked.</div></div>';
+    }
+    var rows=blocked.map(function(b){
+      var color=b.days<=3?'#2a9d8f':b.days<=7?'#e9c46a':b.days<=14?'#f4a261':'#e63946';
+      return '<tr>'+
+        '<td style="font-family:JetBrains Mono,monospace;font-size:11px;color:var(--muted)">'+escapeHtml(b.taskCode||'-')+'</td>'+
+        '<td style="font-weight:700">'+escapeHtml(b.title)+'</td>'+
+        '<td>'+escapeHtml(b.reason)+'</td>'+
+        '<td>'+escapeHtml(b.assignee)+'</td>'+
+        '<td style="text-align:right"><span style="color:'+color+';font-weight:700">'+b.days+'d</span></td>'+
+        '</tr>';
+    }).join('');
+    return '<div class="chart-card wide"><h3>Blocked Work</h3>'+
+      '<table class="blocked-table"><thead><tr>'+
+        '<th style="width:70px">ID</th><th>Task</th><th>Reason</th><th>Assignee</th><th style="text-align:right;width:70px">Blocked</th>'+
+      '</tr></thead><tbody>'+rows+'</tbody></table>'+
+      '<p style="color:var(--muted);font-size:12px;margin:6px 0 0">'+blocked.length+' blocked task'+(blocked.length>1?'s':'')+' - clear these to unblock flow.</p>'+
+      '</div>';
+  }
+  /* --------------------------------------------------------------
+     Chart 8: Cards by Assignee (horizontal bars per person)
+     -------------------------------------------------------------- */
+  function chartCardsByAssignee(tasks){
+    var byPerson={};
+    tasks.forEach(function(t){
+      if(isDone(t.stageId))return;
+      var name=(t.responsible||'').trim()||'Unassigned';
+      byPerson[name]=(byPerson[name]||0)+1;
+    });
+    var rows=Object.entries(byPerson).map(function(e){return {name:e[0],count:e[1]};}).sort(function(a,b){return b.count-a.count;});
+    if(!rows.length){
+      return '<div class="chart-card"><h3>Cards by Assignee</h3><div class="chart-empty">No active tasks to distribute.</div></div>';
+    }
+    var maxC=Math.max.apply(null,rows.map(function(r){return r.count;}));
+    var W=440,H=Math.max(160,rows.length*28+30);
+    var pad={l:130,r:35,t:8,b:15};
+    var rowH=(H-pad.t-pad.b)/rows.length;
+    var bars=rows.map(function(r,i){
+      var y=pad.t+i*rowH+rowH*0.15;
+      var bH=rowH*0.7;
+      var bW=(r.count/maxC)*(W-pad.l-pad.r);
+      var isUnassigned=r.name==='Unassigned';
+      var color=isUnassigned?'#adb5bd':'#457b9d';
+      var label=r.name;
+      if(label.length>16)label=label.slice(0,15)+'…';
+      return '<text class="chart-axis-label" x="'+(pad.l-6)+'" y="'+(y+bH/2+4)+'" text-anchor="end"'+(isUnassigned?' font-style="italic"':'')+'>'+escapeHtml(label)+'</text>'+
+             '<rect x="'+pad.l+'" y="'+y+'" width="'+bW+'" height="'+bH+'" rx="2" fill="'+color+'" opacity="0.85"><title>'+escapeHtml(r.name)+': '+r.count+' active tasks</title></rect>'+
+             '<text class="chart-bar-label" x="'+(pad.l+bW+8)+'" y="'+(y+bH/2+4)+'" text-anchor="start">'+r.count+'</text>';
+    }).join('');
+    return '<div class="chart-card"><h3>Cards by Assignee</h3>'+
+      '<svg class="chart-svg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Cards by assignee">'+
+      bars+
+      '</svg>'+
+      '<p style="color:var(--muted);font-size:12px;margin:6px 0 0">Active workload across '+rows.length+' assignees.</p>'+
+      '</div>';
+  }
+  /* --------------------------------------------------------------
+     Chart 9: Cards by Priority + Type (dual mini-chart)
+     -------------------------------------------------------------- */
+  function chartCardsByPriorityAndType(tasks){
+    var priorityOrder=['Critical','Urgent','High','Medium','Low'];
+    var priorityColors={Critical:'#e63946',Urgent:'#fb8500',High:'#e9c46a',Medium:'#457b9d',Low:'#8ecae6'};
+    var typeOrder=['Bug','Feature Request','General'];
+    var typeColors={'Bug':'#e63946','Feature Request':'#219ebc','General':'#2a9d8f'};
+    var byPriority={};priorityOrder.forEach(function(p){byPriority[p]=0;});
+    var byType={};typeOrder.forEach(function(p){byType[p]=0;});
+    tasks.forEach(function(t){
+      var pri=t.priority||'Medium';
+      if(byPriority.hasOwnProperty(pri))byPriority[pri]++;
+      var typ=t.type||'General';
+      if(byType.hasOwnProperty(typ))byType[typ]++;
+    });
+    var priRows=priorityOrder.map(function(p){return {label:p,count:byPriority[p],color:priorityColors[p]};}).filter(function(r){return r.count>0;});
+    var typRows=typeOrder.map(function(p){return {label:p,count:byType[p],color:typeColors[p]};}).filter(function(r){return r.count>0;});
+    function renderBars(rows,title){
+      if(!rows.length)return '<div><h4 style="font-size:13px;margin:0 0 6px;color:var(--muted)">'+title+'</h4><div class="chart-empty" style="padding:12px">No data</div></div>';
+      var maxC=Math.max.apply(null,rows.map(function(r){return r.count;}));
+      var W=260,H=Math.max(140,rows.length*24+20);
+      var pad={l:110,r:30,t:5,b:10};
+      var rowH=(H-pad.t-pad.b)/rows.length;
+      var bars=rows.map(function(r,i){
+        var y=pad.t+i*rowH+rowH*0.15;
+        var bH=rowH*0.7;
+        var bW=(r.count/maxC)*(W-pad.l-pad.r);
+        return '<text class="chart-axis-label" x="'+(pad.l-6)+'" y="'+(y+bH/2+4)+'" text-anchor="end">'+escapeHtml(r.label)+'</text>'+
+               '<rect x="'+pad.l+'" y="'+y+'" width="'+bW+'" height="'+bH+'" rx="2" fill="'+r.color+'" opacity="0.85"><title>'+escapeHtml(r.label)+': '+r.count+'</title></rect>'+
+               '<text class="chart-bar-label" x="'+(pad.l+bW+6)+'" y="'+(y+bH/2+4)+'" text-anchor="start">'+r.count+'</text>';
+      }).join('');
+      return '<div><h4 style="font-size:13px;margin:0 0 6px;color:var(--muted)">'+title+'</h4>'+
+        '<svg class="chart-svg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" role="img" aria-label="'+title+'">'+bars+'</svg>'+
+        '</div>';
+    }
+    return '<div class="chart-card wide"><h3>Cards by Priority + Type</h3>'+
+      '<div class="priority-type-grid">'+renderBars(priRows,'Priority')+renderBars(typRows,'Type')+'</div>'+
+      '</div>';
+  }
+  /* --------------------------------------------------------------
+     Override renderReports with organized sections
+     -------------------------------------------------------------- */
+  var _prevRenderReports=window.renderReports;
+  window.renderReports=function(root){
+    var p=project(),tasks=p.tasks||[];
+    var stages=p.workflowStages||[];
+    var stageRules=p.stageRules||{};
+    // Headline stats (kept)
+    var done=tasks.filter(function(t){return isDone(t.stageId);}).length;
+    var pct=tasks.length?Math.round(done/tasks.length*100):0;
+    var hoursEst=tasks.reduce(function(a,t){return a+(Number(t.estimateHours)||0);},0);
+    var hoursAct=tasks.reduce(function(a,t){return a+(Number(t.actualHours)||0);},0);
+    var totalCost=tasks.reduce(function(a,t){return a+taskAmount(t);},0);
+    var materialsTotal=tasks.reduce(function(a,t){return a+taskMaterialsCost(t);},0);
+    // Extra headline stats
+    var leadTimes=tasks.filter(function(t){return t.completedDate&&t.createdAt;}).map(function(t){return daysBetween(t.createdAt,t.completedDate);}).filter(function(x){return x!==null&&x>=0;});
+    var avgLead=leadTimes.length?(leadTimes.reduce(function(a,b){return a+b;},0)/leadTimes.length).toFixed(1):'-';
+    var blockedCount=tasks.filter(function(t){return t.blocked;}).length;
+    var page=document.createElement('div');page.className='page';
+    page.innerHTML='<h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Project Reports <span class="version">'+VERSION+'</span></h2>'+
+      '<div class="cards">'+
+        '<div class="stat"><b>'+pct+'%</b>Complete</div>'+
+        '<div class="stat"><b>'+done+'/'+tasks.length+'</b>Done / total</div>'+
+        '<div class="stat"><b>'+avgLead+(avgLead!=='-'?'d':'')+'</b>Avg lead time</div>'+
+        '<div class="stat"><b>'+blockedCount+'</b>Blocked now</div>'+
+        '<div class="stat"><b>'+hoursAct+'/'+hoursEst+'</b>Hours act/est</div>'+
+        '<div class="stat"><b>'+money(totalCost)+'</b>Billable</div>'+
+      '</div>'+
+      '<h3 class="report-section-heading">Flow over time</h3>'+
+      '<div class="report-grid">'+
+        reportChartBurndown(tasks)+
+        reportChartVelocity(tasks)+
+        chartThroughput(tasks)+
+        chartCFD(tasks,stages)+
+      '</div>'+
+      '<h3 class="report-section-heading">Delivery timing</h3>'+
+      '<div class="report-grid">'+
+        chartCycleTime(tasks)+
+        chartLeadTime(tasks)+
+      '</div>'+
+      '<h3 class="report-section-heading">Current state</h3>'+
+      '<div class="report-grid">'+
+        chartWIPByColumn(tasks,stages,stageRules)+
+        chartAgingWIP(tasks)+
+        chartBlockedWork(tasks)+
+      '</div>'+
+      '<h3 class="report-section-heading">Distribution</h3>'+
+      '<div class="report-grid">'+
+        chartCardsByAssignee(tasks)+
+        chartCardsByPriorityAndType(tasks)+
+      '</div>';
+    root.appendChild(page);
+  };
+  // Delegated click handler for throughput period toggle. Persists to
+  // localStorage and re-renders the Reports view so the chart refreshes.
+  document.addEventListener('click',function(e){
+    var btn=e.target.closest('[data-throughput]');
+    if(!btn)return;
+    localStorage.setItem('kandoo-throughput-period',btn.dataset.throughput);
+    if(typeof renderView==='function')renderView();
+  });
+  // Expose for tests and potential external use
+  window.chartCFD=chartCFD;
+  window.chartCycleTime=chartCycleTime;
+  window.chartLeadTime=chartLeadTime;
+  window.chartThroughput=chartThroughput;
+  window.chartAgingWIP=chartAgingWIP;
+  window.chartWIPByColumn=chartWIPByColumn;
+  window.chartBlockedWork=chartBlockedWork;
+  window.chartCardsByAssignee=chartCardsByAssignee;
+  window.chartCardsByPriorityAndType=chartCardsByPriorityAndType;
+})();
+/* v6.16+ Chart fullscreen + Report export layer
+   After the Reports view renders, walk every .chart-card and inject a
+   maximize button in the top-right. Clicking opens the chart in a
+   fullscreen overlay so you can inspect the SVG or table at readable
+   scale. Also injects a toolbar above the report grid with Export HTML
+   and Export PDF buttons. */
+(function(){
+  var overlay=null;
+  function closeOverlay(){
+    if(overlay){overlay.classList.remove('open');}
+  }
+  function openOverlay(card){
+    if(!overlay){
+      overlay=document.createElement('div');
+      overlay.className='chart-fullscreen-overlay';
+      overlay.setAttribute('role','dialog');
+      overlay.setAttribute('aria-label','Chart fullscreen view');
+      overlay.innerHTML='<div class="chart-fullscreen-inner">'+
+        '<div class="chart-fullscreen-head">'+
+          '<h3></h3>'+
+          '<button type="button" class="iconbtn" aria-label="Close fullscreen chart">✕</button>'+
+        '</div>'+
+        '<div class="chart-fullscreen-body"></div>'+
+        '</div>';
+      document.body.appendChild(overlay);
+      overlay.addEventListener('click',function(e){
+        if(e.target===overlay||e.target.closest('.chart-fullscreen-head .iconbtn'))closeOverlay();
+      });
+    }
+    var title=card.querySelector('h3')?.textContent||'Chart';
+    overlay.querySelector('.chart-fullscreen-head h3').textContent=title;
+    // Clone everything except the fullscreen button itself
+    var body=overlay.querySelector('.chart-fullscreen-body');
+    body.innerHTML='';
+    [...card.children].forEach(function(child){
+      if(child.classList&&(child.classList.contains('chart-fullscreen-btn')||child.tagName==='H3'))return;
+      body.appendChild(child.cloneNode(true));
+    });
+    overlay.classList.add('open');
+    var closeBtn=overlay.querySelector('.chart-fullscreen-head .iconbtn');
+    if(closeBtn)closeBtn.focus();
+  }
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&overlay&&overlay.classList.contains('open')){closeOverlay();}
+  });
+  function decorate(){
+    // Only in reports view; check if we're rendering reports
+    var page=document.querySelector('.page');
+    if(!page)return;
+    var h2=page.querySelector('h2');
+    if(!h2||!/Project Reports/i.test(h2.textContent||''))return;
+    // Inject export toolbar just after the h2 (once)
+    if(!page.querySelector('.report-export-toolbar')){
+      var toolbar=document.createElement('div');
+      toolbar.className='report-export-toolbar';
+      toolbar.innerHTML=
+        '<span class="report-export-toolbar-label">Export:</span>'+
+        '<button type="button" class="btn small" id="reportsExportHtml">📄 HTML</button>'+
+        '<button type="button" class="btn small primary" id="reportsExportPdf">🖨 PDF</button>';
+      // Insert after the h2 (before any headline stats)
+      h2.insertAdjacentElement('afterend',toolbar);
+      toolbar.querySelector('#reportsExportHtml').addEventListener('click',exportReportsHtml);
+      toolbar.querySelector('#reportsExportPdf').addEventListener('click',exportReportsPdf);
+    }
+    // Add fullscreen button to every chart card
+    document.querySelectorAll('.chart-card').forEach(function(card){
+      if(card.querySelector('.chart-fullscreen-btn'))return;
+      var btn=document.createElement('button');
+      btn.type='button';
+      btn.className='chart-fullscreen-btn';
+      btn.setAttribute('aria-label','Open chart in fullscreen');
+      btn.setAttribute('title','Fullscreen');
+      btn.innerHTML='⛶';
+      btn.addEventListener('click',function(e){
+        e.stopPropagation();
+        openOverlay(card);
+      });
+      card.appendChild(btn);
+    });
+  }
+  /* Export the current Reports view as a standalone HTML file. Inlines
+     the essential styles so the file renders identically outside the
+     app. Uses the exact same DOM as what the user sees, minus the
+     fullscreen buttons and the export toolbar itself. */
+  function exportReportsHtml(){
+    var proj=(typeof project==='function')?project():null;
+    var name=proj?proj.name:'Kandoo';
+    var page=document.querySelector('.page');
+    if(!page)return;
+    // Clone and strip UI-only elements
+    var clone=page.cloneNode(true);
+    clone.querySelectorAll('.chart-fullscreen-btn').forEach(function(el){el.remove();});
+    clone.querySelectorAll('.report-export-toolbar').forEach(function(el){el.remove();});
+    clone.querySelectorAll('.chart-segment-row').forEach(function(el){el.remove();});
+    // Gather essential inline CSS by pulling relevant rules from the
+    // document's stylesheets. Rather than trying to enumerate them, we
+    // include a hand-picked minimal set that covers the report chrome.
+    var css=[
+      'body{font-family:Trebuchet MS,system-ui,sans-serif;background:#fffaf0;color:#2c2a25;margin:24px;line-height:1.5}',
+      'h2{font-family:cursive;font-size:32px;margin:0 0 12px}',
+      'h3{font-family:cursive;font-size:22px;margin:20px 0 10px;padding-bottom:4px;border-bottom:2px dashed #ccc}',
+      'h4{font-size:13px;margin:0 0 6px;color:#666}',
+      '.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}',
+      '.stat{background:rgba(255,255,255,.7);border:2px dashed #ccc;border-radius:14px;padding:12px;box-shadow:3px 4px 0 rgba(0,0,0,.1)}',
+      '.stat b{display:block;font-size:26px;font-family:cursive}',
+      '.report-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:16px}',
+      '.chart-card{background:#fff;border:2px solid #ccc;border-radius:14px;padding:14px;box-shadow:3px 4px 0 rgba(0,0,0,.1);break-inside:avoid;position:relative}',
+      '.chart-card.wide{grid-column:1/-1}',
+      '.chart-card h3{font-family:cursive;font-size:20px;margin:0 0 8px;border:none;padding:0}',
+      '.chart-svg{width:100%;height:auto;max-width:100%}',
+      '.chart-axis-line{stroke:#333;stroke-width:1}',
+      '.chart-grid-line{stroke:#ddd;stroke-width:0.5}',
+      '.chart-axis-label{font-size:10px;fill:#555}',
+      '.chart-bar-label{font-size:11px;fill:#333;text-anchor:middle;font-weight:700}',
+      '.chart-bar{fill:#457b9d}',
+      '.chart-line-actual{stroke:#c33;stroke-width:2;fill:none}',
+      '.chart-line-ideal{stroke:#999;stroke-width:1;stroke-dasharray:4 3;fill:none}',
+      '.chart-area-actual{fill:rgba(204,51,51,.15)}',
+      '.chart-legend{display:flex;gap:12px;font-size:11px;color:#555;margin-top:8px;flex-wrap:wrap}',
+      '.chart-legend-swatch{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:4px;vertical-align:middle}',
+      '.chart-legend-swatch.ideal{background:#999}',
+      '.chart-legend-swatch.actual{background:rgba(204,51,51,.5)}',
+      '.chart-empty{padding:24px;text-align:center;color:#888;border:2px dashed #ccc;border-radius:12px}',
+      '.blocked-table{width:100%;border-collapse:collapse;font-size:13px}',
+      '.blocked-table th{text-align:left;padding:8px 6px;color:#555;font-size:11px;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #ccc}',
+      '.blocked-table td{padding:8px 6px;border-bottom:1px dashed #ccc}',
+      '.priority-type-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}',
+      '.cfd-legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:8px;font-size:11px;color:#555}',
+      '.report-section-heading{font-family:cursive;font-size:22px;margin:20px 0 10px;padding-bottom:4px;border-bottom:2px dashed #ccc}',
+      '.report-export-header{border-bottom:2px solid #333;padding-bottom:10px;margin-bottom:16px}',
+      '.report-export-header p{color:#666;margin:2px 0;font-size:13px}',
+      '@media print{.chart-card{break-inside:avoid;page-break-inside:avoid}}'
+    ].join('');
+    var stamp=new Date().toLocaleString();
+    var html='<!doctype html><html><head><meta charset="utf-8"><title>'+
+      escapeHtml(name)+' Reports</title><style>'+css+'</style></head><body>'+
+      '<div class="report-export-header">'+
+        '<h2 style="margin:0">'+escapeHtml(name)+' - Project Reports</h2>'+
+        '<p>Exported '+escapeHtml(stamp)+' from Kandoo '+VERSION+'</p>'+
+      '</div>'+
+      clone.innerHTML+
+      '</body></html>';
+    var blob=new Blob([html],{type:'text/html'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download=slug(name)+'-reports-'+new Date().toISOString().slice(0,10)+'.html';
+    a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href);},1000);
+    if(typeof showToast==='function')showToast('Reports exported as HTML');
+  }
+  /* Export the current Reports view as PDF via print dialog. The
+     existing v6.16+ print stylesheet already handles chart rendering,
+     page sizing, and header injection, so we just trigger print. */
+  function exportReportsPdf(){
+    window.print();
+  }
+  if(window.kandooRenderPipeline){
+    window.kandooRenderPipeline.postRenderAsync.push(decorate);
+  }
+  if(window.kandooRenderViewPipeline){
+    window.kandooRenderViewPipeline.postRenderAsync.push(decorate);
+  }
+  window.decorateReportsChartCards=decorate;
+  window.exportReportsHtml=exportReportsHtml;
+  window.exportReportsPdf=exportReportsPdf;
+  window.openChartFullscreen=openOverlay;
+  window.closeChartFullscreen=closeOverlay;
+})();
+/* v6.16+ Invoice PDF export: replaces exportInvoiceSheet with a version
+   that includes materials cost as a line-item column and headline stat,
+   opens in a new window, and auto-triggers the browser print dialog so
+   users can Save-as-PDF. Same aesthetic as the original HTML sheet but
+   now with a full breakdown of Labor + Materials + Amount per task. */
+(function(){
+  window.exportInvoiceSheet=function(){
+    var p=(typeof project==='function')?project():null;
+    if(!p)return;
+    var items=(p.tasks||[]).filter(function(t){return t.billable;});
+    var labor=items.reduce(function(a,t){return a+taskLaborCost(t);},0);
+    var materials=items.reduce(function(a,t){return a+taskMaterialsCost(t);},0);
+    var total=items.reduce(function(a,t){return a+taskAmount(t);},0);
+    var stamp=new Date().toLocaleString();
+    var css=[
+      '@page{size:letter;margin:0.6in 0.5in}',
+      'body{font-family:Trebuchet MS,system-ui,sans-serif;margin:24px;background:#fffaf0;color:#2c2a25;line-height:1.5}',
+      '@media print{body{margin:0;background:#fff}}',
+      '.header{border-bottom:3px solid #333;padding-bottom:14px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px}',
+      '.header h1{font-family:cursive;font-size:34px;margin:0;color:#111}',
+      '.header .meta{font-size:13px;color:#555;text-align:right}',
+      '.header .meta div{margin:2px 0}',
+      '.header .meta .label{color:#888;font-size:11px;text-transform:uppercase;letter-spacing:.05em}',
+      '.header .meta .value{font-weight:700;color:#222}',
+      '.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:18px}',
+      '.summary .cell{border:2px dashed #ccc;border-radius:12px;padding:10px;background:rgba(255,255,255,.5)}',
+      '.summary .cell .label{color:#888;font-size:11px;text-transform:uppercase;letter-spacing:.05em}',
+      '.summary .cell .value{font-family:cursive;font-size:22px;font-weight:700;color:#222;display:block;margin-top:2px}',
+      'table{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:13px}',
+      'th{text-align:left;padding:10px 8px;background:#333;color:#fff;font-size:12px;text-transform:uppercase;letter-spacing:.04em}',
+      'th.right{text-align:right}',
+      'td{padding:10px 8px;border-bottom:1px solid #ddd}',
+      'td.right{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}',
+      'td .task-code{font-family:JetBrains Mono,monospace;font-size:10px;color:#888;text-transform:uppercase;margin-right:6px}',
+      'td .task-meta{color:#666;font-size:11px;display:block;margin-top:2px}',
+      'tr:nth-child(even) td{background:#faf7ef}',
+      'tfoot td{border-top:2px solid #333;border-bottom:none;background:#fff8e8;font-weight:700;padding:12px 8px}',
+      '.grand-total{text-align:right;font-size:24px;font-weight:900;font-family:cursive;color:#222;margin:16px 0;padding-top:14px;border-top:3px double #333}',
+      '.footer{margin-top:20px;padding-top:14px;border-top:1px dashed #ccc;color:#888;font-size:11px;text-align:center}',
+      '.stamp{display:inline-block;border:3px solid currentColor;border-radius:8px;padding:4px 10px;transform:rotate(-3deg);letter-spacing:.03em;color:#c33}'
+    ].join('');
+    var rows=items.map(function(t){
+      var hours=Number(t.loggedHours!=null?t.loggedHours:(t.actualHours!=null?t.actualHours:0));
+      var rate=Number(t.hourlyRate||0);
+      var taskLabor=taskLaborCost(t);
+      var taskMaterials=taskMaterialsCost(t);
+      var amount=taskAmount(t);
+      var typeLabel=t.type||'General';
+      var personLabel=t.responsible||'';
+      var code=t.taskId||'';
+      return '<tr>'+
+        '<td>'+
+          (code?'<span class="task-code">'+escapeHtml(code)+'</span>':'')+
+          '<strong>'+escapeHtml(t.title||'Untitled')+'</strong>'+
+          '<span class="task-meta">'+escapeHtml(typeLabel)+(personLabel?' &middot; '+escapeHtml(personLabel):'')+'</span>'+
+        '</td>'+
+        '<td class="right">'+hours.toFixed(2)+'</td>'+
+        '<td class="right">'+money(rate)+'</td>'+
+        '<td class="right">'+money(taskLabor)+'</td>'+
+        '<td class="right">'+money(taskMaterials)+'</td>'+
+        '<td class="right">'+money(amount)+'</td>'+
+        '</tr>';
+    }).join('')||'<tr><td colspan="6" style="text-align:center;color:#888">No billable tasks yet.</td></tr>';
+    var html='<!doctype html><html><head><meta charset="utf-8">'+
+      '<title>'+escapeHtml(p.name)+' - Invoice</title>'+
+      '<style>'+css+'</style>'+
+      '</head><body>'+
+      '<div class="header">'+
+        '<div>'+
+          '<h1>'+escapeHtml(p.name)+'</h1>'+
+          '<div style="color:#666;font-size:14px;margin-top:2px">Invoice generated from Kandoo '+VERSION+'</div>'+
+        '</div>'+
+        '<div class="meta">'+
+          '<div><span class="label">Invoice #</span><br><span class="value">'+escapeHtml(p.invoiceNumber||'-')+'</span></div>'+
+          '<div style="margin-top:6px"><span class="label">Client</span><br><span class="value">'+escapeHtml(p.client||'-')+'</span></div>'+
+          '<div style="margin-top:6px"><span class="label">Date</span><br><span class="value">'+escapeHtml(stamp)+'</span></div>'+
+          '<div style="margin-top:6px"><span class="label">Status</span><br><span class="value">'+escapeHtml(p.invoiceStatus||'Not invoiced')+'</span></div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="summary">'+
+        '<div class="cell"><div class="label">Labor</div><span class="value">'+money(labor)+'</span></div>'+
+        '<div class="cell"><div class="label">Materials</div><span class="value">'+money(materials)+'</span></div>'+
+        '<div class="cell"><div class="label">Total</div><span class="value">'+money(total)+'</span></div>'+
+        '<div class="cell"><div class="label">Budget / Quote</div><span class="value">'+money(p.budget||0)+'</span></div>'+
+      '</div>'+
+      '<table>'+
+        '<thead><tr>'+
+          '<th>Task</th>'+
+          '<th class="right">Hours</th>'+
+          '<th class="right">Rate</th>'+
+          '<th class="right">Labor</th>'+
+          '<th class="right">Materials</th>'+
+          '<th class="right">Amount</th>'+
+        '</tr></thead>'+
+        '<tbody>'+rows+'</tbody>'+
+        '<tfoot><tr>'+
+          '<td>Totals</td>'+
+          '<td class="right">-</td>'+
+          '<td class="right">-</td>'+
+          '<td class="right">'+money(labor)+'</td>'+
+          '<td class="right">'+money(materials)+'</td>'+
+          '<td class="right">'+money(total)+'</td>'+
+        '</tr></tfoot>'+
+      '</table>'+
+      '<div class="grand-total"><span class="stamp">TOTAL '+money(total)+'</span></div>'+
+      '<div class="footer">Exported from Kandoo '+VERSION+' on '+escapeHtml(stamp)+'</div>'+
+      // Auto-trigger print dialog once fonts load so users can save as PDF
+      '<script>window.addEventListener("load",function(){setTimeout(function(){window.print();},250);});<\/script>'+
+      '</body></html>';
+    var win=window.open('','_blank');
+    if(!win){
+      if(typeof showToast==='function')showToast('Popup blocked - allow popups to export');
+      return;
+    }
+    win.document.open();
+    win.document.write(html);
+    win.document.close();
+  };
+})();
 
 /* ===== Kandoo v6.15 refinement layer ===== */
 let undoStack=[];let redoStack=[];let importPreviewProject=null;let commandItems=[];
@@ -4748,6 +5870,67 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
   }else{
     go();
   }
+})();
+/* v6.16+ Gantt focus-mode escape hatch
+   Fix for: after clicking "Focus / Print" in the Gantt view and closing
+   the print dialog, body.gantt-focus-export was never removed. That
+   class hides the header, aside, view tabs, and filterbar, leaving no
+   UI to click back to normal. Two-part fix:
+   1. Global afterprint listener always removes the class so the user is
+      returned to normal layout when the print dialog closes.
+   2. A floating "Exit Focus Mode" button that appears whenever the
+      class is present, giving an on-screen escape even if the browser
+      never fires afterprint (some Firefox versions, PDF-save cancels
+      in certain configurations). Escape key also exits. */
+(function(){
+  var FOCUS_CLASS='gantt-focus-export';
+  var exitBtn=null;
+  function makeBtn(){
+    if(exitBtn)return exitBtn;
+    exitBtn=document.createElement('button');
+    exitBtn.type='button';
+    exitBtn.id='ganttFocusExit';
+    exitBtn.className='gantt-focus-exit-btn';
+    exitBtn.setAttribute('aria-label','Exit Gantt focus mode');
+    exitBtn.textContent='← Exit Focus Mode';
+    exitBtn.addEventListener('click',exitFocus);
+    document.body.appendChild(exitBtn);
+    return exitBtn;
+  }
+  function exitFocus(){
+    document.body.classList.remove(FOCUS_CLASS);
+    if(exitBtn&&exitBtn.parentNode){exitBtn.parentNode.removeChild(exitBtn);exitBtn=null;}
+  }
+  // Watch body class changes and show the escape hatch button whenever
+  // the focus class is active. This runs regardless of which UI path
+  // set the class, so future features that reuse focus-mode also get
+  // the escape button for free.
+  var obs=new MutationObserver(function(){
+    if(document.body.classList.contains(FOCUS_CLASS)){
+      makeBtn();
+    }else if(exitBtn&&exitBtn.parentNode){
+      exitBtn.parentNode.removeChild(exitBtn);
+      exitBtn=null;
+    }
+  });
+  obs.observe(document.body,{attributes:true,attributeFilter:['class']});
+  // Global afterprint cleanup so the class never lingers after a print
+  // completes or is cancelled.
+  window.addEventListener('afterprint',function(){
+    if(document.body.classList.contains(FOCUS_CLASS))exitFocus();
+  });
+  // Escape key exits focus mode. Registered in capture phase so it runs
+  // before other Escape handlers that might otherwise consume the event.
+  document.addEventListener('keydown',function(e){
+    if(e.key!=='Escape')return;
+    if(!document.body.classList.contains(FOCUS_CLASS))return;
+    // Don't fight with open modals or overlays
+    if(document.querySelector('.modal.open'))return;
+    if(document.querySelector('.chart-fullscreen-overlay.open'))return;
+    if(document.querySelector('.cheatsheet-overlay.open'))return;
+    exitFocus();
+  },true);
+  window.exitGanttFocus=exitFocus;
 })();
 </script>
 </body>
