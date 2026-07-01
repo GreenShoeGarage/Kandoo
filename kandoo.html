@@ -1833,31 +1833,36 @@ body.kandoo-bottom-sheets #taskModal select{
   border-color:rgba(0,0,0,.25)!important;
 }
 
-/* Timer button on each sticky note - absolute top-right, positioned to
-   the LEFT of the existing .bulk-check checkbox (which lives at
-   right:8px, width:38px) so the two don't overlap */
+/* Timer button on each sticky note - lives INSIDE .clean-note-footer
+   but position:absolute'd out of the flex flow so swatches keep their
+   full horizontal budget. Sits immediately to the left of the footer
+   (which holds the Edit button), one row up so it doesn't collide.
+   Icon-only so the fixed width stays small. */
+.note .clean-note-footer{position:relative}
 .note-timer-btn{
   position:absolute;
-  top:8px;
-  right:52px;
-  z-index:2;
+  right:calc(100% + 4px);
+  top:50%;
+  transform:translateY(-50%);
   font-family:var(--font-ui,system-ui);
-  font-size:10px;
+  font-size:11px;
   font-weight:700;
   line-height:1;
-  height:22px;
-  padding:0 7px;
-  border-radius:8px;
+  width:22px;
+  height:20px;
+  padding:0;
+  border-radius:6px;
   border:1px solid rgba(0,0,0,.2);
   background:rgba(255,255,255,.85);
   color:#222;
   cursor:pointer;
   display:inline-flex;
   align-items:center;
-  gap:4px;
+  justify-content:center;
   white-space:nowrap;
   transition:background .12s,border-color .12s;
-  box-shadow:1px 2px 3px rgba(0,0,0,.1);
+  box-shadow:1px 1px 2px rgba(0,0,0,.1);
+  z-index:2;
 }
 .note-timer-btn:hover{background:#fff}
 .note-timer-btn.running{
@@ -7386,19 +7391,25 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
           e.stopPropagation();
           window.toggleTaskTimer(taskId);
         });
-        // Absolute position top-right of the sticky. Keeps swatches +
-        // delete button layout in .note-actions untouched, and puts the
-        // timer where it's scannable when eyeballing the board.
-        note.appendChild(btn);
+        // Slot next to the Edit button in the bottom-right footer group.
+        // Falls back to note-actions or the note itself if the footer
+        // isn't there (older sticky layouts).
+        var slot=note.querySelector('.clean-note-footer')
+          ||note.querySelector('.note-actions')
+          ||note;
+        slot.insertBefore(btn,slot.firstChild);
       }
       var running=(taskId===activeId);
       if(running){
         var ms=elapsedMs(active.task);
-        btn.innerHTML='<span class="timer-dot" aria-hidden="true"></span>⏹ '+formatElapsed(ms);
+        // Icon only in the sticky. Elapsed time shows in the header
+        // widget instead, so the sticky button stays narrow enough not
+        // to push swatches to a second row.
+        btn.innerHTML='⏹';
         btn.classList.add('running');
-        btn.title='Stop timer';
+        btn.title='Stop timer ('+formatElapsed(ms)+')';
       }else{
-        btn.innerHTML='▶ Start';
+        btn.innerHTML='▶';
         btn.classList.remove('running');
         btn.title='Start timer';
       }
@@ -7475,10 +7486,10 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
     // Update header widget time
     var timeEl=document.getElementById('timerWidgetTime');
     if(timeEl)timeEl.textContent=formatElapsed(elapsedMs(active.task));
-    // Update sticky button
+    // Update sticky button title (icon stays constant, tooltip refreshes)
     var note=document.querySelector('.note[data-task-id="'+active.task.id+'"] .note-timer-btn');
     if(note){
-      note.innerHTML='<span class="timer-dot" aria-hidden="true"></span>⏹ '+formatElapsed(elapsedMs(active.task));
+      note.title='Stop timer ('+formatElapsed(elapsedMs(active.task))+')';
     }
     // Update modal display
     var mod=document.getElementById('modalTimerElapsed');
