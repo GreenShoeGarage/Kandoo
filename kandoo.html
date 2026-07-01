@@ -416,6 +416,41 @@ body.a11y-large-targets .note > .note-actions > .note-color-picker{display:inlin
 .cal-day{font-weight:700;font-size:13px;margin-bottom:2px}
 .cal-cell.today .cal-day{color:#c33}
 .cal-task{font-size:11px;padding:2px 5px;background:rgba(255,255,255,.7);border-radius:4px;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-left:3px solid var(--accent,#c33);line-height:1.3}
+/* v6.16+ Subtasks on the calendar: rendered smaller, dashed left
+   border, muted color, small └ prefix so they read as descendants of
+   their parent task. Click opens the parent task's modal. */
+.cal-subtask{
+  font-size:10px;
+  padding:1px 4px 1px 8px;
+  background:rgba(255,255,255,.5);
+  border-radius:3px;
+  cursor:pointer;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  border-left:2px dashed rgba(0,0,0,.4);
+  color:rgba(0,0,0,.7);
+  line-height:1.3;
+  position:relative;
+  margin-left:6px;
+}
+.cal-subtask::before{
+  content:'└ ';
+  color:rgba(0,0,0,.4);
+  font-size:9px;
+  margin-right:2px;
+}
+.cal-subtask.done{
+  text-decoration:line-through;
+  opacity:.55;
+  border-left-color:#2a9d8f;
+}
+.cal-subtask.overdue{
+  border-left-color:#e63946;
+  color:#7d1f1f;
+  font-weight:600;
+}
+.cal-subtask:hover{background:rgba(255,255,255,.85)}
 .cal-task:hover{background:rgba(255,255,255,1)}
 .cal-task.overdue{border-left-color:#c33;background:rgba(255,205,210,.6)}
 .cal-task.done{border-left-color:#4caf50;opacity:.6;text-decoration:line-through}
@@ -2023,7 +2058,20 @@ function renderCalendar(root){
   var page=document.createElement('div');page.className='page';
   var dated=filteredTasks().filter(function(t){return t.needByDate;});
   var byDate={};
-  dated.forEach(function(t){(byDate[t.needByDate]=byDate[t.needByDate]||[]).push(t);});
+  dated.forEach(function(t){(byDate[t.needByDate]=byDate[t.needByDate]||[]).push({kind:'task',task:t});});
+  // v6.16+ Include subtasks with their own needByDate on the calendar.
+  // We iterate all tasks (not just filtered ones with dates) since a
+  // subtask can have a due date even if its parent task does not. Each
+  // entry carries a reference to the parent task so click opens the
+  // parent modal. Subtasks are always shown; filters do not currently
+  // cascade to subtasks.
+  filteredTasks().forEach(function(t){
+    (t.subtasks||[]).forEach(function(s){
+      if(s.needByDate){
+        (byDate[s.needByDate]=byDate[s.needByDate]||[]).push({kind:'subtask',task:t,subtask:s});
+      }
+    });
+  });
   var monthStr=calCurrentMonth();
   var [y,m]=monthStr.split('-').map(Number);
   var first=new Date(y,m-1,1);
@@ -2035,7 +2083,7 @@ function renderCalendar(root){
   for(var i=0;i<startDow;i++)cells.push({empty:true});
   for(var d=1;d<=daysInMonth;d++){
     var ds=y+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0');
-    cells.push({day:d,date:ds,tasks:byDate[ds]||[]});
+    cells.push({day:d,date:ds,items:byDate[ds]||[]});
   }
   // Pad to a multiple of 7 for clean grid
   while(cells.length%7!==0)cells.push({empty:true});
@@ -2044,27 +2092,45 @@ function renderCalendar(root){
     if(c.empty)return '<div class="cal-cell empty"></div>';
     var classes=['cal-cell'];
     if(c.date===todayStr)classes.push('today');
-    if(c.tasks.length)classes.push('has-tasks');
-    var tasksHtml=c.tasks.slice(0,3).map(function(t){
-      var tc='cal-task';
-      if(doneStages.has(String(t.stageId).toLowerCase()))tc+=' done';
-      else if(t.needByDate<todayStr)tc+=' overdue';
-      return '<div class="'+tc+'" onclick="openTaskModal(\''+escapeAttr(t.id)+'\')" title="'+escapeAttr(t.title)+'">'+escapeHtml(t.title)+'</div>';
+    if(c.items.length)classes.push('has-tasks');
+    var itemsHtml=c.items.slice(0,4).map(function(item){
+      if(item.kind==='task'){
+        var t=item.task;
+        var tc='cal-task';
+        if(doneStages.has(String(t.stageId).toLowerCase()))tc+=' done';
+        else if(t.needByDate<todayStr)tc+=' overdue';
+        return '<div class="'+tc+'" onclick="openTaskModal(\''+escapeAttr(t.id)+'\')" title="'+escapeAttr(t.title)+'">'+escapeHtml(t.title)+'</div>';
+      }else{
+        var t=item.task,s=item.subtask;
+        var sc='cal-subtask';
+        if(s.completed)sc+=' done';
+        else if(s.needByDate<todayStr)sc+=' overdue';
+        var tip=(s.title||'Untitled subtask')+' (of '+t.title+')';
+        return '<div class="'+sc+'" onclick="openTaskModal(\''+escapeAttr(t.id)+'\')" title="'+escapeAttr(tip)+'">'+escapeHtml(s.title||'Untitled')+'</div>';
+      }
     }).join('');
-    var more=c.tasks.length>3?'<div class="cal-more" onclick="openTaskModal(\''+escapeAttr(c.tasks[3].id)+'\')">+'+(c.tasks.length-3)+' more</div>':'';
-    return '<div class="'+classes.join(' ')+'"><div class="cal-day">'+c.day+'</div>'+tasksHtml+more+'</div>';
+    var more=c.items.length>4?'<div class="cal-more" onclick="openTaskModal(\''+escapeAttr(c.items[4].task.id)+'\')">+'+(c.items.length-4)+' more</div>':'';
+    return '<div class="'+classes.join(' ')+'"><div class="cal-day">'+c.day+'</div>'+itemsHtml+more+'</div>';
   }).join('');
   var dowHtml=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(function(d){return '<div class="cal-dow">'+d+'</div>';}).join('');
-  var monthTotal=dated.filter(function(t){return t.needByDate.startsWith(monthStr);}).length;
+  // Count both tasks and subtasks due this month for the header stat
+  var taskCount=dated.filter(function(t){return t.needByDate.startsWith(monthStr);}).length;
+  var subtaskCount=0;
+  filteredTasks().forEach(function(t){
+    (t.subtasks||[]).forEach(function(s){
+      if(s.needByDate&&s.needByDate.startsWith(monthStr))subtaskCount++;
+    });
+  });
+  var monthTotal=taskCount+subtaskCount;
   page.innerHTML='<h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Calendar <span class="version">'+VERSION+'</span></h2>'+
     '<div class="cal-nav"><button class="btn" onclick="navCal(-1)">◀ Prev</button>'+
     '<h3>'+calMonthName(m-1)+' '+y+'</h3>'+
     '<button class="btn" onclick="navCal(1)">Next ▶</button>'+
     '<button class="btn" onclick="navCalToday()">Today</button>'+
-    '<span style="color:var(--muted);font-size:13px">'+monthTotal+' due this month</span></div>'+
+    '<span style="color:var(--muted);font-size:13px">'+monthTotal+' due this month ('+taskCount+' tasks, '+subtaskCount+' subtasks)</span></div>'+
     '<div class="cal-grid">'+dowHtml+cellHtml+'</div>';
-  if(!dated.length){
-    page.innerHTML+='<div class="empty" style="margin-top:10px">No need-by dates set on any task yet. Edit a sticky and add a Need-by date to see it on the calendar.</div>';
+  if(!dated.length&&subtaskCount===0){
+    page.innerHTML+='<div class="empty" style="margin-top:10px">No need-by dates set on any task or subtask yet. Edit a sticky and add a Need-by date to see it on the calendar.</div>';
   }
   root.appendChild(page);
 }
@@ -5931,6 +5997,410 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
     exitFocus();
   },true);
   window.exitGanttFocus=exitFocus;
+})();
+/* v6.16+ Beautiful PDF: replaces the flat window.print() shortcut with
+   a comprehensive multi-section project packet that captures everything
+   Kandoo tracks. Opens in a new window with auto-print so users can
+   Save-as-PDF. Sections:
+   1. Cover page with big project name, client, status, dates, version
+   2. Executive Summary (task counts, completion, hours, financials,
+      lead time, blocked count)
+   3. Project Details (description, objective, success, out of scope, risks)
+   4. Milestones timeline (if any)
+   5. People on this project
+   6. Workflow stages overview with counts
+   7. Tasks organized by stage, each with:
+      taskId, title, description, type, priority, assignee, dates,
+      hours breakdown, subtasks with dates/assignees/completion,
+      attachments (name+size), comments log, tags, blocked reason,
+      dependencies
+   8. Financials summary (billable breakdown)
+   9. Activity timeline (recent snapshots)
+   10. Footer: export timestamp + version
+*/
+(function(){
+  function esc(s){return String(s??'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function moneyStr(n){return '$'+Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});}
+  function stageName(stages,id){var s=(stages||[]).find(function(x){return x.id===id;});return s?s.name:id;}
+  function formatDate(iso){if(!iso)return '';var d=new Date(iso);return isNaN(d)?String(iso):d.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});}
+  function fmtBytes(n){n=Number(n||0);if(n<1024)return n+' B';if(n<1048576)return (n/1024).toFixed(1)+' KB';if(n<1073741824)return (n/1048576).toFixed(1)+' MB';return (n/1073741824).toFixed(2)+' GB';}
+  function daysBetween(a,b){if(!a||!b)return null;var da=new Date(a),db=new Date(b);if(isNaN(da)||isNaN(db))return null;return Math.round((db-da)/864e5);}
+  var CSS=[
+    '@page{size:letter;margin:0.6in 0.5in}',
+    '@page:first{margin-top:0.75in}',
+    'body{font-family:Trebuchet MS,system-ui,sans-serif;margin:24px;background:#fdfaf0;color:#2c2a25;line-height:1.55;font-size:13px}',
+    '@media print{body{margin:0;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}}',
+    'h1,h2,h3,h4{color:#111;font-family:Georgia,Palatino,serif;orphans:3;widows:3}',
+    'h1{font-family:cursive,Trebuchet MS;font-size:42pt;margin:0;line-height:1.1;letter-spacing:-0.5px}',
+    'h2{font-size:22pt;margin:24px 0 8px;padding-bottom:6px;border-bottom:3px solid #333;page-break-after:avoid}',
+    'h3{font-size:15pt;margin:16px 0 6px;color:#333;page-break-after:avoid}',
+    'h4{font-size:12pt;margin:12px 0 4px;color:#444}',
+    'p{margin:6px 0}',
+    'small{color:#666;font-size:10pt}',
+    '.cover{page-break-after:always;height:9in;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:0 40px}',
+    '.cover h1{font-size:56pt;color:#111;margin-bottom:10px}',
+    '.cover .cover-sub{font-size:16pt;color:#555;font-style:italic;margin-bottom:36px;font-family:cursive}',
+    '.cover .cover-meta{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;max-width:600px;margin:24px auto;text-align:left}',
+    '.cover .cover-meta .cell{background:rgba(255,240,180,.35);border:2px dashed #999;border-radius:12px;padding:14px}',
+    '.cover .cover-meta .label{color:#888;font-size:9pt;text-transform:uppercase;letter-spacing:.08em;font-weight:700}',
+    '.cover .cover-meta .value{font-size:14pt;font-weight:700;color:#222;margin-top:4px;display:block}',
+    '.cover .cover-status{display:inline-block;padding:8px 18px;border:3px solid #c33;border-radius:12px;color:#c33;font-weight:900;font-family:cursive;font-size:18pt;transform:rotate(-3deg);letter-spacing:.03em;margin:20px auto 0}',
+    '.cover .cover-footer{margin-top:40px;color:#888;font-size:10pt}',
+    '.section{page-break-inside:auto;margin-bottom:24px}',
+    '.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}',
+    '.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}',
+    '.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}',
+    '.stat-card{background:rgba(255,255,255,.5);border:2px dashed #ccc;border-radius:10px;padding:12px;break-inside:avoid}',
+    '.stat-card .label{color:#888;font-size:9pt;text-transform:uppercase;letter-spacing:.05em;font-weight:700}',
+    '.stat-card .value{display:block;font-family:cursive;font-size:22pt;color:#111;margin-top:4px;font-weight:700}',
+    '.detail-block{background:rgba(255,255,255,.55);border:1px solid #ccc;border-radius:8px;padding:12px;margin-bottom:12px;break-inside:avoid}',
+    '.detail-block h4{margin:0 0 4px;color:#666;font-size:10pt;text-transform:uppercase;letter-spacing:.05em}',
+    '.detail-block .body{color:#222;white-space:pre-wrap;font-size:12pt;line-height:1.55}',
+    '.detail-block.empty .body{color:#aaa;font-style:italic}',
+    'table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11pt;break-inside:auto}',
+    'th{text-align:left;padding:8px 6px;background:#2c2a25;color:#fff;font-size:10pt;text-transform:uppercase;letter-spacing:.03em}',
+    'td{padding:8px 6px;border-bottom:1px solid #ddd;vertical-align:top}',
+    'tr:nth-child(even) td{background:rgba(0,0,0,.02)}',
+    '.stage-section{margin-bottom:24px;page-break-inside:auto}',
+    '.stage-header{background:#333;color:#fff;padding:8px 12px;border-radius:8px 8px 0 0;font-weight:700;display:flex;justify-content:space-between;align-items:center;font-family:cursive;font-size:14pt}',
+    '.stage-header .stage-count{background:#fff;color:#333;padding:2px 10px;border-radius:12px;font-size:10pt;font-family:Trebuchet MS}',
+    '.task-card{background:#fff;border:1px solid #ccc;border-top:none;padding:14px;break-inside:avoid;page-break-inside:avoid}',
+    '.task-card:last-child{border-radius:0 0 8px 8px}',
+    '.task-card.blocked{border-left:6px solid #c33}',
+    '.task-card.done{background:rgba(0,150,80,.05)}',
+    '.task-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:6px;flex-wrap:wrap}',
+    '.task-head-left{flex:1;min-width:0}',
+    '.task-code{font-family:JetBrains Mono,monospace;font-size:9pt;color:#666;background:#f0ebd8;padding:1px 6px;border-radius:3px;margin-right:8px;text-transform:uppercase;vertical-align:middle}',
+    '.task-title{font-size:14pt;font-weight:700;color:#111;display:inline}',
+    '.task-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}',
+    '.badge{display:inline-block;padding:2px 8px;border:1px solid #ccc;border-radius:12px;font-size:9pt;background:#f5f5f5;color:#444}',
+    '.badge.priority-Critical,.badge.priority-Urgent{background:#ffe0e0;border-color:#c33;color:#c33;font-weight:700}',
+    '.badge.priority-High{background:#fff4cc;border-color:#c88;color:#8a5a00}',
+    '.badge.type-Bug{background:#ffe0e0;color:#8a2020}',
+    '.badge.type-Feature{background:#e0f0ff;color:#20548a}',
+    '.badge.blocked{background:#ffdada;border-color:#c33;color:#c33;font-weight:700}',
+    '.task-meta-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px 12px;font-size:10pt;margin:8px 0;color:#555}',
+    '.task-meta-grid .meta-label{color:#888;font-weight:600;text-transform:uppercase;font-size:8pt;letter-spacing:.04em}',
+    '.task-meta-grid .meta-value{color:#222}',
+    '.task-desc{background:rgba(0,0,0,.02);border-left:3px solid #999;padding:6px 10px;margin:8px 0;font-size:11pt;color:#333;white-space:pre-wrap}',
+    '.task-subtasks{margin:8px 0 4px}',
+    '.task-subtasks .sub-heading{color:#666;font-size:9pt;text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px}',
+    '.subtask-item{display:grid;grid-template-columns:16px 1fr auto auto;gap:8px;align-items:baseline;padding:3px 0;font-size:10pt;border-bottom:1px dashed #eee}',
+    '.subtask-item:last-child{border-bottom:none}',
+    '.subtask-check{color:#2a9d8f;font-weight:700}',
+    '.subtask-item.pending .subtask-check{color:#ccc}',
+    '.subtask-item.done .subtask-title{text-decoration:line-through;color:#888}',
+    '.subtask-title{color:#333}',
+    '.subtask-meta{color:#888;font-size:9pt}',
+    '.subtask-code{font-family:JetBrains Mono,monospace;font-size:8pt;color:#888;background:#f0ebd8;padding:0 4px;border-radius:2px}',
+    '.task-attachments,.task-comments,.task-tags,.task-deps{margin:8px 0}',
+    '.task-attachments .att-heading,.task-comments .cm-heading,.task-tags .tg-heading,.task-deps .dp-heading{color:#666;font-size:9pt;text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px}',
+    '.att-item{display:inline-block;background:#f5f5f5;border:1px solid #ccc;border-radius:6px;padding:2px 8px;margin:2px 4px 2px 0;font-size:9pt;color:#333}',
+    '.comment-item{background:rgba(255,240,180,.25);border-left:3px solid #ccc;padding:6px 10px;margin:4px 0;font-size:10pt}',
+    '.comment-item .cm-author{font-weight:700;color:#444;font-size:9pt}',
+    '.comment-item .cm-when{color:#888;font-size:8pt;margin-left:8px}',
+    '.tag-pill{display:inline-block;background:#e8f3ff;color:#20548a;border-radius:10px;padding:1px 8px;margin:2px 3px 2px 0;font-size:9pt}',
+    '.blocked-notice{background:#ffe8e8;border-left:4px solid #c33;padding:6px 10px;margin:6px 0;font-size:10pt;color:#7a2020}',
+    '.blocked-notice strong{color:#c33}',
+    '.milestone{background:rgba(255,240,180,.4);border-left:6px solid #d4a017;padding:10px 14px;margin-bottom:8px;border-radius:0 8px 8px 0;break-inside:avoid}',
+    '.milestone .m-date{color:#888;font-size:9pt;text-transform:uppercase;letter-spacing:.05em}',
+    '.milestone .m-name{font-size:13pt;font-weight:700;color:#222}',
+    '.milestone .m-desc{font-size:10pt;color:#555;margin-top:2px}',
+    '.people-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}',
+    '.person-card{background:#fff;border:1px solid #ccc;border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:8px;break-inside:avoid}',
+    '.person-swatch{width:14px;height:14px;border-radius:50%;flex-shrink:0}',
+    '.person-name{font-weight:700;font-size:11pt}',
+    '.stage-overview-item{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:#fff;border:1px solid #ccc;border-radius:6px;margin-bottom:4px}',
+    '.stage-overview-item .name{font-weight:700}',
+    '.stage-overview-item .count{background:#333;color:#fff;padding:2px 10px;border-radius:10px;font-size:9pt}',
+    '.footer{margin-top:40px;padding-top:14px;border-top:2px solid #333;color:#666;font-size:9pt;text-align:center;page-break-inside:avoid}',
+    '.page-break{page-break-before:always}',
+    '.empty-note{color:#999;font-style:italic;font-size:10pt;padding:8px}'
+  ].join('');
+  function coverSection(p){
+    var status=p.invoiceStatus||'In progress';
+    return '<div class="cover">'+
+      '<h1>'+esc(p.name||'Untitled Project')+'</h1>'+
+      '<p class="cover-sub">Project Packet</p>'+
+      '<div class="cover-meta">'+
+        '<div class="cell"><div class="label">Client</div><span class="value">'+esc(p.client||'Not specified')+'</span></div>'+
+        '<div class="cell"><div class="label">Invoice #</div><span class="value">'+esc(p.invoiceNumber||'-')+'</span></div>'+
+        '<div class="cell"><div class="label">Created</div><span class="value">'+esc(formatDate(p.createdAt))+'</span></div>'+
+        '<div class="cell"><div class="label">Last updated</div><span class="value">'+esc(formatDate(p.updatedAt))+'</span></div>'+
+      '</div>'+
+      '<div class="cover-status">'+esc(status)+'</div>'+
+      '<div class="cover-footer">Kandoo '+VERSION+' &middot; Exported '+esc(new Date().toLocaleString())+'</div>'+
+      '</div>';
+  }
+  function summarySection(p,tasks){
+    var doneStages=new Set(['done','shipped','invoiced']);
+    var done=tasks.filter(function(t){return doneStages.has(String(t.stageId).toLowerCase());}).length;
+    var pct=tasks.length?Math.round(done/tasks.length*100):0;
+    var hoursEst=tasks.reduce(function(a,t){return a+(Number(t.estimateHours)||0);},0);
+    var hoursAct=tasks.reduce(function(a,t){return a+(Number(t.actualHours)||0);},0);
+    var totalCost=tasks.reduce(function(a,t){return a+(typeof taskAmount==='function'?taskAmount(t):0);},0);
+    var materialsTotal=tasks.reduce(function(a,t){return a+(typeof taskMaterialsCost==='function'?taskMaterialsCost(t):(Number(t.materialsCost)||0));},0);
+    var laborTotal=totalCost-materialsTotal;
+    var blocked=tasks.filter(function(t){return t.blocked;}).length;
+    var overdue=tasks.filter(function(t){return typeof isOverdue==='function'&&isOverdue(t);}).length;
+    var leadTimes=tasks.filter(function(t){return t.completedDate&&t.createdAt;}).map(function(t){return daysBetween(t.createdAt,t.completedDate);}).filter(function(x){return x!==null&&x>=0;});
+    var avgLead=leadTimes.length?(leadTimes.reduce(function(a,b){return a+b;},0)/leadTimes.length).toFixed(1)+' days':'not enough data yet';
+    return '<div class="section">'+
+      '<h2>Executive Summary</h2>'+
+      '<div class="grid-4">'+
+        '<div class="stat-card"><div class="label">Completion</div><span class="value">'+pct+'%</span></div>'+
+        '<div class="stat-card"><div class="label">Done / total</div><span class="value">'+done+' / '+tasks.length+'</span></div>'+
+        '<div class="stat-card"><div class="label">Blocked</div><span class="value">'+blocked+'</span></div>'+
+        '<div class="stat-card"><div class="label">Overdue</div><span class="value">'+overdue+'</span></div>'+
+      '</div>'+
+      '<div class="grid-4" style="margin-top:10px">'+
+        '<div class="stat-card"><div class="label">Hours actual</div><span class="value">'+hoursAct+'</span></div>'+
+        '<div class="stat-card"><div class="label">Hours estimated</div><span class="value">'+hoursEst+'</span></div>'+
+        '<div class="stat-card"><div class="label">Avg lead time</div><span class="value" style="font-size:14pt">'+avgLead+'</span></div>'+
+        '<div class="stat-card"><div class="label">Budget / quote</div><span class="value" style="font-size:14pt">'+moneyStr(p.budget||0)+'</span></div>'+
+      '</div>'+
+      '<div class="grid-3" style="margin-top:10px">'+
+        '<div class="stat-card"><div class="label">Labor billable</div><span class="value" style="font-size:14pt">'+moneyStr(laborTotal)+'</span></div>'+
+        '<div class="stat-card"><div class="label">Materials billable</div><span class="value" style="font-size:14pt">'+moneyStr(materialsTotal)+'</span></div>'+
+        '<div class="stat-card"><div class="label">Total billable</div><span class="value" style="font-size:14pt;color:#c33">'+moneyStr(totalCost)+'</span></div>'+
+      '</div>'+
+      '</div>';
+  }
+  function detailsSection(p){
+    var blocks=[
+      {label:'Description',value:p.description||''},
+      {label:'Objective',value:p.objective||''},
+      {label:'Success criteria',value:p.success||''},
+      {label:'Out of scope',value:p.outscope||''},
+      {label:'Risks',value:p.risks||''}
+    ];
+    var anyContent=blocks.some(function(b){return String(b.value).trim();});
+    if(!anyContent){
+      return '<div class="section"><h2>Project Details</h2><div class="empty-note">No project brief filled in yet.</div></div>';
+    }
+    var html=blocks.map(function(b){
+      var v=String(b.value||'').trim();
+      var cls=v?'detail-block':'detail-block empty';
+      var body=v||'Not provided';
+      return '<div class="'+cls+'"><h4>'+esc(b.label)+'</h4><div class="body">'+esc(body)+'</div></div>';
+    }).join('');
+    return '<div class="section"><h2>Project Details</h2>'+html+'</div>';
+  }
+  function milestonesSection(p){
+    var m=(p.milestones||[]).filter(function(x){return x&&(x.name||x.date);});
+    if(!m.length)return '';
+    var sorted=m.slice().sort(function(a,b){return (a.date||'')<(b.date||'')?-1:1;});
+    var items=sorted.map(function(x){
+      return '<div class="milestone">'+
+        '<div class="m-date">'+esc(formatDate(x.date))+'</div>'+
+        '<div class="m-name">'+esc(x.name||'Untitled milestone')+'</div>'+
+        (x.description?'<div class="m-desc">'+esc(x.description)+'</div>':'')+
+        '</div>';
+    }).join('');
+    return '<div class="section"><h2>Milestones</h2>'+items+'</div>';
+  }
+  function peopleSection(p){
+    var people=p.people||[];
+    if(!people.length)return '';
+    var items=people.map(function(person){
+      return '<div class="person-card">'+
+        '<span class="person-swatch" style="background:'+esc(person.color||'#ccc')+'"></span>'+
+        '<span class="person-name">'+esc(person.name||'Unnamed')+'</span>'+
+        '</div>';
+    }).join('');
+    return '<div class="section"><h2>People</h2><div class="people-grid">'+items+'</div></div>';
+  }
+  function stagesOverview(p,tasks){
+    var stages=p.workflowStages||[];
+    if(!stages.length)return '';
+    var items=stages.map(function(s){
+      var count=tasks.filter(function(t){return t.stageId===s.id;}).length;
+      var rules=(p.stageRules||{})[s.id]||{};
+      var limit=Number(rules.wipLimit)||0;
+      var over=limit>0&&count>limit;
+      return '<div class="stage-overview-item">'+
+        '<span class="name">'+esc(s.name)+(over?' <span style="color:#c33">(over limit)</span>':'')+'</span>'+
+        '<span class="count">'+count+(limit?' / '+limit:'')+'</span>'+
+        '</div>';
+    }).join('');
+    return '<div class="section"><h2>Workflow Stages</h2>'+items+'</div>';
+  }
+  function taskCardHtml(t,stages,proj){
+    var doneStages=new Set(['done','shipped','invoiced']);
+    var done=doneStages.has(String(t.stageId).toLowerCase());
+    var classes=['task-card'];
+    if(t.blocked)classes.push('blocked');
+    if(done)classes.push('done');
+    var badges=[];
+    if(t.type)badges.push('<span class="badge type-'+esc((t.type||'').split(' ')[0])+'">'+esc(t.type)+'</span>');
+    if(t.priority)badges.push('<span class="badge priority-'+esc(t.priority)+'">'+esc(t.priority)+'</span>');
+    if(t.blocked)badges.push('<span class="badge blocked">Blocked</span>');
+    if(t.recurrence&&t.recurrence!=='None')badges.push('<span class="badge">Recurring: '+esc(t.recurrence)+'</span>');
+    if(t.billable)badges.push('<span class="badge">Billable</span>');
+    var metaCells=[
+      ['Assignee',t.responsible||'Unassigned'],
+      ['Start date',formatDate(t.startDate)||'-'],
+      ['Need-by date',formatDate(t.needByDate)||'-'],
+      ['Completed',formatDate(t.completedDate)||'-'],
+      ['Est. hours',t.estimateHours||'0'],
+      ['Actual hours',t.actualHours||'0'],
+      ['Hourly rate',t.hourlyRate?moneyStr(t.hourlyRate):'-'],
+      ['Materials',t.materialsCost?moneyStr(t.materialsCost):'-']
+    ];
+    var metaHtml='<div class="task-meta-grid">'+metaCells.map(function(c){
+      return '<div><div class="meta-label">'+esc(c[0])+'</div><div class="meta-value">'+esc(c[1])+'</div></div>';
+    }).join('')+'</div>';
+    var descHtml=t.description?'<div class="task-desc">'+esc(t.description)+'</div>':'';
+    var subtasksHtml='';
+    if((t.subtasks||[]).length){
+      subtasksHtml='<div class="task-subtasks"><div class="sub-heading">Subtasks ('+t.subtasks.filter(function(s){return s.completed;}).length+' / '+t.subtasks.length+' done)</div>'+
+        t.subtasks.map(function(s){
+          var scls=s.completed?'subtask-item done':'subtask-item pending';
+          return '<div class="'+scls+'">'+
+            '<span class="subtask-check">'+(s.completed?'✓':'☐')+'</span>'+
+            '<span class="subtask-title">'+esc(s.title||'Untitled subtask')+(s.subtaskId?' <span class="subtask-code">'+esc(s.subtaskId)+'</span>':'')+'</span>'+
+            '<span class="subtask-meta">'+esc(s.responsible||'')+'</span>'+
+            '<span class="subtask-meta">'+esc(formatDate(s.needByDate)||'')+'</span>'+
+            '</div>';
+        }).join('')+'</div>';
+    }
+    var tagsHtml='';
+    if((t.tags||[]).length){
+      tagsHtml='<div class="task-tags"><div class="tg-heading">Tags</div>'+
+        t.tags.map(function(tag){return '<span class="tag-pill">'+esc(tag)+'</span>';}).join('')+'</div>';
+    }
+    var depsHtml='';
+    if((t.dependencies||[]).length){
+      var depTitles=t.dependencies.map(function(depId){
+        var dep=(proj.tasks||[]).find(function(x){return x.id===depId;});
+        return dep?(dep.taskId?dep.taskId+' ':'')+dep.title:depId;
+      });
+      depsHtml='<div class="task-deps"><div class="dp-heading">Depends on</div>'+
+        depTitles.map(function(d){return '<span class="att-item">'+esc(d)+'</span>';}).join('')+'</div>';
+    }
+    var blockedHtml='';
+    if(t.blocked&&t.blockingReason){
+      blockedHtml='<div class="blocked-notice"><strong>Blocked:</strong> '+esc(t.blockingReason)+'</div>';
+    }
+    var attsHtml='';
+    if((t.attachments||[]).length){
+      attsHtml='<div class="task-attachments"><div class="att-heading">Attachments</div>'+
+        t.attachments.map(function(a){return '<span class="att-item">'+esc(a.name||'file')+' ('+esc(fmtBytes(a.size))+')</span>';}).join('')+'</div>';
+    }
+    var commentsHtml='';
+    if((t.comments||[]).length){
+      commentsHtml='<div class="task-comments"><div class="cm-heading">Comments</div>'+
+        t.comments.map(function(c){
+          return '<div class="comment-item"><span class="cm-author">'+esc(c.author||'Kandoo')+'</span>'+
+            '<span class="cm-when">'+esc(c.at?formatDate(c.at):'')+'</span><br>'+
+            esc(c.text||'')+'</div>';
+        }).join('')+'</div>';
+    }
+    var code=t.taskId?'<span class="task-code">'+esc(t.taskId)+'</span>':'';
+    return '<div class="'+classes.join(' ')+'">'+
+      '<div class="task-head">'+
+        '<div class="task-head-left">'+
+          code+'<span class="task-title">'+esc(t.title||'Untitled sticky')+'</span>'+
+          '<div class="task-badges">'+badges.join('')+'</div>'+
+        '</div>'+
+      '</div>'+
+      metaHtml+
+      blockedHtml+
+      descHtml+
+      subtasksHtml+
+      tagsHtml+
+      depsHtml+
+      attsHtml+
+      commentsHtml+
+      '</div>';
+  }
+  function tasksSection(p,tasks){
+    var stages=p.workflowStages||[];
+    if(!tasks.length){
+      return '<div class="section page-break"><h2>Tasks</h2><div class="empty-note">No tasks in this project yet.</div></div>';
+    }
+    var byStage={};
+    stages.forEach(function(s){byStage[s.id]=[];});
+    tasks.forEach(function(t){(byStage[t.stageId]=byStage[t.stageId]||[]).push(t);});
+    var stageBlocks=stages.map(function(s){
+      var items=byStage[s.id]||[];
+      if(!items.length)return '';
+      return '<div class="stage-section">'+
+        '<div class="stage-header"><span>'+esc(s.name)+'</span><span class="stage-count">'+items.length+' task'+(items.length!==1?'s':'')+'</span></div>'+
+        items.map(function(t){return taskCardHtml(t,stages,p);}).join('')+
+        '</div>';
+    }).filter(Boolean).join('');
+    // Include tasks in stages not in workflowStages (edge case)
+    var unknownStageTasks=tasks.filter(function(t){return !stages.find(function(s){return s.id===t.stageId;});});
+    if(unknownStageTasks.length){
+      stageBlocks+='<div class="stage-section">'+
+        '<div class="stage-header"><span>Other</span><span class="stage-count">'+unknownStageTasks.length+'</span></div>'+
+        unknownStageTasks.map(function(t){return taskCardHtml(t,stages,p);}).join('')+
+        '</div>';
+    }
+    return '<div class="section page-break"><h2>Tasks by Stage</h2>'+stageBlocks+'</div>';
+  }
+  function activitySection(){
+    var history=(state.history||[]).filter(function(h){return h.projectId===activeProjectId;}).slice(0,20);
+    if(!history.length)return '';
+    var items=history.map(function(h){
+      return '<div class="comment-item">'+
+        '<span class="cm-author">'+esc(h.label||'')+'</span>'+
+        '<span class="cm-when">'+esc(h.at?formatDate(h.at):'')+'</span>'+
+        '</div>';
+    }).join('');
+    return '<div class="section page-break"><h2>Recent Activity</h2>'+items+'</div>';
+  }
+  function footerHtml(){
+    return '<div class="footer">Exported from Kandoo '+VERSION+' on '+esc(new Date().toLocaleString())+' &middot; Single-file HTML kanban board</div>';
+  }
+  function buildBeautifulPdf(){
+    var p=(typeof project==='function')?project():null;
+    if(!p)return '';
+    var tasks=p.tasks||[];
+    return '<!doctype html><html><head><meta charset="utf-8">'+
+      '<title>'+esc(p.name||'Project Packet')+' - Project Packet</title>'+
+      '<style>'+CSS+'</style>'+
+      '</head><body>'+
+      coverSection(p)+
+      summarySection(p,tasks)+
+      detailsSection(p)+
+      milestonesSection(p)+
+      peopleSection(p)+
+      stagesOverview(p,tasks)+
+      tasksSection(p,tasks)+
+      activitySection()+
+      footerHtml()+
+      '<script>window.addEventListener("load",function(){setTimeout(function(){window.print();},400);});<\/script>'+
+      '</body></html>';
+  }
+  window.exportBeautifulPdf=function(){
+    var html=buildBeautifulPdf();
+    if(!html)return;
+    var win=window.open('','_blank');
+    if(!win){
+      if(typeof showToast==='function')showToast('Popup blocked - allow popups to export');
+      return;
+    }
+    win.document.open();
+    win.document.write(html);
+    win.document.close();
+    if(typeof showToast==='function')showToast('Project packet opened. Save as PDF from the print dialog.');
+  };
+  // Replace the existing exportPdf handler on the header toolbar button
+  // and Share Center card. The old exportPdf just called window.print()
+  // which printed whatever view was active; the new one produces a full
+  // multi-page project packet.
+  window.exportPdf=window.exportBeautifulPdf;
+  // Rewire the header Beautiful PDF button if it already exists
+  function rewireBtn(){
+    var b=document.getElementById('pdfBtn');
+    if(b)b.onclick=window.exportBeautifulPdf;
+  }
+  rewireBtn();
+  if(window.kandooRenderPipeline){
+    window.kandooRenderPipeline.postRenderAsync.push(rewireBtn);
+  }
 })();
 </script>
 </body>
