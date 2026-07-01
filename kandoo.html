@@ -6264,20 +6264,20 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
     // "n/a" in the subtask-specific columns so no task is missing from the
     // combined view. Great for pivots that need to slice by both task
     // attributes AND subtask attributes in a single sheet.
-    // Column order: Task ID + Title first (parent identifier), then all 5
-    // subtask columns (row identifier), then the remaining task detail.
-    // This keeps both the parent and subtask visible in the first 7
-    // columns without horizontal scrolling.
+    // Column order: Task ID + Title + Subtask ID + Subtask Title lead (row
+    // identifier), then all task detail columns, then Subtask Assignee,
+    // Subtask Need-by Date, and Subtask Completed at the far right.
     var flatHeaders=[
       'Task ID','Task Title',
-      'Subtask ID','Subtask Title','Subtask Assignee','Subtask Need-by Date','Subtask Completed',
+      'Subtask ID','Subtask Title',
       'Internal ID','Type','Priority','Stage','Assignee',
       'Description','Start Date','Need-by Date','Completed Date',
       'Estimate Hours','Actual Hours','Logged Hours','Hourly Rate',
       'Billable','Materials Cost','Labor Cost','Total Amount',
       'Blocked','Blocking Reason','Recurrence','Tags','Dependencies',
       'Attachments','Comments','Subtasks (done/total)','Sticky Color',
-      'Created At','Updated At'
+      'Created At','Updated At',
+      'Subtask Assignee','Subtask Need-by Date','Subtask Completed'
     ];
     var flatRows=[];
     tasks.forEach(function(t,idx){
@@ -6290,8 +6290,9 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
         var d=tasks.find(function(x){return x.id===id;});
         return d?(d.taskId||d.title||id):id;
       }).join(', ');
-      // Task tail: everything except Task ID and Title (which lead the row)
-      var taskTail=[
+      // Task detail block: everything except Task ID, Task Title (which lead
+      // the row) and the three subtask fields (which tail the row).
+      var taskDetail=[
         t.id||'',t.type||'',t.priority||'',
         stageName(stages,t.stageId),t.responsible||'',t.description||'',
         dateOnly(t.startDate),dateOnly(t.needByDate),dateOnly(t.completedDate),
@@ -6311,13 +6312,17 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
       // its own row with the parent task data duplicated. Result for a
       // project with tasks having 1, 1, and 0 subtasks: 3 task-rows +
       // 2 subtask-rows = 5 rows total.
-      flatRows.push([t.taskId||'',t.title||'','n/a','n/a','n/a','n/a','n/a'].concat(taskTail));
+      flatRows.push(
+        [t.taskId||'',t.title||'','n/a','n/a']
+          .concat(taskDetail)
+          .concat(['n/a','n/a','n/a'])
+      );
       subs.forEach(function(s){
-        flatRows.push([
-          t.taskId||'',t.title||'',
-          s.subtaskId||'',s.title||'',s.responsible||'',
-          dateOnly(s.needByDate),yn(s.completed)
-        ].concat(taskTail));
+        flatRows.push(
+          [t.taskId||'',t.title||'',s.subtaskId||'',s.title||'']
+            .concat(taskDetail)
+            .concat([s.responsible||'',dateOnly(s.needByDate),yn(s.completed)])
+        );
       });
     });
     var sheet3=buildSheet(flatHeaders,flatRows);
