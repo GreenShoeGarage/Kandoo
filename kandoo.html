@@ -6100,24 +6100,52 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
     '<Override PartName="/xl/worksheets/sheet2.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'+
     '<Override PartName="/xl/worksheets/sheet3.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'+
     '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>'+
+    '<Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/>'+
+    '<Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/>'+
     '</Types>';
   var ROOT_RELS='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
     '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+
     '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>'+
+    '<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/>'+
+    '<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/>'+
     '</Relationships>';
+  // Excel is fussy about the presence of docProps even though the spec
+  // marks them optional. Ship a minimal pair to avoid silent tab drops.
+  var DOCPROPS_APP='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">'+
+    '<Application>Kandoo</Application>'+
+    '<DocSecurity>0</DocSecurity>'+
+    '<ScaleCrop>false</ScaleCrop>'+
+    '<HeadingPairs><vt:vector size="2" baseType="variant"><vt:variant><vt:lpstr>Worksheets</vt:lpstr></vt:variant><vt:variant><vt:i4>3</vt:i4></vt:variant></vt:vector></HeadingPairs>'+
+    '<TitlesOfParts><vt:vector size="3" baseType="lpstr"><vt:lpstr>Tasks</vt:lpstr><vt:lpstr>Subtasks</vt:lpstr><vt:lpstr>Tasks + Subtasks</vt:lpstr></vt:vector></TitlesOfParts>'+
+    '<LinksUpToDate>false</LinksUpToDate>'+
+    '<SharedDoc>false</SharedDoc>'+
+    '<HyperlinksChanged>false</HyperlinksChanged>'+
+    '<AppVersion>1.0</AppVersion>'+
+    '</Properties>';
+  function buildDocPropsCore(){
+    var now=new Date().toISOString().slice(0,19)+'Z';
+    return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+      '<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'+
+      '<dc:creator>Kandoo</dc:creator>'+
+      '<cp:lastModifiedBy>Kandoo</cp:lastModifiedBy>'+
+      '<dcterms:created xsi:type="dcterms:W3CDTF">'+now+'</dcterms:created>'+
+      '<dcterms:modified xsi:type="dcterms:W3CDTF">'+now+'</dcterms:modified>'+
+      '</cp:coreProperties>';
+  }
   var WORKBOOK='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
     '<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'+
     '<sheets>'+
     '<sheet name="Tasks" sheetId="1" r:id="rId1"/>'+
     '<sheet name="Subtasks" sheetId="2" r:id="rId2"/>'+
-    '<sheet name="Tasks + Subtasks" sheetId="3" r:id="rId4"/>'+
+    '<sheet name="Tasks + Subtasks" sheetId="3" r:id="rId3"/>'+
     '</sheets></workbook>';
   var WORKBOOK_RELS='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
     '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+
     '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>'+
     '<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet2.xml"/>'+
-    '<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>'+
-    '<Relationship Id="rId4" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet3.xml"/>'+
+    '<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet3.xml"/>'+
+    '<Relationship Id="rId4" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>'+
     '</Relationships>';
   // Minimal styles.xml with one style: bold header row
   var STYLES='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
@@ -6236,22 +6264,23 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
     // "n/a" in the subtask-specific columns so no task is missing from the
     // combined view. Great for pivots that need to slice by both task
     // attributes AND subtask attributes in a single sheet.
+    // Column order: Task ID + Title first (parent identifier), then all 5
+    // subtask columns (row identifier), then the remaining task detail.
+    // This keeps both the parent and subtask visible in the first 7
+    // columns without horizontal scrolling.
     var flatHeaders=[
-      'Task ID','Internal ID','Title','Type','Priority','Stage','Assignee',
+      'Task ID','Task Title',
+      'Subtask ID','Subtask Title','Subtask Assignee','Subtask Need-by Date','Subtask Completed',
+      'Internal ID','Type','Priority','Stage','Assignee',
       'Description','Start Date','Need-by Date','Completed Date',
       'Estimate Hours','Actual Hours','Logged Hours','Hourly Rate',
       'Billable','Materials Cost','Labor Cost','Total Amount',
       'Blocked','Blocking Reason','Recurrence','Tags','Dependencies',
       'Attachments','Comments','Subtasks (done/total)','Sticky Color',
-      'Created At','Updated At',
-      'Subtask ID','Subtask Title','Subtask Assignee','Subtask Need-by Date','Subtask Completed'
+      'Created At','Updated At'
     ];
     var flatRows=[];
     tasks.forEach(function(t,idx){
-      // Build the shared task-data prefix once per task (30 cells matching
-      // the Tasks sheet columns, minus the inline "Subtasks" detail column
-      // which would be redundant here since each row IS a subtask or the
-      // task with n/a placeholders).
       var labor=(typeof taskLaborCost==='function')?taskLaborCost(t):0;
       var amt=(typeof taskAmount==='function')?taskAmount(t):0;
       var subs=t.subtasks||[];
@@ -6261,8 +6290,9 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
         var d=tasks.find(function(x){return x.id===id;});
         return d?(d.taskId||d.title||id):id;
       }).join(', ');
-      var taskPrefix=[
-        t.taskId||'',t.id||'',t.title||'',t.type||'',t.priority||'',
+      // Task tail: everything except Task ID and Title (which lead the row)
+      var taskTail=[
+        t.id||'',t.type||'',t.priority||'',
         stageName(stages,t.stageId),t.responsible||'',t.description||'',
         dateOnly(t.startDate),dateOnly(t.needByDate),dateOnly(t.completedDate),
         num(t.estimateHours),num(t.actualHours),num(t.loggedHours),num(t.hourlyRate),
@@ -6275,22 +6305,27 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
         subTot?(subDone+' / '+subTot):'',t.stickyColor||'',
         t.createdAt||'',t.updatedAt||''
       ];
-      if(subs.length===0){
-        // No subtasks: single row with n/a in the subtask columns
-        flatRows.push(taskPrefix.concat(['n/a','n/a','n/a','n/a','n/a']));
-      }else{
-        subs.forEach(function(s){
-          flatRows.push(taskPrefix.concat([
-            s.subtaskId||'',s.title||'',s.responsible||'',
-            dateOnly(s.needByDate),yn(s.completed)
-          ]));
-        });
-      }
+      // Row-generation rules: every task ALWAYS gets its own row with
+      // 'n/a' in the subtask columns (so every taskID appears as an entry
+      // regardless of whether it has subtasks). Then every subtask gets
+      // its own row with the parent task data duplicated. Result for a
+      // project with tasks having 1, 1, and 0 subtasks: 3 task-rows +
+      // 2 subtask-rows = 5 rows total.
+      flatRows.push([t.taskId||'',t.title||'','n/a','n/a','n/a','n/a','n/a'].concat(taskTail));
+      subs.forEach(function(s){
+        flatRows.push([
+          t.taskId||'',t.title||'',
+          s.subtaskId||'',s.title||'',s.responsible||'',
+          dateOnly(s.needByDate),yn(s.completed)
+        ].concat(taskTail));
+      });
     });
     var sheet3=buildSheet(flatHeaders,flatRows);
     var files=[
       {name:'[Content_Types].xml',data:CONTENT_TYPES},
       {name:'_rels/.rels',data:ROOT_RELS},
+      {name:'docProps/app.xml',data:DOCPROPS_APP},
+      {name:'docProps/core.xml',data:buildDocPropsCore()},
       {name:'xl/workbook.xml',data:WORKBOOK},
       {name:'xl/_rels/workbook.xml.rels',data:WORKBOOK_RELS},
       {name:'xl/styles.xml',data:STYLES},
