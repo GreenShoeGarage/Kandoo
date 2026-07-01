@@ -1651,6 +1651,261 @@ body.kandoo-bottom-sheets #taskModal select{
   outline:3px solid rgba(255,255,255,.7);
   outline-offset:2px;
 }
+
+/* v6.16+ Task Templates: picker overlay + save-as-template modal + card
+   styling. Uses the same fixed-overlay + dialog pattern as the chart
+   fullscreen and cheatsheet, so the aesthetic is consistent. */
+.template-picker-overlay,
+.template-save-overlay{
+  position:fixed;
+  inset:0;
+  z-index:210;
+  background:rgba(20,15,10,.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  backdrop-filter:blur(3px);
+  opacity:0;
+  transition:opacity .18s ease-out;
+}
+.template-picker-overlay.open,
+.template-save-overlay.open{
+  display:flex;
+  opacity:1;
+}
+.template-picker-dialog,
+.template-save-dialog{
+  background:var(--panel,#fff);
+  border:3px solid var(--line,#999);
+  border-radius:20px;
+  box-shadow:9px 12px 0 rgba(0,0,0,.3);
+  padding:20px;
+  width:min(720px,95vw);
+  max-height:88vh;
+  display:flex;
+  flex-direction:column;
+}
+.template-save-dialog{width:min(520px,95vw)}
+.template-save-dialog h2,
+.template-picker-head h2{
+  font-family:var(--font-hand,cursive);
+  font-size:26px;
+  margin:0;
+}
+.template-picker-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:14px;
+  padding-bottom:10px;
+  border-bottom:2px dashed var(--line,#999);
+}
+.template-picker-body{
+  flex:1;
+  overflow-y:auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:12px;
+}
+.template-picker-card{
+  background:rgba(255,255,255,.65);
+  border:2px solid var(--line,#999);
+  border-radius:14px;
+  padding:12px;
+  box-shadow:3px 4px 0 var(--shadow);
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.template-picker-card h3{
+  font-family:var(--font-hand,cursive);
+  font-size:20px;
+  margin:0;
+}
+.template-picker-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin:6px 0;
+  min-height:24px;
+}
+.template-picker-meta .pill{
+  font-size:11px;
+  border:1px solid rgba(0,0,0,.15);
+  border-radius:999px;
+  padding:2px 8px;
+  background:rgba(255,255,255,.7);
+}
+.template-picker-actions{
+  display:flex;
+  gap:6px;
+  margin-top:auto;
+  padding-top:6px;
+}
+.template-picker-empty{
+  grid-column:1/-1;
+  padding:28px;
+  text-align:center;
+  color:var(--muted);
+  border:2px dashed var(--line,#999);
+  border-radius:16px;
+  background:rgba(255,255,255,.35);
+  font-size:14px;
+}
+.task-tmpl-card{position:relative}
+#saveAsTemplateBtn{margin-left:4px}
+
+/* v6.16+ Time Tracking: header widget + sticky timer button + task modal
+   timer controls. The header widget uses fixed positioning below the
+   top-right so it doesn't fight the header toolbar. Pulsing dot signals
+   "actively running". Aesthetic ties to the vintage-instrument dark
+   accent (red pulse over cream panel). */
+.timer-widget{
+  position:fixed;
+  top:80px;
+  right:14px;
+  z-index:190;
+  display:none;
+  align-items:center;
+  gap:10px;
+  padding:9px 12px 9px 14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.85));
+  border:2px solid var(--line,#999);
+  border-radius:14px;
+  box-shadow:4px 5px 0 rgba(0,0,0,.2);
+  font-family:var(--font-ui,system-ui);
+  max-width:340px;
+  animation:pillPop .18s ease-out;
+}
+.timer-widget.open{display:flex}
+.timer-widget-pulse{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#c33;
+  flex-shrink:0;
+  box-shadow:0 0 0 rgba(204,51,51,.7);
+  animation:timerPulse 1.4s ease-in-out infinite;
+}
+@keyframes timerPulse{
+  0%{box-shadow:0 0 0 0 rgba(204,51,51,.55)}
+  70%{box-shadow:0 0 0 10px rgba(204,51,51,0)}
+  100%{box-shadow:0 0 0 0 rgba(204,51,51,0)}
+}
+.timer-widget-body{
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  flex:1;
+}
+.timer-widget-label{
+  font-size:10px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  font-weight:700;
+}
+.timer-widget-title{
+  font-size:14px;
+  font-weight:700;
+  color:var(--ink);
+  cursor:pointer;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:180px;
+}
+.timer-widget-title:hover{text-decoration:underline}
+.timer-widget-time{
+  font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  font-size:15px;
+  font-weight:700;
+  color:#c33;
+  font-variant-numeric:tabular-nums;
+  min-width:66px;
+  text-align:right;
+}
+.timer-widget-stop{
+  background:#c33!important;
+  color:#fff!important;
+  border-color:rgba(0,0,0,.25)!important;
+}
+
+/* Timer button on each sticky note - absolute top-right so it doesn't
+   crowd the swatches + action buttons in .note-actions at the bottom */
+.note-timer-btn{
+  position:absolute;
+  top:6px;
+  right:6px;
+  z-index:2;
+  font-family:var(--font-ui,system-ui);
+  font-size:10px;
+  font-weight:700;
+  padding:3px 7px;
+  border-radius:8px;
+  border:1px solid rgba(0,0,0,.2);
+  background:rgba(255,255,255,.75);
+  color:#222;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  white-space:nowrap;
+  transition:background .12s,border-color .12s;
+  box-shadow:1px 2px 3px rgba(0,0,0,.1);
+}
+.note-timer-btn:hover{background:#fff}
+.note-timer-btn.running{
+  background:#c33;
+  color:#fff;
+  border-color:rgba(0,0,0,.35);
+  animation:timerPulse 1.6s ease-in-out infinite;
+}
+.note-timer-btn .timer-dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#fff;
+  display:inline-block;
+  animation:timerBlink 1s step-end infinite;
+}
+@keyframes timerBlink{
+  0%,100%{opacity:1}
+  50%{opacity:0.3}
+}
+.note.timer-active{
+  outline:3px solid #c33;
+  outline-offset:2px;
+}
+
+/* Task modal timer group next to Logged Hours */
+.task-timer-group{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:6px;
+}
+.task-timer-group #modalTimerBtn.running{
+  background:#c33;
+  color:#fff;
+}
+.task-timer-elapsed{
+  font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  font-size:12px;
+  color:#c33;
+  font-weight:700;
+}
+
+/* Print + mobile adjustments */
+@media print{.timer-widget,.note-timer-btn,.task-timer-group{display:none!important}}
+@media(max-width:860px){
+  .timer-widget{
+    top:auto;bottom:78px;left:12px;right:12px;max-width:none;
+  }
+  .timer-widget-title{max-width:none}
+}
 </style>
 </head>
 <div class="app">
@@ -6607,6 +6862,647 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
     exitFocus();
   },true);
   window.exitGanttFocus=exitFocus;
+})();
+/* v6.16+ Task Templates
+   Reusable task blueprints stored globally in state.taskTemplates.
+   Save an existing task's shape (title, description, type, priority,
+   assignee, hours, tags, subtasks, color, billing info) as a named
+   template, then spin up new tasks from it with one click.
+
+   Explicitly EXCLUDED from templates because they're always task-instance
+   specific: startDate, needByDate, completedDate, actualHours,
+   loggedHours, blocked/blockingReason, dependencies, attachments,
+   comments, stageHistory. Subtasks keep title/responsible/notes only
+   (dates and completion state are per-instance).
+
+   UI:
+   - "Save as Template" button in the task modal footer opens a small
+     naming dialog and captures the current modal state.
+   - "From Template" button in the header, right next to "+ Sticky Task",
+     opens a template picker overlay.
+   - The existing Templates tab gets a new "Task Templates" section for
+     listing / using / deleting.
+   - First-run seeds three sensible defaults so the feature is useful
+     immediately.
+*/
+(function(){
+  var TEMPLATE_FIELDS=['title','description','type','priority','responsible',
+    'estimateHours','hourlyRate','materialsCost','billable','recurrence',
+    'tags','stickyColor'];
+  var SUBTASK_TEMPLATE_FIELDS=['title','responsible','notes'];
+  var DEFAULTS=[
+    {name:'Bug Fix',description:'Standard bug fix workflow',
+     task:{title:'Fix: ',type:'Bug',priority:'High',billable:true,
+           stickyColor:'#ffab91',tags:['bug'],
+           subtasks:[
+             {title:'Reproduce the issue'},
+             {title:'Identify root cause'},
+             {title:'Write fix'},
+             {title:'Add regression test'},
+             {title:'Document in changelog'}
+           ]}},
+    {name:'Feature Request',description:'New feature build cycle',
+     task:{title:'Feature: ',type:'Feature Request',priority:'Medium',
+           billable:true,stickyColor:'#90caf9',tags:['feature'],
+           subtasks:[
+             {title:'Discovery and requirements'},
+             {title:'Design mockup'},
+             {title:'Build'},
+             {title:'Internal test'},
+             {title:'User test'},
+             {title:'Ship'}
+           ]}},
+    {name:'Client Meeting',description:'Prep + follow-up around a client call',
+     task:{title:'Meeting: ',type:'General',priority:'Medium',
+           estimateHours:2,billable:true,stickyColor:'#c5e1a5',
+           tags:['client','meeting'],
+           subtasks:[
+             {title:'Send agenda 24h ahead'},
+             {title:'Prepare talking points'},
+             {title:'Take notes during call'},
+             {title:'Send follow-up recap'}
+           ]}}
+  ];
+  function ensureTaskTemplates(){
+    if(!Array.isArray(state.taskTemplates))state.taskTemplates=[];
+    if(state.taskTemplates.length===0&&!state._taskTemplatesSeeded){
+      state._taskTemplatesSeeded=true;
+      DEFAULTS.forEach(function(d){
+        state.taskTemplates.push({
+          id:'tmpl_'+Math.random().toString(36).slice(2,10),
+          name:d.name,description:d.description,
+          task:JSON.parse(JSON.stringify(d.task)),
+          createdAt:new Date().toISOString(),usageCount:0,seeded:true
+        });
+      });
+    }
+  }
+  function readCurrentTaskModal(){
+    function v(id){return document.getElementById(id)?.value||'';}
+    function n(id){var x=parseFloat(v(id));return isFinite(x)?x:null;}
+    return {
+      title:v('taskTitle'),description:v('taskDesc'),
+      type:v('taskType'),priority:v('taskPriority'),
+      responsible:v('taskPerson'),estimateHours:n('taskEstimate'),
+      hourlyRate:n('taskRate'),materialsCost:n('taskMaterials'),
+      billable:v('taskBillable')==='true',recurrence:v('taskRecurrence'),
+      tags:v('taskTags').split(',').map(function(x){return x.trim();}).filter(Boolean),
+      stickyColor:v('taskColor'),
+      subtasks:[].slice.call(document.querySelectorAll('#subtaskList .subtask-row')).map(function(r){
+        return {
+          title:r.querySelector('.subtask-title')?.value||'',
+          responsible:r.querySelector('.subtask-person')?.value||'',
+          notes:''
+        };
+      })
+    };
+  }
+  function saveTaskAsTemplate(name,description){
+    var current=readCurrentTaskModal();
+    var taskData={};
+    TEMPLATE_FIELDS.forEach(function(f){
+      if(current[f]!=null&&current[f]!=='')taskData[f]=current[f];
+    });
+    taskData.subtasks=(current.subtasks||[]).filter(function(s){return s.title;});
+    ensureTaskTemplates();
+    state.taskTemplates.push({
+      id:'tmpl_'+Math.random().toString(36).slice(2,10),
+      name:name,description:description||'',
+      task:taskData,createdAt:new Date().toISOString(),usageCount:0
+    });
+    saveState();
+    if(typeof showToast==='function')showToast('Template saved: '+name);
+  }
+  function useTemplate(templateId){
+    ensureTaskTemplates();
+    var tmpl=(state.taskTemplates||[]).find(function(t){return t.id===templateId;});
+    if(!tmpl)return;
+    tmpl.usageCount=(tmpl.usageCount||0)+1;
+    saveState();
+    // Open a blank task modal and fill it in
+    openTaskModal();
+    setTimeout(function(){
+      var td=tmpl.task||{};
+      var setters={
+        taskTitle:td.title||'',taskDesc:td.description||'',
+        taskType:td.type||'General',taskPriority:td.priority||'Medium',
+        taskPerson:td.responsible||'',
+        taskEstimate:td.estimateHours!=null?td.estimateHours:'',
+        taskRate:td.hourlyRate!=null?td.hourlyRate:'',
+        taskMaterials:td.materialsCost!=null?td.materialsCost:'',
+        taskBillable:String(td.billable!==false),
+        taskRecurrence:td.recurrence||'None',
+        taskTags:(td.tags||[]).join(', '),
+        taskColor:td.stickyColor||'#fff176'
+      };
+      Object.keys(setters).forEach(function(id){
+        var el=document.getElementById(id);
+        if(el)el.value=setters[id];
+      });
+      // Re-render subtasks from the template
+      if(typeof renderSubtasks==='function'){
+        var subs=(td.subtasks||[]).map(function(s){
+          return {
+            id:'subtask_'+Math.random().toString(36).slice(2,9),
+            title:s.title||'',responsible:s.responsible||'',
+            needByDate:'',completed:false,notes:s.notes||''
+          };
+        });
+        renderSubtasks(subs);
+      }
+      if(typeof updateTaskPreview==='function')updateTaskPreview();
+    },80);
+  }
+  function deleteTemplate(templateId){
+    if(!confirm('Delete this template? This cannot be undone.'))return;
+    ensureTaskTemplates();
+    state.taskTemplates=state.taskTemplates.filter(function(t){return t.id!==templateId;});
+    saveState();
+    var picker=document.getElementById('taskTemplatePicker');
+    if(picker&&picker.classList.contains('open'))openTemplatePicker();
+    if(typeof renderView==='function')renderView();
+  }
+  /* Save-as-Template modal */
+  function openSaveTemplateDialog(){
+    var current=readCurrentTaskModal();
+    if(!current.title){
+      if(typeof showToast==='function')showToast('Give the task a title before saving as template');
+      return;
+    }
+    var existing=document.getElementById('saveTemplateDialog');
+    if(existing)existing.remove();
+    var dlg=document.createElement('div');
+    dlg.id='saveTemplateDialog';
+    dlg.className='template-save-overlay';
+    dlg.innerHTML='<div class="template-save-dialog">'+
+      '<h2>Save as Template</h2>'+
+      '<p style="color:var(--muted);margin:0 0 12px">Capture this task shape (title, subtasks, tags, color, billing) as a reusable template. Dates, blocked state, and dependencies stay task-specific and are not saved.</p>'+
+      '<div class="field"><label>Template name</label><input id="tmplNameInput" type="text" value="'+escapeAttr(current.title)+'"></div>'+
+      '<div class="field"><label>Description (optional)</label><textarea id="tmplDescInput" placeholder="What this template is for" style="min-height:60px"></textarea></div>'+
+      '<div class="toolbar" style="justify-content:flex-end;margin-top:12px">'+
+        '<button class="btn" onclick="closeSaveTemplateDialog()">Cancel</button> '+
+        '<button class="btn primary" onclick="confirmSaveTemplate()">Save Template</button>'+
+      '</div>'+
+      '</div>';
+    document.body.appendChild(dlg);
+    setTimeout(function(){dlg.classList.add('open');document.getElementById('tmplNameInput')?.focus();},10);
+    dlg.addEventListener('click',function(e){if(e.target===dlg)closeSaveTemplateDialog();});
+  }
+  function closeSaveTemplateDialog(){
+    var dlg=document.getElementById('saveTemplateDialog');
+    if(dlg){dlg.classList.remove('open');setTimeout(function(){dlg.remove();},200);}
+  }
+  function confirmSaveTemplate(){
+    var name=(document.getElementById('tmplNameInput')?.value||'').trim();
+    if(!name){document.getElementById('tmplNameInput')?.focus();return;}
+    var desc=(document.getElementById('tmplDescInput')?.value||'').trim();
+    saveTaskAsTemplate(name,desc);
+    closeSaveTemplateDialog();
+  }
+  /* Template picker overlay */
+  function openTemplatePicker(){
+    ensureTaskTemplates();
+    var templates=state.taskTemplates||[];
+    var overlay=document.getElementById('taskTemplatePicker');
+    if(overlay)overlay.remove();
+    overlay=document.createElement('div');
+    overlay.id='taskTemplatePicker';
+    overlay.className='template-picker-overlay';
+    var cards=templates.length?templates.map(function(t){
+      var meta=[];
+      if(t.task.type)meta.push('<span class="pill">'+escapeHtml(t.task.type)+'</span>');
+      if(t.task.priority)meta.push('<span class="pill">'+escapeHtml(t.task.priority)+'</span>');
+      if(t.task.subtasks&&t.task.subtasks.length)meta.push('<span class="pill">'+t.task.subtasks.length+' subtask'+(t.task.subtasks.length!==1?'s':'')+'</span>');
+      if(t.task.tags&&t.task.tags.length)meta.push('<span class="pill">'+escapeHtml(t.task.tags.join(', '))+'</span>');
+      if(t.usageCount)meta.push('<span class="pill">Used '+t.usageCount+'x</span>');
+      return '<div class="template-picker-card">'+
+        '<div style="width:14px;height:14px;border-radius:50%;background:'+(t.task.stickyColor||'#fff176')+';float:right;border:1px solid rgba(0,0,0,.2)"></div>'+
+        '<h3>'+escapeHtml(t.name)+'</h3>'+
+        (t.description?'<p style="color:var(--muted);font-size:13px;margin:4px 0 8px">'+escapeHtml(t.description)+'</p>':'')+
+        '<div class="template-picker-meta">'+meta.join(' ')+'</div>'+
+        '<div class="template-picker-actions">'+
+          '<button class="btn primary" onclick="useTaskTemplate(\''+escapeAttr(t.id)+'\')">Use</button>'+
+          '<button class="btn small" onclick="deleteTaskTemplate(\''+escapeAttr(t.id)+'\')">Delete</button>'+
+        '</div>'+
+        '</div>';
+    }).join(''):'<div class="template-picker-empty">No task templates yet. Open a task and click <strong>Save as Template</strong> to create your first one.</div>';
+    overlay.innerHTML='<div class="template-picker-dialog">'+
+      '<div class="template-picker-head">'+
+        '<h2>Choose a Task Template</h2>'+
+        '<button class="iconbtn" onclick="closeTemplatePicker()" aria-label="Close">✕</button>'+
+      '</div>'+
+      '<div class="template-picker-body">'+cards+'</div>'+
+      '</div>';
+    document.body.appendChild(overlay);
+    setTimeout(function(){overlay.classList.add('open');},10);
+    overlay.addEventListener('click',function(e){if(e.target===overlay)closeTemplatePicker();});
+  }
+  function closeTemplatePicker(){
+    var overlay=document.getElementById('taskTemplatePicker');
+    if(overlay){overlay.classList.remove('open');setTimeout(function(){overlay.remove();},200);}
+  }
+  /* Decorate the header toolbar with a "From Template" button next to
+     "+ Sticky Task". Idempotent; survives header rebuilds. */
+  function decorateHeaderToolbar(){
+    var newTaskBtn=document.getElementById('newTaskBtn');
+    if(!newTaskBtn)return;
+    if(document.getElementById('newFromTemplateBtn'))return;
+    var btn=document.createElement('button');
+    btn.type='button';
+    btn.id='newFromTemplateBtn';
+    btn.className='btn always-visible';
+    btn.textContent='From Template';
+    btn.onclick=openTemplatePicker;
+    newTaskBtn.insertAdjacentElement('afterend',btn);
+  }
+  /* Decorate the task modal footer with "Save as Template" */
+  function decorateTaskModalFooter(){
+    var modal=document.getElementById('taskModal');
+    if(!modal)return;
+    var footers=modal.querySelectorAll('.dialog .toolbar');
+    var footer=null;
+    footers.forEach(function(f){if(f.querySelector('#saveTaskBtn'))footer=f;});
+    if(!footer)return;
+    if(footer.querySelector('#saveAsTemplateBtn'))return;
+    var btn=document.createElement('button');
+    btn.type='button';
+    btn.id='saveAsTemplateBtn';
+    btn.className='btn';
+    btn.textContent='Save as Template';
+    btn.onclick=openSaveTemplateDialog;
+    // Put it right before Delete on the left side
+    var deleteBtn=footer.querySelector('#deleteTaskBtn');
+    if(deleteBtn){deleteBtn.insertAdjacentElement('afterend',btn);}
+    else{footer.insertBefore(btn,footer.firstChild);}
+  }
+  /* Extend Templates tab with a Task Templates section */
+  function decorateTemplatesTab(){
+    var page=document.querySelector('.page');
+    if(!page)return;
+    var h2=page.querySelector('h2');
+    if(!h2||!/Template Shelf/i.test(h2.textContent||''))return;
+    if(page.querySelector('#taskTemplatesSection'))return;
+    ensureTaskTemplates();
+    var templates=state.taskTemplates||[];
+    var section=document.createElement('div');
+    section.id='taskTemplatesSection';
+    section.style.marginTop='24px';
+    var cards=templates.length?templates.map(function(t){
+      var meta=[];
+      if(t.task.type)meta.push(escapeHtml(t.task.type));
+      if(t.task.priority)meta.push(escapeHtml(t.task.priority));
+      if(t.task.subtasks)meta.push(t.task.subtasks.length+' subtask'+(t.task.subtasks.length!==1?'s':''));
+      if(t.usageCount)meta.push('used '+t.usageCount+'x');
+      return '<div class="template-card task-tmpl-card">'+
+        '<div style="width:14px;height:14px;border-radius:50%;background:'+(t.task.stickyColor||'#fff176')+';float:right;border:1px solid rgba(0,0,0,.2)"></div>'+
+        '<h3>'+escapeHtml(t.name)+'</h3>'+
+        (t.description?'<p>'+escapeHtml(t.description)+'</p>':'')+
+        '<p style="color:var(--muted);font-size:12px;margin:6px 0 10px">'+meta.join(' &middot; ')+'</p>'+
+        '<div style="display:flex;gap:6px">'+
+          '<button class="btn primary" onclick="useTaskTemplate(\''+escapeAttr(t.id)+'\')">Use</button>'+
+          '<button class="btn" onclick="deleteTaskTemplate(\''+escapeAttr(t.id)+'\')">Delete</button>'+
+        '</div>'+
+        '</div>';
+    }).join(''):'<div class="empty">No task templates yet. Open a task and click <strong>Save as Template</strong> to create your first one.</div>';
+    section.innerHTML='<h2 style="font-family:var(--font-hand);font-size:28px;margin:0 0 6px">Task Templates</h2>'+
+      '<p style="color:var(--muted);margin:0 0 12px">Reusable task blueprints. Save a task as a template from the task modal, or click a template below to create a new task from it.</p>'+
+      '<div class="template-grid">'+cards+'</div>';
+    page.appendChild(section);
+  }
+  // Register hooks
+  if(window.kandooRenderPipeline){
+    window.kandooRenderPipeline.preRender.push(ensureTaskTemplates);
+    window.kandooRenderPipeline.postRenderAsync.push(function(){
+      decorateHeaderToolbar();decorateTemplatesTab();
+    });
+  }
+  if(window.kandooRenderViewPipeline){
+    window.kandooRenderViewPipeline.preRender.push(ensureTaskTemplates);
+    window.kandooRenderViewPipeline.postRenderAsync.push(function(){
+      decorateHeaderToolbar();decorateTemplatesTab();
+    });
+  }
+  // Hook into openTaskModal to inject the Save as Template button
+  var _prevOpenModal=window.openTaskModal;
+  window.openTaskModal=function(id){
+    _prevOpenModal(id);
+    setTimeout(decorateTaskModalFooter,60);
+  };
+  // MutationObserver on header to survive rebuilds (same pattern as XLSX/CSV)
+  if(window.MutationObserver){
+    var header=document.querySelector('header');
+    if(header){
+      new MutationObserver(function(){
+        if(!document.getElementById('newFromTemplateBtn'))decorateHeaderToolbar();
+      }).observe(header,{childList:true,subtree:true});
+    }
+  }
+  setTimeout(decorateHeaderToolbar,600);
+  setTimeout(decorateHeaderToolbar,1500);
+  // Seed defaults at load time. Hooks fire only on future renders, but
+  // the initial render already happened before this IIFE ran, so seed
+  // explicitly here and save to persist the defaults.
+  ensureTaskTemplates();
+  if(typeof saveState==='function')saveState();
+  // Expose everything
+  window.openSaveTemplateDialog=openSaveTemplateDialog;
+  window.closeSaveTemplateDialog=closeSaveTemplateDialog;
+  window.confirmSaveTemplate=confirmSaveTemplate;
+  window.openTemplatePicker=openTemplatePicker;
+  window.closeTemplatePicker=closeTemplatePicker;
+  window.useTaskTemplate=function(id){closeTemplatePicker();useTemplate(id);};
+  window.deleteTaskTemplate=deleteTemplate;
+  window.saveTaskAsTemplate=saveTaskAsTemplate;
+  window.ensureTaskTemplates=ensureTaskTemplates;
+})();
+/* v6.16+ Time Tracking
+   Adds a running timer to every sticky. Click ▶ to start, ⏹ to stop.
+   Stopping accumulates elapsed time into task.loggedHours (rounded to 3
+   decimal places). Only one timer runs at a time across all projects
+   and all tasks; starting a new one auto-stops any running timer and
+   commits its elapsed time.
+
+   The always-visible "Now Working On" widget in the top-right corner
+   shows the currently-running task title with live-updating elapsed
+   time. Click it to jump to that task's modal. Also visible in the
+   task modal itself with a Start/Stop button next to Logged Hours.
+
+   Persistence: timerStartedAt is a full ISO timestamp on the task, so
+   if you close the browser with a timer running, it keeps counting
+   from where it left off. This mirrors what a paper timesheet does.
+*/
+(function(){
+  var TICK_INTERVAL_MS=1000;
+  function findTask(taskId){
+    var projects=state.projects||[];
+    for(var i=0;i<projects.length;i++){
+      var t=(projects[i].tasks||[]).find(function(x){return x.id===taskId;});
+      if(t)return {project:projects[i],task:t};
+    }
+    return null;
+  }
+  function findActiveTimer(){
+    var projects=state.projects||[];
+    for(var i=0;i<projects.length;i++){
+      var tasks=projects[i].tasks||[];
+      for(var j=0;j<tasks.length;j++){
+        if(tasks[j].timerStartedAt)return {project:projects[i],task:tasks[j]};
+      }
+    }
+    return null;
+  }
+  function elapsedMs(task){
+    if(!task||!task.timerStartedAt)return 0;
+    var started=new Date(task.timerStartedAt).getTime();
+    if(!isFinite(started))return 0;
+    return Math.max(0,Date.now()-started);
+  }
+  function formatElapsed(ms){
+    var sec=Math.floor(ms/1000);
+    var h=Math.floor(sec/3600);
+    var m=Math.floor((sec%3600)/60);
+    var s=sec%60;
+    return h+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  }
+  function commitElapsed(task){
+    var ms=elapsedMs(task);
+    if(ms<=0)return 0;
+    var hours=ms/3600000;
+    var current=Number(task.loggedHours)||0;
+    // 4 decimals = ~0.36s resolution. Enough that even a quick tap
+    // registers something instead of being rounded to zero.
+    task.loggedHours=Math.round((current+hours)*10000)/10000;
+    task.timerStartedAt=null;
+    task.updatedAt=new Date().toISOString();
+    return hours;
+  }
+  window.startTaskTimer=function(taskId){
+    // Stop any running timer first, committing its time
+    var active=findActiveTimer();
+    if(active){
+      var commited=commitElapsed(active.task);
+      if(typeof showToast==='function'){
+        showToast('Stopped: '+active.task.title+' (+'+commited.toFixed(2)+'h)');
+      }
+      if(active.task.id===taskId){
+        // Same task: user hit stop-via-start-again. Save + redraw.
+        saveState();
+        renderTimerUI();
+        return;
+      }
+    }
+    var found=findTask(taskId);
+    if(!found)return;
+    found.task.timerStartedAt=new Date().toISOString();
+    found.task.updatedAt=new Date().toISOString();
+    saveState();
+    renderTimerUI();
+    if(typeof showToast==='function')showToast('Timer started: '+found.task.title);
+  };
+  window.stopTaskTimer=function(taskId){
+    var found=taskId?findTask(taskId):findActiveTimer();
+    if(!found||!found.task.timerStartedAt)return;
+    var hours=commitElapsed(found.task);
+    saveState();
+    renderTimerUI();
+    if(typeof showToast==='function'){
+      showToast('Logged '+hours.toFixed(2)+'h to '+found.task.title);
+    }
+  };
+  window.toggleTaskTimer=function(taskId){
+    var found=findTask(taskId);
+    if(!found)return;
+    if(found.task.timerStartedAt){window.stopTaskTimer(taskId);}
+    else{window.startTaskTimer(taskId);}
+  };
+  /* Header "Now Working On" widget: fixed position top-right, hidden
+     when no timer is running. Live-updates elapsed time every second. */
+  function ensureHeaderWidget(){
+    var w=document.getElementById('timerHeaderWidget');
+    if(w)return w;
+    w=document.createElement('div');
+    w.id='timerHeaderWidget';
+    w.className='timer-widget';
+    w.innerHTML=
+      '<span class="timer-widget-pulse" aria-hidden="true"></span>'+
+      '<div class="timer-widget-body">'+
+        '<div class="timer-widget-label">Now working on</div>'+
+        '<div class="timer-widget-title" id="timerWidgetTitle">-</div>'+
+      '</div>'+
+      '<div class="timer-widget-time" id="timerWidgetTime">0:00:00</div>'+
+      '<button class="btn small timer-widget-stop" id="timerWidgetStop" type="button">Stop</button>';
+    document.body.appendChild(w);
+    w.querySelector('#timerWidgetTitle').addEventListener('click',function(){
+      var active=findActiveTimer();
+      if(active&&typeof openTaskModal==='function'){
+        // If we're in a different project, switch first
+        if(typeof activeProjectId!=='undefined'&&activeProjectId!==active.project.id){
+          activeProjectId=active.project.id;
+          if(typeof render==='function')render();
+        }
+        openTaskModal(active.task.id);
+      }
+    });
+    w.querySelector('#timerWidgetStop').addEventListener('click',function(){
+      window.stopTaskTimer();
+    });
+    return w;
+  }
+  function updateHeaderWidget(){
+    var w=document.getElementById('timerHeaderWidget');
+    var active=findActiveTimer();
+    if(!active){
+      if(w)w.classList.remove('open');
+      return;
+    }
+    if(!w)w=ensureHeaderWidget();
+    w.classList.add('open');
+    var titleEl=w.querySelector('#timerWidgetTitle');
+    var timeEl=w.querySelector('#timerWidgetTime');
+    if(titleEl)titleEl.textContent=active.task.title||'Untitled';
+    if(timeEl)timeEl.textContent=formatElapsed(elapsedMs(active.task));
+  }
+  /* Sticky decoration: add a compact timer button to every .note on the
+     board. Uses the task ID from the note's dataset (data-task-id). */
+  function decorateStickies(){
+    var notes=document.querySelectorAll('.note[data-task-id]');
+    var active=findActiveTimer();
+    var activeId=active?active.task.id:null;
+    notes.forEach(function(note){
+      var taskId=note.dataset.taskId;
+      if(!taskId)return;
+      // Highlight if this note is the active timer
+      note.classList.toggle('timer-active',taskId===activeId);
+      var btn=note.querySelector('.note-timer-btn');
+      if(!btn){
+        btn=document.createElement('button');
+        btn.type='button';
+        btn.className='note-timer-btn';
+        btn.setAttribute('aria-label','Toggle timer');
+        btn.addEventListener('click',function(e){
+          e.stopPropagation();
+          window.toggleTaskTimer(taskId);
+        });
+        // Absolute position top-right of the sticky. Keeps swatches +
+        // delete button layout in .note-actions untouched, and puts the
+        // timer where it's scannable when eyeballing the board.
+        note.appendChild(btn);
+      }
+      var running=(taskId===activeId);
+      if(running){
+        var ms=elapsedMs(active.task);
+        btn.innerHTML='<span class="timer-dot" aria-hidden="true"></span>⏹ '+formatElapsed(ms);
+        btn.classList.add('running');
+        btn.title='Stop timer';
+      }else{
+        btn.innerHTML='▶ Start';
+        btn.classList.remove('running');
+        btn.title='Start timer';
+      }
+    });
+  }
+  /* Task modal: inject a Start/Stop button after the Logged Hours field */
+  function decorateTaskModal(){
+    var modal=document.getElementById('taskModal');
+    if(!modal||!modal.classList.contains('open'))return;
+    var logged=document.getElementById('taskLogged');
+    if(!logged)return;
+    var taskId=document.getElementById('taskId')?.value;
+    var field=logged.closest('.field');
+    if(!field)return;
+    var group=field.querySelector('.task-timer-group');
+    if(!group){
+      group=document.createElement('div');
+      group.className='task-timer-group';
+      group.innerHTML=
+        '<button type="button" class="btn small" id="modalTimerBtn">▶ Start</button>'+
+        '<span class="task-timer-elapsed" id="modalTimerElapsed"></span>';
+      field.appendChild(group);
+      group.querySelector('#modalTimerBtn').addEventListener('click',function(){
+        var currentId=document.getElementById('taskId')?.value;
+        if(!currentId){
+          if(typeof showToast==='function')showToast('Save the task first before starting the timer');
+          return;
+        }
+        window.toggleTaskTimer(currentId);
+        // Refresh the logged-hours input to show new value after stop
+        setTimeout(function(){
+          var found=findTask(currentId);
+          if(found&&logged)logged.value=found.task.loggedHours!=null?found.task.loggedHours:'';
+        },50);
+      });
+    }
+    if(!taskId){
+      // New task not yet saved - hide the timer group
+      group.style.opacity='0.4';
+      group.querySelector('#modalTimerBtn').textContent='▶ Start (save first)';
+      group.querySelector('#modalTimerElapsed').textContent='';
+      return;
+    }
+    group.style.opacity='1';
+    var found=findTask(taskId);
+    var running=found&&found.task.timerStartedAt;
+    var btn=group.querySelector('#modalTimerBtn');
+    var elapsed=group.querySelector('#modalTimerElapsed');
+    if(running){
+      btn.textContent='⏹ Stop';
+      btn.classList.add('running');
+      elapsed.textContent='Running: '+formatElapsed(elapsedMs(found.task));
+    }else{
+      btn.textContent='▶ Start';
+      btn.classList.remove('running');
+      elapsed.textContent='';
+    }
+  }
+  /* Global refresh on tick + on major state changes */
+  function renderTimerUI(){
+    ensureHeaderWidget();
+    updateHeaderWidget();
+    decorateStickies();
+    decorateTaskModal();
+  }
+  // Tick every second to update elapsed displays
+  setInterval(function(){
+    var active=findActiveTimer();
+    if(!active){
+      var w=document.getElementById('timerHeaderWidget');
+      if(w&&w.classList.contains('open'))w.classList.remove('open');
+      return;
+    }
+    // Update header widget time
+    var timeEl=document.getElementById('timerWidgetTime');
+    if(timeEl)timeEl.textContent=formatElapsed(elapsedMs(active.task));
+    // Update sticky button
+    var note=document.querySelector('.note[data-task-id="'+active.task.id+'"] .note-timer-btn');
+    if(note){
+      note.innerHTML='<span class="timer-dot" aria-hidden="true"></span>⏹ '+formatElapsed(elapsedMs(active.task));
+    }
+    // Update modal display
+    var mod=document.getElementById('modalTimerElapsed');
+    if(mod&&document.getElementById('taskId')?.value===active.task.id){
+      mod.textContent='Running: '+formatElapsed(elapsedMs(active.task));
+    }
+  },TICK_INTERVAL_MS);
+  // Register hooks so timer UI redraws on every board render + view switch
+  if(window.kandooRenderPipeline){
+    window.kandooRenderPipeline.postRenderAsync.push(renderTimerUI);
+  }
+  if(window.kandooRenderViewPipeline){
+    window.kandooRenderViewPipeline.postRenderAsync.push(renderTimerUI);
+  }
+  // Hook into openTaskModal to refresh modal timer UI
+  var _prevOpenModal=window.openTaskModal;
+  window.openTaskModal=function(id){
+    _prevOpenModal(id);
+    setTimeout(decorateTaskModal,80);
+  };
+  // Boot the widget once state is ready
+  setTimeout(renderTimerUI,700);
+  setTimeout(renderTimerUI,1600);
+  // Expose for tests + external use
+  window.findActiveTimer=findActiveTimer;
+  window.formatTimerElapsed=formatElapsed;
+  window.renderTimerUI=renderTimerUI;
 })();
 /* v6.16+ Beautiful PDF: replaces the flat window.print() shortcut with
    a comprehensive multi-section project packet that captures everything
