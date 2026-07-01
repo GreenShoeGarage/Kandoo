@@ -6098,6 +6098,7 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
     '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>'+
     '<Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'+
     '<Override PartName="/xl/worksheets/sheet2.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'+
+    '<Override PartName="/xl/worksheets/sheet3.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'+
     '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>'+
     '</Types>';
   var ROOT_RELS='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
@@ -6109,12 +6110,14 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
     '<sheets>'+
     '<sheet name="Tasks" sheetId="1" r:id="rId1"/>'+
     '<sheet name="Subtasks" sheetId="2" r:id="rId2"/>'+
+    '<sheet name="Tasks + Subtasks" sheetId="3" r:id="rId4"/>'+
     '</sheets></workbook>';
   var WORKBOOK_RELS='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
     '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+
     '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>'+
     '<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet2.xml"/>'+
     '<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>'+
+    '<Relationship Id="rId4" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet3.xml"/>'+
     '</Relationships>';
   // Minimal styles.xml with one style: bold header row
   var STYLES='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
@@ -6228,6 +6231,63 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
     });
     var sheet1=buildSheet(taskHeaders,taskRows);
     var sheet2=buildSheet(subHeaders,subRows);
+    // Sheet 3: Tasks + Subtasks flattened. One row per subtask (with parent
+    // task data duplicated). Tasks with zero subtasks still get a row with
+    // "n/a" in the subtask-specific columns so no task is missing from the
+    // combined view. Great for pivots that need to slice by both task
+    // attributes AND subtask attributes in a single sheet.
+    var flatHeaders=[
+      'Task ID','Internal ID','Title','Type','Priority','Stage','Assignee',
+      'Description','Start Date','Need-by Date','Completed Date',
+      'Estimate Hours','Actual Hours','Logged Hours','Hourly Rate',
+      'Billable','Materials Cost','Labor Cost','Total Amount',
+      'Blocked','Blocking Reason','Recurrence','Tags','Dependencies',
+      'Attachments','Comments','Subtasks (done/total)','Sticky Color',
+      'Created At','Updated At',
+      'Subtask ID','Subtask Title','Subtask Assignee','Subtask Need-by Date','Subtask Completed'
+    ];
+    var flatRows=[];
+    tasks.forEach(function(t,idx){
+      // Build the shared task-data prefix once per task (30 cells matching
+      // the Tasks sheet columns, minus the inline "Subtasks" detail column
+      // which would be redundant here since each row IS a subtask or the
+      // task with n/a placeholders).
+      var labor=(typeof taskLaborCost==='function')?taskLaborCost(t):0;
+      var amt=(typeof taskAmount==='function')?taskAmount(t):0;
+      var subs=t.subtasks||[];
+      var subDone=subs.filter(function(s){return s.completed;}).length;
+      var subTot=subs.length;
+      var depTitles=(t.dependencies||[]).map(function(id){
+        var d=tasks.find(function(x){return x.id===id;});
+        return d?(d.taskId||d.title||id):id;
+      }).join(', ');
+      var taskPrefix=[
+        t.taskId||'',t.id||'',t.title||'',t.type||'',t.priority||'',
+        stageName(stages,t.stageId),t.responsible||'',t.description||'',
+        dateOnly(t.startDate),dateOnly(t.needByDate),dateOnly(t.completedDate),
+        num(t.estimateHours),num(t.actualHours),num(t.loggedHours),num(t.hourlyRate),
+        yn(t.billable),num(t.materialsCost),
+        Number.isFinite(labor)&&labor?labor:'',
+        Number.isFinite(amt)&&amt?amt:'',
+        yn(t.blocked),t.blockingReason||'',t.recurrence||'',
+        (t.tags||[]).join(', '),depTitles,
+        (t.attachments||[]).length||'',(t.comments||[]).length||'',
+        subTot?(subDone+' / '+subTot):'',t.stickyColor||'',
+        t.createdAt||'',t.updatedAt||''
+      ];
+      if(subs.length===0){
+        // No subtasks: single row with n/a in the subtask columns
+        flatRows.push(taskPrefix.concat(['n/a','n/a','n/a','n/a','n/a']));
+      }else{
+        subs.forEach(function(s){
+          flatRows.push(taskPrefix.concat([
+            s.subtaskId||'',s.title||'',s.responsible||'',
+            dateOnly(s.needByDate),yn(s.completed)
+          ]));
+        });
+      }
+    });
+    var sheet3=buildSheet(flatHeaders,flatRows);
     var files=[
       {name:'[Content_Types].xml',data:CONTENT_TYPES},
       {name:'_rels/.rels',data:ROOT_RELS},
@@ -6235,7 +6295,8 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
       {name:'xl/_rels/workbook.xml.rels',data:WORKBOOK_RELS},
       {name:'xl/styles.xml',data:STYLES},
       {name:'xl/worksheets/sheet1.xml',data:sheet1},
-      {name:'xl/worksheets/sheet2.xml',data:sheet2}
+      {name:'xl/worksheets/sheet2.xml',data:sheet2},
+      {name:'xl/worksheets/sheet3.xml',data:sheet3}
     ];
     var zip=makeZip(files);
     var blob=new Blob([zip],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
@@ -6250,7 +6311,7 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
       URL.revokeObjectURL(a.href);
       if(a.parentNode)a.parentNode.removeChild(a);
     },1000);
-    if(typeof showToast==='function')showToast('Exported '+tasks.length+' tasks and '+subRows.length+' subtasks to XLSX');
+    if(typeof showToast==='function')showToast('Exported '+tasks.length+' tasks and '+subRows.length+' subtasks to XLSX ('+flatRows.length+' flat rows)');
   };
   window.kandooZip=makeZip;
   window.kandooCrc32=crc32;
