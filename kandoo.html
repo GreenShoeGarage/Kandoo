@@ -1833,20 +1833,23 @@ body.kandoo-bottom-sheets #taskModal select{
   border-color:rgba(0,0,0,.25)!important;
 }
 
-/* Timer button on each sticky note - absolute top-right so it doesn't
-   crowd the swatches + action buttons in .note-actions at the bottom */
+/* Timer button on each sticky note - absolute top-right, positioned to
+   the LEFT of the existing .bulk-check checkbox (which lives at
+   right:8px, width:38px) so the two don't overlap */
 .note-timer-btn{
   position:absolute;
-  top:6px;
-  right:6px;
+  top:8px;
+  right:52px;
   z-index:2;
   font-family:var(--font-ui,system-ui);
   font-size:10px;
   font-weight:700;
-  padding:3px 7px;
+  line-height:1;
+  height:22px;
+  padding:0 7px;
   border-radius:8px;
   border:1px solid rgba(0,0,0,.2);
-  background:rgba(255,255,255,.75);
+  background:rgba(255,255,255,.85);
   color:#222;
   cursor:pointer;
   display:inline-flex;
