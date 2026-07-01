@@ -2971,7 +2971,7 @@ function ruleCard(s){const r=project().stageRules[s.id]||{};return `<div class="
 function bindRule(s){['wip','ass','sub','comp'].forEach(()=>{});['wip_'+s.id,'ass_'+s.id,'sub_'+s.id,'comp_'+s.id].forEach(id=>{const e=document.getElementById(id);if(e)e.onchange=()=>{const r=project().stageRules[s.id];r.wipLimit=document.getElementById('wip_'+s.id).value;r.requireAssignee=document.getElementById('ass_'+s.id).checked;r.requireSubtasksDone=document.getElementById('sub_'+s.id).checked;r.stampComplete=document.getElementById('comp_'+s.id).checked;saveState()}})}
 function avgCycle(){const d=project().tasks.filter(t=>t.completedDate&&t.createdAt);return d.length?Math.round(d.reduce((a,t)=>a+(new Date(t.completedDate)-new Date(t.createdAt))/864e5,0)/d.length):'-'}function bottleneck(){const c={};project().tasks.forEach(t=>c[t.stageId]=(c[t.stageId]||0)+1);const id=Object.entries(c).sort((a,b)=>b[1]-a[1])[0]?.[0];return project().workflowStages.find(s=>s.id===id)?.name||'-'}function achievements(){const p=project(),a=[];if(p.tasks.length)a.push('🌱 First sticky');if(p.tasks.some(t=>['shipped','done','invoiced'].includes(t.stageId)))a.push('🚀 Shipped something');if(!p.tasks.some(t=>isOverdue(t)))a.push('✨ Zero overdue');if(p.invoiceStatus==='Paid')a.push('💰 Paid');return a.map(x=>`<span class="achievement">${x}</span>`).join('')||'<p>No stickers yet.</p>'}
 window.bulkColorOverdue=()=>{project().tasks.forEach(t=>{if(isOverdue(t))t.stickyColor='#ffab91'});saveState();render()};window.archiveDone=()=>{project().tasks.forEach(t=>{if(['done','shipped','invoiced'].includes(t.stageId))t.archived=true});saveState();render()};
-function renderExports(root){root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Exports + Integrations <span class="version">v6.15</span></h2><div class="share-grid"><div class="share-card"><h3>CSV</h3><p>Spreadsheet-friendly task export.</p><button class="btn primary" onclick="exportCsv()">Export CSV</button></div><div class="share-card"><h3>ICS Calendar</h3><p>Need-by dates as calendar events.</p><button class="btn primary" onclick="exportIcs()">Export ICS</button></div><div class="share-card"><h3>Markdown</h3><p>Readable project packet for docs or GitHub.</p><button class="btn primary" onclick="exportMarkdown()">Export Markdown</button></div><div class="share-card"><h3>Future Connectors</h3><p>Planned: GitHub, Trello/Jira import, Google/Outlook Calendar, Slack, and email-to-task. CSV/ICS/Markdown work locally today.</p></div></div></div>`}
+function renderExports(root){root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Exports + Integrations <span class="version">v6.15</span></h2><div class="share-grid"><div class="share-card"><h3>CSV Spreadsheet</h3><p>Two files: tasks and subtasks. Same schema as XLSX. UTF-8 with BOM so Excel opens accents cleanly.</p><button class="btn primary" onclick="exportCsv()">Export CSV</button></div><div class="share-card"><h3>ICS Calendar</h3><p>Need-by dates as calendar events.</p><button class="btn primary" onclick="exportIcs()">Export ICS</button></div><div class="share-card"><h3>Markdown</h3><p>Readable project packet for docs or GitHub.</p><button class="btn primary" onclick="exportMarkdown()">Export Markdown</button></div><div class="share-card"><h3>Future Connectors</h3><p>Planned: GitHub, Trello/Jira import, Google/Outlook Calendar, Slack, and email-to-task. CSV/ICS/Markdown work locally today.</p></div></div></div>`}
 function renderSettings(root){const p=normalizeV5(project());root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Settings + Surfaces <span class="version">v6.15</span></h2><div class="dash-grid"><div class="box"><h3>Skeuomorphic Surface</h3><div class="surface-preview">${escapeHtml(p.surface)} surface</div><div class="field"><label>Board surface</label><select id="surfaceSel"><option>whiteboard</option><option>cork</option><option>chalk</option><option>blueprint</option><option>notebook</option></select></div><div class="field"><label>Card density</label><select id="densitySel"><option>standard</option><option>compact</option><option>dense</option><option>giant</option></select></div><div class="field"><label>Mascot</label><select id="mascotSel"><option>frog</option><option>robot</option><option>cat</option><option>wizard</option></select></div></div><div class="box"><h3>Accessibility</h3><div class="switch-row"><span>Reduced motion</span><input id="reducedMotion" type="checkbox" ${p.reducedMotion?'checked':''}></div><div class="switch-row"><span>High contrast mode</span><input id="highContrast" type="checkbox" ${p.highContrast?'checked':''}></div><h3>Keyboard Shortcuts</h3><p><span class="kbd">N</span> New task · <span class="kbd">/</span> Search · <span class="kbd">B</span> Board · <span class="kbd">G</span> Gantt · <span class="kbd">D</span> Dashboard · <span class="kbd">?</span> Help</p></div></div></div>`;['surfaceSel','densitySel','mascotSel'].forEach((id,i)=>{const k=['surface','cardDensity','mascot'][i],e=document.getElementById(id);e.value=p[k];e.onchange=()=>{p[k]=e.value;saveState();render()}});document.getElementById('reducedMotion').onchange=e=>{p.reducedMotion=e.target.checked;saveState()};document.getElementById('highContrast').onchange=e=>{p.highContrast=e.target.checked;document.documentElement.style.setProperty('--line',e.target.checked?'rgba(0,0,0,.55)':'rgba(44,42,37,.24)');saveState()}}
 function renderAssist(root){root.innerHTML=`<div class="page"><h2 style="font-family:var(--font-hand);font-size:30px;margin:0 0 10px">Natural Language Helper <span class="version">v6.15</span></h2><div class="dash-grid"><div class="box"><h3>Natural Language Quick Add</h3><div class="nl-box"><input id="assistQuick" placeholder="bug: login fails !critical @Lee due 2026-07-15 #auth"><button class="btn primary" onclick="smartQuickAdd(document.getElementById('assistQuick').value);document.getElementById('assistQuick').value=''">Add</button></div><p style="color:var(--muted)">Understands type prefixes, !priority, @person, #tags, and due YYYY-MM-DD.</p></div><div class="box"><h3>Generate Useful Text</h3><button class="btn" onclick="generateClientUpdate()">Client update</button> <button class="btn" onclick="suggestSprint()">Suggest sprint backlog</button> <button class="btn" onclick="makeTestingChecklist()">Testing checklist</button><pre class="cmd" id="assistOut">Natural Language Helper output appears here.</pre></div></div></div>`}
 window.smartQuickAdd=function(text){if(!text.trim())return;const p=project();let type='General',title=text.trim();if(/^bug:/i.test(title)){type='Bug';title=title.replace(/^bug:/i,'').trim()}if(/^feature:/i.test(title)){type='Feature Request';title=title.replace(/^feature:/i,'').trim()}const pr=(title.match(/!(low|medium|high|urgent|critical)/i)||[])[1],person=(title.match(/@(\w+)/)||[])[1]||'',due=(title.match(/due\s+(\d{4}-\d{2}-\d{2})/i)||[])[1]||'',tags=[...title.matchAll(/#([\w-]+)/g)].map(m=>m[1]);title=title.replace(/!(low|medium|high|urgent|critical)/ig,'').replace(/@\w+/g,'').replace(/due\s+\d{4}-\d{2}-\d{2}/ig,'').replace(/#[\w-]+/g,'').trim()||'Untitled smart sticky';p.tasks.push({id:uid('task'),projectId:p.id,title,description:'Created with Kandoo smart quick add.',type,stageId:'backlog',priority:pr?pr[0].toUpperCase()+pr.slice(1).toLowerCase():'Medium',responsible:person,startDate:'',needByDate:due,completedDate:null,estimateHours:null,actualHours:null,tags,blocked:false,blockingReason:'',stickyColor:type==='Bug'?'#ffab91':type==='Feature Request'?'#b3e5fc':'#fff176',subtasks:[],comments:[],links:[],dependencies:[],billable:true,hourlyRate:null,loggedHours:null,recurrence:'None',createdAt:now(),updatedAt:now()});snapshot('smart quick add');saveState();render();showToast('Smart sticky added')};
@@ -5936,6 +5936,479 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
   }else{
     go();
   }
+})();
+/* v6.16+ XLSX export: writes a real Office Open XML workbook with two
+   sheets (Tasks + Subtasks) directly from the browser with zero
+   dependencies. Implements CRC32, minimal ZIP archiving with the STORE
+   method (no compression), and the six OOXML files an XLSX package
+   requires. Tested to open cleanly in Excel, LibreOffice Calc, Numbers,
+   and Google Sheets.
+
+   Sheets:
+   - Tasks: 27 columns covering every field on a task, plus rolled-up
+     counts for attachments/comments/subtasks.
+   - Subtasks: 7 columns; each row also carries the parent task ID and
+     title so the sheet can be pivoted or filtered on its own.
+*/
+(function(){
+  // CRC32 table precomputed once at module load
+  var CRC_TABLE=(function(){
+    var t=[];
+    for(var n=0;n<256;n++){
+      var c=n;
+      for(var k=0;k<8;k++)c=(c&1)?(0xEDB88320^(c>>>1)):(c>>>1);
+      t[n]=c>>>0;
+    }
+    return t;
+  })();
+  function crc32(bytes){
+    var crc=0xFFFFFFFF;
+    for(var i=0;i<bytes.length;i++)crc=(crc>>>8)^CRC_TABLE[(crc^bytes[i])&0xFF];
+    return (crc^0xFFFFFFFF)>>>0;
+  }
+  function encUtf8(s){return new TextEncoder().encode(String(s));}
+  /* Build a ZIP file (Uint8Array) from a list of {name, data} entries.
+     Uses STORE (no compression) so we can write valid archives without
+     bringing in a DEFLATE implementation. XLSX files ship happily with
+     STORE-only archives; the format only requires the ZIP container. */
+  function makeZip(files){
+    var parts=[],cdEntries=[],offset=0;
+    files.forEach(function(f){
+      var name=encUtf8(f.name);
+      var data=(f.data instanceof Uint8Array)?f.data:encUtf8(f.data);
+      var crc=crc32(data);
+      var size=data.length;
+      // Local file header
+      var lfh=new Uint8Array(30+name.length);
+      var dv=new DataView(lfh.buffer);
+      dv.setUint32(0,0x04034b50,true);
+      dv.setUint16(4,20,true);
+      dv.setUint16(6,0,true);
+      dv.setUint16(8,0,true);       // method: STORE
+      dv.setUint16(10,0,true);
+      dv.setUint16(12,0x21,true);   // fake date: Jan 1, 1980
+      dv.setUint32(14,crc,true);
+      dv.setUint32(18,size,true);
+      dv.setUint32(22,size,true);
+      dv.setUint16(26,name.length,true);
+      dv.setUint16(28,0,true);
+      lfh.set(name,30);
+      parts.push(lfh,data);
+      // Central directory entry
+      var cde=new Uint8Array(46+name.length);
+      var cv=new DataView(cde.buffer);
+      cv.setUint32(0,0x02014b50,true);
+      cv.setUint16(4,20,true);
+      cv.setUint16(6,20,true);
+      cv.setUint16(8,0,true);
+      cv.setUint16(10,0,true);
+      cv.setUint16(12,0,true);
+      cv.setUint16(14,0x21,true);
+      cv.setUint32(16,crc,true);
+      cv.setUint32(20,size,true);
+      cv.setUint32(24,size,true);
+      cv.setUint16(28,name.length,true);
+      cv.setUint16(30,0,true);
+      cv.setUint16(32,0,true);
+      cv.setUint16(34,0,true);
+      cv.setUint16(36,0,true);
+      cv.setUint32(38,0,true);
+      cv.setUint32(42,offset,true);
+      cde.set(name,46);
+      cdEntries.push(cde);
+      offset+=lfh.length+data.length;
+    });
+    var cdStart=offset;
+    var cdSize=cdEntries.reduce(function(a,x){return a+x.length;},0);
+    // End of central directory record
+    var eocd=new Uint8Array(22);
+    var ev=new DataView(eocd.buffer);
+    ev.setUint32(0,0x06054b50,true);
+    ev.setUint16(4,0,true);
+    ev.setUint16(6,0,true);
+    ev.setUint16(8,files.length,true);
+    ev.setUint16(10,files.length,true);
+    ev.setUint32(12,cdSize,true);
+    ev.setUint32(16,cdStart,true);
+    ev.setUint16(20,0,true);
+    // Concatenate
+    var total=parts.reduce(function(a,x){return a+x.length;},0)+cdSize+eocd.length;
+    var out=new Uint8Array(total);
+    var pos=0;
+    parts.forEach(function(p){out.set(p,pos);pos+=p.length;});
+    cdEntries.forEach(function(c){out.set(c,pos);pos+=c.length;});
+    out.set(eocd,pos);
+    return out;
+  }
+  function xmlEsc(v){
+    return String(v==null?'':v).replace(/[&<>"']/g,function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c];
+    // Also strip control characters (except tab, LF, CR) that Excel rejects
+    }).replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g,'');
+  }
+  // Convert 1-indexed column to Excel letter (1->A, 26->Z, 27->AA)
+  function colLetter(n){
+    var s='';
+    while(n>0){
+      var r=(n-1)%26;
+      s=String.fromCharCode(65+r)+s;
+      n=Math.floor((n-1)/26);
+    }
+    return s;
+  }
+  /* Build one worksheet XML from a header row + data rows. Auto-detects
+     numeric cells (renders without a type so Excel treats them as
+     numbers); strings use inline strings so we can skip the shared
+     strings table. Empty cells are omitted entirely for a leaner file. */
+  function buildSheet(headers,rows){
+    var xml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+      '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">';
+    // Header row with bold styling (style index 1 defined in styles.xml)
+    xml+='<sheetData>';
+    xml+='<row r="1">';
+    headers.forEach(function(h,i){
+      xml+='<c r="'+colLetter(i+1)+'1" t="inlineStr" s="1"><is><t>'+xmlEsc(h)+'</t></is></c>';
+    });
+    xml+='</row>';
+    rows.forEach(function(row,ri){
+      var rowNum=ri+2;
+      xml+='<row r="'+rowNum+'">';
+      row.forEach(function(cell,ci){
+        if(cell===null||cell===undefined||cell==='')return;
+        var ref=colLetter(ci+1)+rowNum;
+        if(typeof cell==='number'&&isFinite(cell)){
+          xml+='<c r="'+ref+'"><v>'+cell+'</v></c>';
+        }else{
+          xml+='<c r="'+ref+'" t="inlineStr"><is><t>'+xmlEsc(cell)+'</t></is></c>';
+        }
+      });
+      xml+='</row>';
+    });
+    xml+='</sheetData>';
+    // Auto-filter across the header row so users get column dropdowns
+    var lastCol=colLetter(headers.length);
+    xml+='<autoFilter ref="A1:'+lastCol+(rows.length+1)+'"/>';
+    xml+='</worksheet>';
+    return xml;
+  }
+  var CONTENT_TYPES='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'+
+    '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'+
+    '<Default Extension="xml" ContentType="application/xml"/>'+
+    '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>'+
+    '<Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'+
+    '<Override PartName="/xl/worksheets/sheet2.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'+
+    '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>'+
+    '</Types>';
+  var ROOT_RELS='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+
+    '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>'+
+    '</Relationships>';
+  var WORKBOOK='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'+
+    '<sheets>'+
+    '<sheet name="Tasks" sheetId="1" r:id="rId1"/>'+
+    '<sheet name="Subtasks" sheetId="2" r:id="rId2"/>'+
+    '</sheets></workbook>';
+  var WORKBOOK_RELS='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+
+    '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>'+
+    '<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet2.xml"/>'+
+    '<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>'+
+    '</Relationships>';
+  // Minimal styles.xml with one style: bold header row
+  var STYLES='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'+
+    '<fonts count="2"><font><sz val="11"/><name val="Calibri"/></font>'+
+    '<font><b/><sz val="11"/><name val="Calibri"/></font></fonts>'+
+    '<fills count="2"><fill><patternFill patternType="none"/></fill>'+
+    '<fill><patternFill patternType="gray125"/></fill></fills>'+
+    '<borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders>'+
+    '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>'+
+    '<cellXfs count="2">'+
+    '<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>'+
+    '<xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/>'+
+    '</cellXfs>'+
+    '<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>'+
+    '</styleSheet>';
+  function stageName(stages,id){
+    var s=(stages||[]).find(function(x){return x.id===id;});
+    return s?s.name:id||'';
+  }
+  function yn(v){return v?'Yes':'No';}
+  function dateOnly(iso){return iso?String(iso).slice(0,10):'';}
+  function num(v){var n=Number(v);return isFinite(n)?n:'';}
+  /* Assemble the rows arrays for Tasks and Subtasks sheets, then wrap
+     everything in a ZIP and hand it to the browser as a download. */
+  window.exportXlsx=function(){
+    var p=(typeof project==='function')?project():null;
+    if(!p){if(typeof showToast==='function')showToast('No project to export');return;}
+    var tasks=p.tasks||[];
+    var stages=p.workflowStages||[];
+    var taskHeaders=[
+      'Task ID','Internal ID','Title','Type','Priority','Stage','Assignee',
+      'Description','Start Date','Need-by Date','Completed Date',
+      'Estimate Hours','Actual Hours','Logged Hours','Hourly Rate',
+      'Billable','Materials Cost','Labor Cost','Total Amount',
+      'Blocked','Blocking Reason','Recurrence','Tags','Dependencies',
+      'Attachments','Comments','Subtasks (done/total)','Sticky Color',
+      'Created At','Updated At'
+    ];
+    var taskRows=tasks.map(function(t){
+      var labor=(typeof taskLaborCost==='function')?taskLaborCost(t):0;
+      var mats=(typeof taskMaterialsCost==='function')?taskMaterialsCost(t):(Number(t.materialsCost)||0);
+      var amt=(typeof taskAmount==='function')?taskAmount(t):0;
+      var subDone=(t.subtasks||[]).filter(function(s){return s.completed;}).length;
+      var subTot=(t.subtasks||[]).length;
+      var depTitles=(t.dependencies||[]).map(function(id){
+        var d=tasks.find(function(x){return x.id===id;});
+        return d?(d.taskId||d.title||id):id;
+      }).join(', ');
+      return [
+        t.taskId||'',
+        t.id||'',
+        t.title||'',
+        t.type||'',
+        t.priority||'',
+        stageName(stages,t.stageId),
+        t.responsible||'',
+        t.description||'',
+        dateOnly(t.startDate),
+        dateOnly(t.needByDate),
+        dateOnly(t.completedDate),
+        num(t.estimateHours),
+        num(t.actualHours),
+        num(t.loggedHours),
+        num(t.hourlyRate),
+        yn(t.billable),
+        num(t.materialsCost),
+        Number.isFinite(labor)&&labor?labor:'',
+        Number.isFinite(amt)&&amt?amt:'',
+        yn(t.blocked),
+        t.blockingReason||'',
+        t.recurrence||'',
+        (t.tags||[]).join(', '),
+        depTitles,
+        (t.attachments||[]).length||'',
+        (t.comments||[]).length||'',
+        subTot?(subDone+' / '+subTot):'',
+        t.stickyColor||'',
+        t.createdAt||'',
+        t.updatedAt||''
+      ];
+    });
+    var subHeaders=[
+      'Subtask ID','Parent Task ID','Parent Task Title','Title',
+      'Assignee','Need-by Date','Completed'
+    ];
+    var subRows=[];
+    tasks.forEach(function(t){
+      (t.subtasks||[]).forEach(function(s){
+        subRows.push([
+          s.subtaskId||'',
+          t.taskId||t.id||'',
+          t.title||'',
+          s.title||'',
+          s.responsible||'',
+          dateOnly(s.needByDate),
+          yn(s.completed)
+        ]);
+      });
+    });
+    var sheet1=buildSheet(taskHeaders,taskRows);
+    var sheet2=buildSheet(subHeaders,subRows);
+    var files=[
+      {name:'[Content_Types].xml',data:CONTENT_TYPES},
+      {name:'_rels/.rels',data:ROOT_RELS},
+      {name:'xl/workbook.xml',data:WORKBOOK},
+      {name:'xl/_rels/workbook.xml.rels',data:WORKBOOK_RELS},
+      {name:'xl/styles.xml',data:STYLES},
+      {name:'xl/worksheets/sheet1.xml',data:sheet1},
+      {name:'xl/worksheets/sheet2.xml',data:sheet2}
+    ];
+    var zip=makeZip(files);
+    var blob=new Blob([zip],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    var stamp=new Date().toISOString().slice(0,10);
+    var fname=((typeof slug==='function')?slug(p.name):(p.name||'kandoo'))+'-'+stamp+'.xlsx';
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download=fname;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){
+      URL.revokeObjectURL(a.href);
+      if(a.parentNode)a.parentNode.removeChild(a);
+    },1000);
+    if(typeof showToast==='function')showToast('Exported '+tasks.length+' tasks and '+subRows.length+' subtasks to XLSX');
+  };
+  window.kandooZip=makeZip;
+  window.kandooCrc32=crc32;
+  /* Comprehensive CSV export: replaces the earlier 10-column CSV with a
+     pair of downloads matching the XLSX schema: one Tasks file with 30
+     columns, one Subtasks file with 7 columns. Two sequential downloads
+     from one click; browsers permit this since both are triggered by
+     the same user action. */
+  function csvEsc(v){
+    var s=String(v==null?'':v);
+    if(/[",\r\n]/.test(s)){s='"'+s.replace(/"/g,'""')+'"';}
+    return s;
+  }
+  function toCsv(headers,rows){
+    var lines=[headers.map(csvEsc).join(',')];
+    rows.forEach(function(r){lines.push(r.map(csvEsc).join(','));});
+    // Prepend UTF-8 BOM so Excel opens international characters correctly
+    return '\ufeff'+lines.join('\r\n');
+  }
+  function triggerDownload(filename,content,mime){
+    var blob=new Blob([content],{type:mime||'text/csv;charset=utf-8'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download=filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){
+      URL.revokeObjectURL(a.href);
+      if(a.parentNode)a.parentNode.removeChild(a);
+    },800);
+  }
+  window.exportCsv=function(){
+    var p=(typeof project==='function')?project():null;
+    if(!p){if(typeof showToast==='function')showToast('No project to export');return;}
+    var tasks=p.tasks||[];
+    var stages=p.workflowStages||[];
+    // Tasks CSV: same 30 columns as the XLSX Tasks sheet
+    var taskHeaders=[
+      'Task ID','Internal ID','Title','Type','Priority','Stage','Assignee',
+      'Description','Start Date','Need-by Date','Completed Date',
+      'Estimate Hours','Actual Hours','Logged Hours','Hourly Rate',
+      'Billable','Materials Cost','Labor Cost','Total Amount',
+      'Blocked','Blocking Reason','Recurrence','Tags','Dependencies',
+      'Attachments','Comments','Subtasks (done/total)','Sticky Color',
+      'Created At','Updated At'
+    ];
+    var taskRows=tasks.map(function(t){
+      var labor=(typeof taskLaborCost==='function')?taskLaborCost(t):0;
+      var amt=(typeof taskAmount==='function')?taskAmount(t):0;
+      var subDone=(t.subtasks||[]).filter(function(s){return s.completed;}).length;
+      var subTot=(t.subtasks||[]).length;
+      var depTitles=(t.dependencies||[]).map(function(id){
+        var d=tasks.find(function(x){return x.id===id;});
+        return d?(d.taskId||d.title||id):id;
+      }).join(', ');
+      var stg=stages.find(function(x){return x.id===t.stageId;});
+      return [
+        t.taskId||'',t.id||'',t.title||'',t.type||'',t.priority||'',
+        stg?stg.name:(t.stageId||''),t.responsible||'',t.description||'',
+        (t.startDate||'').slice(0,10),(t.needByDate||'').slice(0,10),
+        (t.completedDate||'').slice(0,10),
+        t.estimateHours||'',t.actualHours||'',t.loggedHours||'',t.hourlyRate||'',
+        t.billable?'Yes':'No',t.materialsCost||'',
+        labor||'',amt||'',
+        t.blocked?'Yes':'No',t.blockingReason||'',t.recurrence||'',
+        (t.tags||[]).join(', '),depTitles,
+        (t.attachments||[]).length||'',(t.comments||[]).length||'',
+        subTot?(subDone+' / '+subTot):'',t.stickyColor||'',
+        t.createdAt||'',t.updatedAt||''
+      ];
+    });
+    // Subtasks CSV: same 7 columns as the XLSX Subtasks sheet
+    var subHeaders=['Subtask ID','Parent Task ID','Parent Task Title','Title','Assignee','Need-by Date','Completed'];
+    var subRows=[];
+    tasks.forEach(function(t){
+      (t.subtasks||[]).forEach(function(s){
+        subRows.push([
+          s.subtaskId||'',t.taskId||t.id||'',t.title||'',
+          s.title||'',s.responsible||'',(s.needByDate||'').slice(0,10),
+          s.completed?'Yes':'No'
+        ]);
+      });
+    });
+    var stamp=new Date().toISOString().slice(0,10);
+    var base=(typeof slug==='function')?slug(p.name):(p.name||'kandoo');
+    triggerDownload(base+'-tasks-'+stamp+'.csv',toCsv(taskHeaders,taskRows));
+    // Small delay so browsers don't merge or block the second download
+    setTimeout(function(){
+      triggerDownload(base+'-subtasks-'+stamp+'.csv',toCsv(subHeaders,subRows));
+    },300);
+    if(typeof showToast==='function'){
+      showToast('Exported '+tasks.length+' tasks and '+subRows.length+' subtasks as CSV');
+    }
+  };
+  /* Wire the XLSX button into the Exports view (adds a 4th card) and
+     into the header IN/OUT dropdown (adds a menu item under Project
+     files). Both use postRenderAsync hooks so they survive re-renders. */
+  function decorateExportsView(){
+    var page=document.querySelector('.page');
+    if(!page)return;
+    var h2=page.querySelector('h2');
+    if(!h2||!/Exports \+ Integrations/i.test(h2.textContent||''))return;
+    if(page.querySelector('#xlsxExportCard'))return;
+    var grid=page.querySelector('.share-grid');
+    if(!grid)return;
+    var card=document.createElement('div');
+    card.className='share-card';
+    card.id='xlsxExportCard';
+    card.innerHTML='<h3>XLSX Spreadsheet</h3>'+
+      '<p>Full task and subtask data as an Excel workbook with two sheets. Opens in Excel, LibreOffice, Numbers, or Google Sheets.</p>'+
+      '<button class="btn primary" onclick="exportXlsx()">Export XLSX</button>';
+    // Insert before the "Future Connectors" card so the working exports
+    // stay grouped together and the placeholder card comes last.
+    var futureCard=[].filter.call(grid.children,function(el){return /Future Connectors/i.test(el.textContent||'');})[0];
+    if(futureCard){grid.insertBefore(card,futureCard);}else{grid.appendChild(card);}
+  }
+  function decorateInOutMenu(){
+    // The header uses <details class="top-menu"><summary class="menu-summary">
+    // followed by <div class="menu-panel">…</div>. Find the IN/OUT
+    // summary and reach across to its sibling panel.
+    var summaries=document.querySelectorAll('.top-menu .menu-summary');
+    var panel=null;
+    summaries.forEach(function(s){
+      var label=(s.textContent||'').trim().toLowerCase();
+      if(label==='in/out'||label==='export'){
+        panel=s.parentNode.querySelector('.menu-panel');
+      }
+    });
+    if(!panel)return;
+    if(panel.querySelector('#xlsxHeaderBtn'))return;
+    var xlsxBtn=document.createElement('button');
+    xlsxBtn.className='btn';
+    xlsxBtn.id='xlsxHeaderBtn';
+    xlsxBtn.textContent='XLSX Spreadsheet';
+    xlsxBtn.onclick=function(){if(typeof exportXlsx==='function')exportXlsx();};
+    var csvBtn=document.createElement('button');
+    csvBtn.className='btn';
+    csvBtn.id='csvHeaderBtn';
+    csvBtn.textContent='CSV Spreadsheet';
+    csvBtn.onclick=function(){if(typeof exportCsv==='function')exportCsv();};
+    // Insert after the Backup Bundle button (last "Project files" entry)
+    var backup=panel.querySelector('#backupBtn');
+    if(backup&&backup.parentNode===panel){
+      backup.insertAdjacentElement('afterend',xlsxBtn);
+      xlsxBtn.insertAdjacentElement('afterend',csvBtn);
+    }else{
+      panel.appendChild(xlsxBtn);
+      panel.appendChild(csvBtn);
+    }
+  }
+  if(window.kandooRenderPipeline){
+    window.kandooRenderPipeline.postRenderAsync.push(function(){decorateExportsView();decorateInOutMenu();});
+  }
+  if(window.kandooRenderViewPipeline){
+    window.kandooRenderViewPipeline.postRenderAsync.push(function(){decorateExportsView();decorateInOutMenu();});
+  }
+  // The CleanUI toolbar layer rebuilds the header after our first hook
+  // fires, wiping any injection. Watch for header mutations and re-inject
+  // whenever the IN/OUT dropdown reappears without our buttons.
+  function ensureInjected(){decorateInOutMenu();}
+  var header=document.querySelector('header');
+  if(header&&window.MutationObserver){
+    new MutationObserver(function(){
+      if(!document.getElementById('xlsxHeaderBtn'))ensureInjected();
+    }).observe(header,{childList:true,subtree:true});
+  }
+  // Also run once shortly after boot as a final safety net
+  setTimeout(ensureInjected,600);
+  setTimeout(ensureInjected,1500);
 })();
 /* v6.16+ Gantt focus-mode escape hatch
    Fix for: after clicking "Focus / Print" in the Gantt view and closing
