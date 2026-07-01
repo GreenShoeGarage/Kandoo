@@ -342,19 +342,46 @@ body.a11y-large-targets .note > .note-actions > .note-color-picker{display:inlin
    on the text baseline and looks dropped. Flex container with align-items:
    center fixes it without changing the markup. Scoped to labels that
    actually contain a checkbox so the WIP-limit field label (no checkbox)
-   keeps its default block layout with the input below. */
-.power-card label:has(input[type="checkbox"]){
+   keeps its default block layout with the input below.
+   v6.16+: extended from .power-card to .connect-card and .share-card
+   which use simple <label><input> text</label> structure without their
+   own layout class. Notably NOT extended to .notif-pref-card, which
+   uses .notif-rule-row with its own grid layout that we should not
+   override. The base `input{width:100%}` rule (needed for text inputs)
+   was stretching checkboxes to the full width of the parent, pushing
+   the label text to the next line. This fixes it. */
+.power-card label:has(input[type="checkbox"]),
+.connect-card label:has(input[type="checkbox"]):not(.notif-rule-row),
+.share-card label:has(input[type="checkbox"]):not(.notif-rule-row){
   display:flex;
   align-items:center;
   gap:8px;
   margin:6px 0;
   cursor:pointer;
+  font-weight:400;
+  color:var(--ink);
+  font-size:14px;
 }
-.power-card label:has(input[type="checkbox"]) input[type="checkbox"]{
+.power-card label:has(input[type="checkbox"]) input[type="checkbox"],
+.connect-card label:has(input[type="checkbox"]):not(.notif-rule-row) input[type="checkbox"],
+.share-card label:has(input[type="checkbox"]):not(.notif-rule-row) input[type="checkbox"]{
   margin:0;
   flex:0 0 auto;
   width:18px;
   height:18px;
+  min-height:18px;
+  padding:0;
+}
+
+/* v6.16+ Page toolbar spacing: when a .toolbar appears at the top of a
+   .page view (like Share-Page Builder, Reports, Templates), it needs
+   breathing room before the fields or grid below. Without this, buttons
+   press right up against field labels underneath. Scoped to `.page` so
+   the header's toolbar (inside <header>) is unaffected. */
+.page > .toolbar,
+.page > .row.toolbar,
+.page > h2 + .toolbar{
+  margin-bottom:16px;
 }
 
 /* v6.16+ Per-task attachments: small chip list in the modal with a file
@@ -1311,6 +1338,41 @@ body.kandoo-bottom-sheets #taskModal select{
 @media(max-width:860px){
   .sidebar-toggle-wrap{display:none!important}
 }
+
+/* v6.16+ Task ID display: shown at the top-left of stickies when
+   project.showTaskIds is on. Uses a monospaced font for the ticket-
+   style look. In-note position doesn't collide with the note tape
+   pseudo-element since it starts below the top padding. */
+.task-id-badge{
+  font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.05em;
+  color:rgba(0,0,0,.55);
+  background:rgba(255,255,255,.65);
+  border:1px solid rgba(0,0,0,.2);
+  border-radius:4px;
+  padding:1px 6px;
+  display:inline-block;
+  margin-bottom:6px;
+  text-transform:uppercase;
+  box-shadow:1px 1px 0 rgba(0,0,0,.08);
+}
+.subtask-id-label{
+  font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.03em;
+  color:var(--muted);
+  background:rgba(255,255,255,.5);
+  border:1px solid var(--line,#999);
+  border-radius:4px;
+  padding:2px 5px;
+  align-self:center;
+  flex:0 0 auto;
+  white-space:nowrap;
+  text-transform:uppercase;
+}
 </style>
 </head>
 <div class="app">
@@ -2007,7 +2069,15 @@ function addSubtaskRow(s={}){
   const el=document.getElementById('subtaskList'),row=document.createElement('div');
   row.className='subtask-row';
   row.dataset.id=s.id||uid('subtask');
+  // v6.16+ task ID system: expose subtaskId as a data attribute for save
+  // roundtrip, and show it inline as a small monospace label if the
+  // project has task IDs enabled.
+  if(s.subtaskId)row.dataset.subtaskId=s.subtaskId;
+  const proj=(typeof project==='function')?project():null;
+  const showIds=proj&&proj.showTaskIds&&s.subtaskId;
+  const idLabel=showIds?'<span class="subtask-id-label" title="Subtask ID">'+escapeHtml(s.subtaskId)+'</span>':'';
   row.innerHTML=
+    idLabel+
     '<input class="subtask-title" placeholder="What needs doing" value="'+escapeAttr(s.title||'')+'">'+
     '<input class="subtask-person" list="kandooPeopleList" placeholder="Who" value="'+escapeAttr(s.responsible||'')+'">'+
     '<input class="subtask-date" type="date" value="'+escapeAttr(s.needByDate||'')+'" title="Subtask due date">'+
@@ -2051,7 +2121,7 @@ function bindTaskAttachmentInput(){
     e.target.value='';
   };
 }
-function saveTask(){const p=project(),id=document.getElementById('taskId').value;let t=id?p.tasks.find(x=>x.id===id):null;const data={title:document.getElementById('taskTitle').value.trim()||'Untitled sticky',description:document.getElementById('taskDesc').value,type:document.getElementById('taskType').value,stageId:document.getElementById('taskStage').value,priority:document.getElementById('taskPriority').value,responsible:document.getElementById('taskPerson').value,startDate:document.getElementById('taskStart').value,needByDate:document.getElementById('taskNeed').value,estimateHours:numOrNull(document.getElementById('taskEstimate').value),actualHours:numOrNull(document.getElementById('taskActual').value),loggedHours:numOrNull(document.getElementById('taskLogged').value),billable:document.getElementById('taskBillable').value==='true',hourlyRate:numOrNull(document.getElementById('taskRate').value),materialsCost:numOrNull(document.getElementById('taskMaterials').value),recurrence:document.getElementById('taskRecurrence').value,dependencies:[...document.getElementById('taskDependencies').selectedOptions].map(o=>o.value),tags:document.getElementById('taskTags').value.split(',').map(x=>x.trim()).filter(Boolean),blocked:document.getElementById('taskBlocked').value==='true',blockingReason:document.getElementById('taskBlockReason').value,stickyColor:document.getElementById('taskColor').value,subtasks:[...document.querySelectorAll('#subtaskList .subtask-row')].map(r=>({id:r.dataset.id,title:r.querySelector('.subtask-title').value.trim()||'Untitled subtask',completed:r.querySelector('input[type="checkbox"]').checked,responsible:r.querySelector('.subtask-person').value.trim(),needByDate:r.querySelector('.subtask-date').value||'',notes:''})),attachments:(window._taskAttachmentsWorking||[]).slice(),comments:[...((t&&t.comments)||[]),...(document.getElementById('taskNewComment')?.value.trim()?[{id:uid('comment'),text:document.getElementById('taskNewComment').value.trim(),author:document.getElementById('taskPerson').value||'Kandoo',at:now()}]:[])],updatedAt:now()};if(t)Object.assign(t,data);else p.tasks.push(Object.assign({id:uid('task'),projectId:p.id,completedDate:null,comments:[],links:[],createdAt:now()},data));// v6.16+: auto-add typed person names into the project people list so the datalist grows with the project. ensurePerson is idempotent by case-insensitive name match.
+function saveTask(){const p=project(),id=document.getElementById('taskId').value;let t=id?p.tasks.find(x=>x.id===id):null;const data={title:document.getElementById('taskTitle').value.trim()||'Untitled sticky',description:document.getElementById('taskDesc').value,type:document.getElementById('taskType').value,stageId:document.getElementById('taskStage').value,priority:document.getElementById('taskPriority').value,responsible:document.getElementById('taskPerson').value,startDate:document.getElementById('taskStart').value,needByDate:document.getElementById('taskNeed').value,estimateHours:numOrNull(document.getElementById('taskEstimate').value),actualHours:numOrNull(document.getElementById('taskActual').value),loggedHours:numOrNull(document.getElementById('taskLogged').value),billable:document.getElementById('taskBillable').value==='true',hourlyRate:numOrNull(document.getElementById('taskRate').value),materialsCost:numOrNull(document.getElementById('taskMaterials').value),recurrence:document.getElementById('taskRecurrence').value,dependencies:[...document.getElementById('taskDependencies').selectedOptions].map(o=>o.value),tags:document.getElementById('taskTags').value.split(',').map(x=>x.trim()).filter(Boolean),blocked:document.getElementById('taskBlocked').value==='true',blockingReason:document.getElementById('taskBlockReason').value,stickyColor:document.getElementById('taskColor').value,subtasks:[...document.querySelectorAll('#subtaskList .subtask-row')].map(r=>({id:r.dataset.id,subtaskId:r.dataset.subtaskId||undefined,title:r.querySelector('.subtask-title').value.trim()||'Untitled subtask',completed:r.querySelector('input[type="checkbox"]').checked,responsible:r.querySelector('.subtask-person').value.trim(),needByDate:r.querySelector('.subtask-date').value||'',notes:''})),attachments:(window._taskAttachmentsWorking||[]).slice(),comments:[...((t&&t.comments)||[]),...(document.getElementById('taskNewComment')?.value.trim()?[{id:uid('comment'),text:document.getElementById('taskNewComment').value.trim(),author:document.getElementById('taskPerson').value||'Kandoo',at:now()}]:[])],updatedAt:now()};if(t)Object.assign(t,data);else p.tasks.push(Object.assign({id:uid('task'),projectId:p.id,completedDate:null,comments:[],links:[],createdAt:now()},data));// v6.16+: auto-add typed person names into the project people list so the datalist grows with the project. ensurePerson is idempotent by case-insensitive name match.
   ensurePerson(data.responsible);
   (data.subtasks||[]).forEach(function(st){ensurePerson(st.responsible);});
   p.updatedAt=now();snapshot('task saved');saveState();closeTaskModal();render();showToast('Sticky task saved')}
@@ -2856,6 +2926,157 @@ window.KANDOO_SHORTCUTS=window.KANDOO_SHORTCUTS||[
   install();
   window.installSidebarCollapse=install;
 })();
+/* v6.16+ Task ID system: assigns stable ticket-style IDs to every task
+   and subtask, in the format PREFIX-N and PREFIX-N-M respectively.
+   PREFIX defaults to a slug of the project name (uppercase, alphanumeric,
+   max 6 chars) but is editable in Control Room. Counters are per-project
+   for tasks and per-parent-task for subtasks; they never rewind on
+   delete, matching how Jira/Linear/GitHub numbering works.
+
+   Visibility is opt-in per-project via project.showTaskIds, toggled in
+   Control Room. Backfill happens automatically via a preRender hook so
+   existing projects get IDs on next render without any user action. */
+function defaultTaskIdPrefix(name){
+  var s=String(name||'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,6);
+  return s||'PROJ';
+}
+function ensureTaskIds(proj){
+  if(!proj)return;
+  // Project-level fields
+  if(!proj.taskIdPrefix)proj.taskIdPrefix=defaultTaskIdPrefix(proj.name);
+  if(typeof proj.taskIdCounter!=='number')proj.taskIdCounter=0;
+  if(typeof proj.showTaskIds!=='boolean')proj.showTaskIds=false;
+  // Task and subtask IDs
+  (proj.tasks||[]).forEach(function(task){
+    if(!task.taskId){
+      proj.taskIdCounter++;
+      task.taskId=proj.taskIdPrefix+'-'+proj.taskIdCounter;
+    }
+    if(typeof task.subtaskIdCounter!=='number')task.subtaskIdCounter=0;
+    (task.subtasks||[]).forEach(function(sub){
+      if(!sub.subtaskId){
+        task.subtaskIdCounter++;
+        sub.subtaskId=task.taskId+'-'+task.subtaskIdCounter;
+      }
+    });
+  });
+}
+/* Rebuilds IDs when the user changes taskIdPrefix in Control Room.
+   Reassigns every task/subtask ID from scratch using the new prefix,
+   preserving the existing counter numbers so external references
+   (comments, links, exports) stay consistent within a session. */
+function rebuildTaskIdsWithNewPrefix(proj,newPrefix){
+  if(!proj)return;
+  var oldPrefix=proj.taskIdPrefix;
+  proj.taskIdPrefix=newPrefix;
+  (proj.tasks||[]).forEach(function(task){
+    if(task.taskId&&oldPrefix&&task.taskId.indexOf(oldPrefix+'-')===0){
+      var suffix=task.taskId.slice(oldPrefix.length);
+      task.taskId=newPrefix+suffix;
+    }
+    (task.subtasks||[]).forEach(function(sub){
+      if(sub.subtaskId&&oldPrefix&&sub.subtaskId.indexOf(oldPrefix+'-')===0){
+        var suffix=sub.subtaskId.slice(oldPrefix.length);
+        sub.subtaskId=newPrefix+suffix;
+      }
+    });
+  });
+}
+// Backfill and assign IDs before every render. Cheap: only mutates when
+// something's actually missing.
+if(window.kandooRenderPipeline){
+  window.kandooRenderPipeline.preRender.push(function(){
+    try{
+      (state.projects||[]).forEach(ensureTaskIds);
+    }catch(e){}
+  });
+}
+window.ensureTaskIds=ensureTaskIds;
+window.defaultTaskIdPrefix=defaultTaskIdPrefix;
+window.rebuildTaskIdsWithNewPrefix=rebuildTaskIdsWithNewPrefix;
+/* Inject a "Task IDs" section into the Control Room after each render.
+   Adds a toggle for showing IDs on stickies, an editable prefix input,
+   and a display of the next-to-be-assigned number. Postpends to the
+   second .box in the Control Room dash-grid so it sits alongside
+   Swimlanes + People + Achievements. */
+(function(){
+  function isControlRoomRendered(){
+    return document.querySelector('.page h2') &&
+      /Control Room/i.test(document.querySelector('.page h2').textContent||'');
+  }
+  function inject(){
+    if(!isControlRoomRendered())return;
+    // Bail if already injected
+    if(document.getElementById('taskIdSection'))return;
+    var proj=(typeof project==='function')?project():null;
+    if(!proj)return;
+    ensureTaskIds(proj);
+    // Find the second box (has "Swimlanes" or "People") - anchor point
+    var boxes=document.querySelectorAll('.page .dash-grid .box');
+    var target=boxes.length>=2?boxes[1]:boxes[0];
+    if(!target)return;
+    var section=document.createElement('div');
+    section.id='taskIdSection';
+    section.style.marginTop='18px';
+    section.innerHTML=
+      '<h3 style="margin:0 0 6px">Task IDs</h3>'+
+      '<p style="color:var(--muted);font-size:13px;margin:0 0 8px">'+
+        'Ticket-style IDs for every sticky (PREFIX-N) and subtask (PREFIX-N-M). '+
+        'Counters never rewind on delete, so IDs stay stable as external references.'+
+      '</p>'+
+      '<label style="display:flex;align-items:center;gap:8px;margin:6px 0;cursor:pointer;font-weight:400;color:var(--ink);font-size:14px">'+
+        '<input id="showTaskIdsToggle" type="checkbox"'+(proj.showTaskIds?' checked':'')+'>'+
+        '<span>Show Task IDs on stickies</span>'+
+      '</label>'+
+      '<div class="field" style="margin-top:8px">'+
+        '<label>ID Prefix</label>'+
+        '<input id="taskIdPrefixInput" value="'+escapeAttr(proj.taskIdPrefix||'')+'" '+
+          'maxlength="12" placeholder="e.g. TEST, PROJ" '+
+          'style="text-transform:uppercase;font-family:JetBrains Mono,monospace">'+
+        '<small style="color:var(--muted)">'+
+          'Editing this reassigns all existing task IDs to the new prefix. '+
+          'Renaming the project does not change the prefix.'+
+        '</small>'+
+      '</div>'+
+      '<div style="display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:6px">'+
+        '<span>Tasks: <b style="color:var(--ink);font-family:JetBrains Mono,monospace">'+escapeHtml(proj.taskIdPrefix)+'-1</b> through <b style="color:var(--ink);font-family:JetBrains Mono,monospace">'+escapeHtml(proj.taskIdPrefix)+'-'+proj.taskIdCounter+'</b></span>'+
+        '<span>Next: <b style="color:var(--ink);font-family:JetBrains Mono,monospace">'+escapeHtml(proj.taskIdPrefix)+'-'+(proj.taskIdCounter+1)+'</b></span>'+
+      '</div>';
+    target.appendChild(section);
+    // Wire toggle
+    document.getElementById('showTaskIdsToggle').addEventListener('change',function(e){
+      proj.showTaskIds=e.target.checked;
+      if(typeof snapshot==='function')try{snapshot('toggle task IDs');}catch(_e){}
+      saveState();
+      renderView();
+    });
+    // Wire prefix input (commit on blur or Enter)
+    var prefixInput=document.getElementById('taskIdPrefixInput');
+    function commitPrefix(){
+      var v=defaultTaskIdPrefix(prefixInput.value);
+      if(v===proj.taskIdPrefix)return;
+      rebuildTaskIdsWithNewPrefix(proj,v);
+      if(typeof snapshot==='function')try{snapshot('rename task ID prefix');}catch(_e){}
+      saveState();
+      renderView();
+      if(typeof showToast==='function')showToast('Task IDs rebuilt with prefix '+v);
+    }
+    prefixInput.addEventListener('blur',commitPrefix);
+    prefixInput.addEventListener('keydown',function(e){
+      if(e.key==='Enter'){e.preventDefault();prefixInput.blur();}
+    });
+  }
+  if(window.kandooRenderPipeline){
+    window.kandooRenderPipeline.postRenderAsync.push(inject);
+  }
+  // View switches (e.g. clicking Control Room tab) fire only the
+  // renderView pipeline; without registering here too, the section
+  // never gets injected on a fresh tab click.
+  if(window.kandooRenderViewPipeline){
+    window.kandooRenderViewPipeline.postRenderAsync.push(inject);
+  }
+  window.injectTaskIdSection=inject;
+})();
 
 /* ===== Kandoo v6.15 refinement layer ===== */
 let undoStack=[];let redoStack=[];let importPreviewProject=null;let commandItems=[];
@@ -3371,7 +3592,7 @@ try{(state.projects||[]).forEach(normalizeAttachments64);ensureAttachmentTab64()
     const p=(typeof project==='function')?project():null;
     const id=document.getElementById('taskId')?.value||'';
     let t=id?p?.tasks?.find(x=>x.id===id):null;
-    const subtasks=[...document.querySelectorAll('#subtaskList .subtask-row')].map(r=>({id:r.dataset.id,title:r.querySelector('.subtask-title').value.trim()||'Untitled subtask',completed:r.querySelector('input[type="checkbox"]').checked,responsible:r.querySelector('.subtask-person').value.trim(),needByDate:r.querySelector('.subtask-date').value||'',notes:''}));
+    const subtasks=[...document.querySelectorAll('#subtaskList .subtask-row')].map(r=>({id:r.dataset.id,subtaskId:r.dataset.subtaskId||undefined,title:r.querySelector('.subtask-title').value.trim()||'Untitled subtask',completed:r.querySelector('input[type="checkbox"]').checked,responsible:r.querySelector('.subtask-person').value.trim(),needByDate:r.querySelector('.subtask-date').value||'',notes:''}));
     const data={title:document.getElementById('taskTitle').value.trim()||'Untitled sticky',description:document.getElementById('taskDesc').value,type:document.getElementById('taskType').value,stageId:document.getElementById('taskStage').value,priority:document.getElementById('taskPriority').value,responsible:document.getElementById('taskPerson').value,startDate:document.getElementById('taskStart').value,needByDate:document.getElementById('taskNeed').value,estimateHours:numOrNull(document.getElementById('taskEstimate').value),actualHours:numOrNull(document.getElementById('taskActual').value),loggedHours:numOrNull(document.getElementById('taskLogged').value),billable:document.getElementById('taskBillable').value==='true',hourlyRate:numOrNull(document.getElementById('taskRate').value),materialsCost:numOrNull(document.getElementById('taskMaterials').value),recurrence:document.getElementById('taskRecurrence').value,dependencies:[...document.getElementById('taskDependencies').selectedOptions].map(o=>o.value),tags:document.getElementById('taskTags').value.split(',').map(x=>x.trim()).filter(Boolean),blocked:document.getElementById('taskBlocked').value==='true',blockingReason:document.getElementById('taskBlockReason').value,stickyColor:document.getElementById('taskColor').value,subtasks,attachments:(window._taskAttachmentsWorking||[]).slice(),comments:[...((t&&t.comments)||[]),...(document.getElementById('taskNewComment')?.value.trim()?[{id:uid('comment'),text:document.getElementById('taskNewComment').value.trim(),author:document.getElementById('taskPerson').value||'Kandoo',at:now66()}]:[])],updatedAt:now66()};
     const candidate=Object.assign({},t||{},data);
     if(!canEnterStage66(candidate,data.stageId,{openTask:false})) return;
@@ -3490,7 +3711,13 @@ function moneyFor(t){try{if(typeof money==='function'&&typeof taskAmount==='func
 function cleanNoteEl(task){const div=document.createElement('article');const p=typeof project==='function'?project():null;const density=(p&&p.cardDensity)||'compact';const age=ageDays(task);const [icon,health]=healthFor(task);const prog=progressFor(task);const typeClass=task.type==='Bug'?'bug':task.type==='Feature Request'?'feature':'general';const colors=(typeof palette69==='function'?palette69():(window.noteColors||['#fff176','#ffab91','#b3e5fc','#c8e6c9','#f8bbd0','#d1c4e9','#ffe0b2','#eeeeee']));
  div.className=`note clean-note ${density||'compact'}${age>14&&!isDoneish(task)?' aged':''}`;div.dataset.taskId=task.id;div.tabIndex=0;div.draggable=true;div.style.setProperty('--note',task.stickyColor||'#fff176');div.style.setProperty('--rot',(density==='dense'||document.body.classList.contains('a11y-plain69'))?'0deg':(((String(task.id).charCodeAt(String(task.id).length-1)||3)%5)-2)*0.65+'deg');
  const due=task.needByDate?`<span class="pill" data-pill-edit="date" tabindex="0" role="button" aria-label="Change need-by date">📅 ${esc(task.needByDate)}</span>`:'';const subt=(task.subtasks||[]).length?`<span class="pill">☑ ${(task.subtasks||[]).filter(s=>s.completed).length}/${(task.subtasks||[]).length}</span>`:'';const bill=task.billable?`<span class="pill">💵 ${esc(moneyFor(task))}</span>`:'';const blocked=task.blocked?`<span class="pill" data-pill-edit="blocked" tabindex="0" role="button" aria-label="Change blocked status">🚧 Blocked</span>`:'';const overdue=(typeof isOverdue==='function'&&isOverdue(task))?`<span class="pill">🔴 Overdue</span>`:'';const atts=(task.attachments||[]).length?`<span class="pill attachments">📎 ${(task.attachments||[]).length}</span>`:'';
- div.innerHTML=`<div class="note-title"><span class="health-dot" title="${esc(health)}">${icon}</span><span>${esc(task.title||'Untitled sticky')}</span></div>${task.description?`<div class="note-desc">${esc(task.description)}</div>`:'<div class="clean-empty-state">No description yet</div>'}<div class="progress"><span style="width:${prog}%"></span></div><div class="note-meta"><span class="pill ${typeClass}" data-pill-edit="type" tabindex="0" role="button" aria-label="Change task type">${task.type==='Feature Request'?'✨ Feature':task.type==='Bug'?'🐞 Bug':'📝 General'}</span><span class="pill" data-pill-edit="priority" tabindex="0" role="button" aria-label="Change priority">${esc(task.priority||'Medium')}</span>${task.responsible?`<span class="pill" data-pill-edit="person" tabindex="0" role="button" aria-label="Change person responsible">👤 ${esc(task.responsible)}</span>`:`<span class="pill" data-pill-edit="person" tabindex="0" role="button" aria-label="Assign a person" style="opacity:.55">👤 unassigned</span>`}${due||`<span class="pill" data-pill-edit="date" tabindex="0" role="button" aria-label="Set need-by date" style="opacity:.55">📅 no date</span>`}${blocked}${overdue}${subt}${atts}${bill}${age>0?`<span class="pill">🕰 ${age}d</span>`:''}</div><div class="note-actions"><div class="swatches">${colors.slice(0,5).map(c=>`<button class="swatch" title="${esc(c)}" data-color="${esc(c)}" style="background:${esc(c)}"></button>`).join('')}</div><div class="clean-note-footer"><button class="mini" data-edit>Edit</button></div></div>`;
+ // v6.16+ task ID badge: shows the TASKID# in the top-left corner of the
+ // sticky when project.showTaskIds is on. Uses monospaced font for the
+ // ticket-style look. Hidden entirely otherwise so existing stickies
+ // don't gain visual clutter.
+ const showIds=p&&p.showTaskIds;
+ const idBadge=(showIds&&task.taskId)?`<div class="task-id-badge" title="Task ID">${esc(task.taskId)}</div>`:'';
+ div.innerHTML=`${idBadge}<div class="note-title"><span class="health-dot" title="${esc(health)}">${icon}</span><span>${esc(task.title||'Untitled sticky')}</span></div>${task.description?`<div class="note-desc">${esc(task.description)}</div>`:'<div class="clean-empty-state">No description yet</div>'}<div class="progress"><span style="width:${prog}%"></span></div><div class="note-meta"><span class="pill ${typeClass}" data-pill-edit="type" tabindex="0" role="button" aria-label="Change task type">${task.type==='Feature Request'?'✨ Feature':task.type==='Bug'?'🐞 Bug':'📝 General'}</span><span class="pill" data-pill-edit="priority" tabindex="0" role="button" aria-label="Change priority">${esc(task.priority||'Medium')}</span>${task.responsible?`<span class="pill" data-pill-edit="person" tabindex="0" role="button" aria-label="Change person responsible">👤 ${esc(task.responsible)}</span>`:`<span class="pill" data-pill-edit="person" tabindex="0" role="button" aria-label="Assign a person" style="opacity:.55">👤 unassigned</span>`}${due||`<span class="pill" data-pill-edit="date" tabindex="0" role="button" aria-label="Set need-by date" style="opacity:.55">📅 no date</span>`}${blocked}${overdue}${subt}${atts}${bill}${age>0?`<span class="pill">🕰 ${age}d</span>`:''}</div><div class="note-actions"><div class="swatches">${colors.slice(0,5).map(c=>`<button class="swatch" title="${esc(c)}" data-color="${esc(c)}" style="background:${esc(c)}"></button>`).join('')}</div><div class="clean-note-footer"><button class="mini" data-edit>Edit</button></div></div>`;
  div.ondragstart=()=>{window.draggedTaskId=task.id;try{draggedTaskId=task.id}catch(e){}div.classList.add('dragging')};div.ondragend=()=>{window.draggedTaskId=null;try{draggedTaskId=null}catch(e){}div.classList.remove('dragging')};
  div.querySelector('[data-edit]').onclick=e=>{e.stopPropagation();openTaskModal(task.id)};div.querySelectorAll('.swatch').forEach(b=>b.onclick=e=>{e.stopPropagation();task.stickyColor=b.dataset.color;task.updatedAt=new Date().toISOString();if(typeof snapshot==='function')try{snapshot('sticky color changed')}catch(_){ }saveState();renderView();});
  div.ondblclick=()=>openTaskModal(task.id);div.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();openTaskModal(task.id)}};return div;
