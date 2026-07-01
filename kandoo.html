@@ -6151,15 +6151,25 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
       'Estimate Hours','Actual Hours','Logged Hours','Hourly Rate',
       'Billable','Materials Cost','Labor Cost','Total Amount',
       'Blocked','Blocking Reason','Recurrence','Tags','Dependencies',
-      'Attachments','Comments','Subtasks (done/total)','Sticky Color',
+      'Attachments','Comments','Subtasks (done/total)','Subtasks','Sticky Color',
       'Created At','Updated At'
     ];
     var taskRows=tasks.map(function(t){
       var labor=(typeof taskLaborCost==='function')?taskLaborCost(t):0;
       var mats=(typeof taskMaterialsCost==='function')?taskMaterialsCost(t):(Number(t.materialsCost)||0);
       var amt=(typeof taskAmount==='function')?taskAmount(t):0;
-      var subDone=(t.subtasks||[]).filter(function(s){return s.completed;}).length;
-      var subTot=(t.subtasks||[]).length;
+      var subs=t.subtasks||[];
+      var subDone=subs.filter(function(s){return s.completed;}).length;
+      var subTot=subs.length;
+      // Inline subtask detail so users see subtasks even without switching
+      // to the Subtasks sheet. One line per subtask.
+      var subDetail=subs.map(function(s){
+        var box=s.completed?'[x] ':'[ ] ';
+        var suffix=[];
+        if(s.responsible)suffix.push(s.responsible);
+        if(s.needByDate)suffix.push(String(s.needByDate).slice(0,10));
+        return box+(s.title||'Untitled')+(suffix.length?' ('+suffix.join(', ')+')':'');
+      }).join('\n');
       var depTitles=(t.dependencies||[]).map(function(id){
         var d=tasks.find(function(x){return x.id===id;});
         return d?(d.taskId||d.title||id):id;
@@ -6192,6 +6202,7 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
         (t.attachments||[]).length||'',
         (t.comments||[]).length||'',
         subTot?(subDone+' / '+subTot):'',
+        subDetail,
         t.stickyColor||'',
         t.createdAt||'',
         t.updatedAt||''
@@ -6276,21 +6287,32 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
     if(!p){if(typeof showToast==='function')showToast('No project to export');return;}
     var tasks=p.tasks||[];
     var stages=p.workflowStages||[];
-    // Tasks CSV: same 30 columns as the XLSX Tasks sheet
+    // Tasks CSV: same 31 columns as the XLSX Tasks sheet
     var taskHeaders=[
       'Task ID','Internal ID','Title','Type','Priority','Stage','Assignee',
       'Description','Start Date','Need-by Date','Completed Date',
       'Estimate Hours','Actual Hours','Logged Hours','Hourly Rate',
       'Billable','Materials Cost','Labor Cost','Total Amount',
       'Blocked','Blocking Reason','Recurrence','Tags','Dependencies',
-      'Attachments','Comments','Subtasks (done/total)','Sticky Color',
-      'Created At','Updated At'
+      'Attachments','Comments','Subtasks (done/total)','Subtasks',
+      'Sticky Color','Created At','Updated At'
     ];
     var taskRows=tasks.map(function(t){
       var labor=(typeof taskLaborCost==='function')?taskLaborCost(t):0;
       var amt=(typeof taskAmount==='function')?taskAmount(t):0;
-      var subDone=(t.subtasks||[]).filter(function(s){return s.completed;}).length;
-      var subTot=(t.subtasks||[]).length;
+      var subs=t.subtasks||[];
+      var subDone=subs.filter(function(s){return s.completed;}).length;
+      var subTot=subs.length;
+      // Inline subtask detail so users see subtasks even without opening the
+      // separate Subtasks sheet/file. One line per subtask: [x] or [ ] +
+      // title + optional (assignee, date).
+      var subDetail=subs.map(function(s){
+        var box=s.completed?'[x] ':'[ ] ';
+        var suffix=[];
+        if(s.responsible)suffix.push(s.responsible);
+        if(s.needByDate)suffix.push(String(s.needByDate).slice(0,10));
+        return box+(s.title||'Untitled')+(suffix.length?' ('+suffix.join(', ')+')':'');
+      }).join('\n');
       var depTitles=(t.dependencies||[]).map(function(id){
         var d=tasks.find(function(x){return x.id===id;});
         return d?(d.taskId||d.title||id):id;
@@ -6307,8 +6329,8 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
         t.blocked?'Yes':'No',t.blockingReason||'',t.recurrence||'',
         (t.tags||[]).join(', '),depTitles,
         (t.attachments||[]).length||'',(t.comments||[]).length||'',
-        subTot?(subDone+' / '+subTot):'',t.stickyColor||'',
-        t.createdAt||'',t.updatedAt||''
+        subTot?(subDone+' / '+subTot):'',subDetail,
+        t.stickyColor||'',t.createdAt||'',t.updatedAt||''
       ];
     });
     // Subtasks CSV: same 7 columns as the XLSX Subtasks sheet
@@ -6325,13 +6347,27 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
     });
     var stamp=new Date().toISOString().slice(0,10);
     var base=(typeof slug==='function')?slug(p.name):(p.name||'kandoo');
-    triggerDownload(base+'-tasks-'+stamp+'.csv',toCsv(taskHeaders,taskRows));
-    // Small delay so browsers don't merge or block the second download
+    var tasksCsv=toCsv(taskHeaders,taskRows);
+    var subsCsv=toCsv(subHeaders,subRows);
+    // Bundle both CSVs in one ZIP so users get a single reliable download.
+    // Browsers sometimes block or lose the second of two rapid downloads;
+    // one file guarantees both sheets arrive together.
+    var zipData=makeZip([
+      {name:base+'-tasks.csv',data:tasksCsv},
+      {name:base+'-subtasks.csv',data:subsCsv}
+    ]);
+    var blob=new Blob([zipData],{type:'application/zip'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download=base+'-csv-'+stamp+'.zip';
+    document.body.appendChild(a);
+    a.click();
     setTimeout(function(){
-      triggerDownload(base+'-subtasks-'+stamp+'.csv',toCsv(subHeaders,subRows));
-    },300);
+      URL.revokeObjectURL(a.href);
+      if(a.parentNode)a.parentNode.removeChild(a);
+    },800);
     if(typeof showToast==='function'){
-      showToast('Exported '+tasks.length+' tasks and '+subRows.length+' subtasks as CSV');
+      showToast('Exported '+tasks.length+' tasks and '+subRows.length+' subtasks (ZIP with 2 CSVs)');
     }
   };
   /* Wire the XLSX button into the Exports view (adds a 4th card) and
