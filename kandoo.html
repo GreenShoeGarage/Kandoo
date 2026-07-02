@@ -165,6 +165,43 @@ body.theme-darkdesk .menu-panel,
 body.theme-darkdesk .modal,
 body.theme-darkdesk .toast{--ink:#18191d;--muted:#34302a;color:var(--ink)}
 
+body.theme-halloween header,
+body.theme-halloween aside,
+body.theme-halloween .filterbar,
+body.theme-halloween .view-tabs,
+body.theme-halloween .menu-panel,
+body.theme-halloween .modal,
+body.theme-halloween .toast{--ink:#22142b;--muted:#4a2f3f;color:var(--ink)}
+
+body.theme-dark-neon header,
+body.theme-dark-neon aside,
+body.theme-dark-neon .filterbar,
+body.theme-dark-neon .view-tabs,
+body.theme-dark-neon .menu-panel,
+body.theme-dark-neon .modal,
+body.theme-dark-neon .toast{--ink:#0f0d1e;--muted:#2b2740;color:var(--ink)}
+
+/* Sticky-note contrast rescue: sticky notes are always painted with a
+   light color (peach, yellow, mint, lilac, etc.) regardless of theme,
+   but they inherit --ink from the document root. In dark themes --ink
+   is white/near-white, which makes the meta pills at the bottom of each
+   sticky (type, priority, assignee, date, cost, subtask progress) render
+   as light-on-light and become unreadable. Force --ink and --muted to
+   dark values inside .note for the six affected dark themes so pill
+   text reads cleanly on the light sticky background. Only .note is
+   scoped so the rest of the workspace (dark board, column headers)
+   keeps its light-on-dark treatment. */
+body.theme-blueprint .note,
+body.theme-chalk .note,
+body.theme-arcade .note,
+body.theme-darkdesk .note,
+body.theme-halloween .note,
+body.theme-dark-neon .note{
+  --ink:#1c1a1a;
+  --muted:#4a4642;
+  color:var(--ink);
+}
+
 /* Swatch overflow fix: later cleanup layers set .swatches to
    flex-wrap:nowrap; overflow:hidden; max-width:calc(100% - 66px) which
    doesn't fit 8 swatches (8x17 + 7x4 = 164px needed, ~137px available).
