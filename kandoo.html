@@ -139,7 +139,9 @@ body.theme-blueprint .filterbar,
 body.theme-blueprint .view-tabs,
 body.theme-blueprint .menu-panel,
 body.theme-blueprint .modal,
-body.theme-blueprint .toast{--ink:#133c63;--muted:#2c4566;color:var(--ink)}
+body.theme-blueprint .toast,
+body.theme-blueprint .page,
+body.theme-blueprint .content{--ink:#133c63;--muted:#2c4566;color:var(--ink)}
 
 body.theme-chalk header,
 body.theme-chalk aside,
@@ -147,7 +149,9 @@ body.theme-chalk .filterbar,
 body.theme-chalk .view-tabs,
 body.theme-chalk .menu-panel,
 body.theme-chalk .modal,
-body.theme-chalk .toast{--ink:#20372e;--muted:#3a5448;color:var(--ink)}
+body.theme-chalk .toast,
+body.theme-chalk .page,
+body.theme-chalk .content{--ink:#20372e;--muted:#3a5448;color:var(--ink)}
 
 body.theme-arcade header,
 body.theme-arcade aside,
@@ -155,7 +159,9 @@ body.theme-arcade .filterbar,
 body.theme-arcade .view-tabs,
 body.theme-arcade .menu-panel,
 body.theme-arcade .modal,
-body.theme-arcade .toast{--ink:#20162d;--muted:#3d2956;color:var(--ink)}
+body.theme-arcade .toast,
+body.theme-arcade .page,
+body.theme-arcade .content{--ink:#20162d;--muted:#3d2956;color:var(--ink)}
 
 body.theme-darkdesk header,
 body.theme-darkdesk aside,
@@ -163,7 +169,9 @@ body.theme-darkdesk .filterbar,
 body.theme-darkdesk .view-tabs,
 body.theme-darkdesk .menu-panel,
 body.theme-darkdesk .modal,
-body.theme-darkdesk .toast{--ink:#18191d;--muted:#34302a;color:var(--ink)}
+body.theme-darkdesk .toast,
+body.theme-darkdesk .page,
+body.theme-darkdesk .content{--ink:#18191d;--muted:#34302a;color:var(--ink)}
 
 body.theme-halloween header,
 body.theme-halloween aside,
@@ -172,6 +180,29 @@ body.theme-halloween .view-tabs,
 body.theme-halloween .menu-panel,
 body.theme-halloween .modal,
 body.theme-halloween .toast{--ink:#22142b;--muted:#4a2f3f;color:var(--ink)}
+
+/* Halloween/Dark Neon .page + .content: the same buttons-with-dark-panel-bg
+   problem as the header applies inside the main content area (Gantt-only
+   HTML, Focus/Print, etc). Set --ink appropriately then override buttons
+   to white. */
+body.theme-halloween .page,
+body.theme-halloween .content,
+body.theme-dark-neon .page,
+body.theme-dark-neon .content{--ink:inherit}
+body.theme-halloween .content .switch-row,
+body.theme-halloween .content label,
+body.theme-halloween .content .field,
+body.theme-halloween .content select,
+body.theme-halloween .content input,
+body.theme-halloween .content textarea,
+body.theme-dark-neon .content .switch-row,
+body.theme-dark-neon .content label,
+body.theme-dark-neon .content .field,
+body.theme-dark-neon .content select,
+body.theme-dark-neon .content input,
+body.theme-dark-neon .content textarea{color:#1a1a1a}
+body.theme-halloween .content .btn:not(.primary):not(.ghost),
+body.theme-dark-neon .content .btn:not(.primary):not(.ghost){color:#fff}
 
 /* Halloween buttons and view tabs default to background:var(--panel)
    which resolves to dark purple #3a2944. The chrome rescue above sets
