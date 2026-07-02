@@ -173,6 +173,28 @@ body.theme-halloween .menu-panel,
 body.theme-halloween .modal,
 body.theme-halloween .toast{--ink:#22142b;--muted:#4a2f3f;color:var(--ink)}
 
+/* Halloween buttons and view tabs default to background:var(--panel)
+   which resolves to dark purple #3a2944. The chrome rescue above sets
+   --ink dark so it reads on the light translucent-white overlay of
+   header/aside/filterbar, but the buttons that sit ON that chrome use
+   the theme's dark --panel color directly and end up dark-on-dark.
+   Force white text on those specific buttons. Excluded: .primary (has
+   orange accent bg), .ghost (translucent white bg), and .tab.active
+   (has green accent2 bg) - those all have their own light-enough
+   backgrounds that dark text reads fine. */
+body.theme-halloween .view-tabs .tab:not(.active),
+body.theme-halloween .view-tabs .menu-summary,
+body.theme-halloween header .btn:not(.primary):not(.ghost),
+body.theme-halloween header .menu-toggle,
+body.theme-halloween header .menu-summary,
+body.theme-halloween .menu-panel .btn,
+body.theme-dark-neon .view-tabs .tab:not(.active),
+body.theme-dark-neon .view-tabs .menu-summary,
+body.theme-dark-neon header .btn:not(.primary):not(.ghost),
+body.theme-dark-neon header .menu-toggle,
+body.theme-dark-neon header .menu-summary,
+body.theme-dark-neon .menu-panel .btn{color:#fff}
+
 body.theme-dark-neon header,
 body.theme-dark-neon aside,
 body.theme-dark-neon .filterbar,
