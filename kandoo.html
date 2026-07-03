@@ -187,40 +187,38 @@ body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk, .theme-h
 body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk)
   .content .btn:not(.primary):not(.ghost){color:#1c1a1a}
 
-/* Blueprint contrast boost: the original --ink #f1fbff and --muted
-   #c4ddeb only produce ~2.9/2.5 contrast against --board #1f5c8a, below
-   WCAG AA for descriptions. Boost --ink and --muted to pure/near white,
-   and add color:var(--ink) so h2 titles re-evaluate the new variable
-   (otherwise they inherit body's pre-computed color from root --ink).
-   Also darken --board slightly inside .content for the small extra
-   contrast bump that pushes pure white over the 3.0 AA threshold. */
-body.theme-blueprint .content{
-  --board:#154870;
-  --ink:#ffffff;
-  --muted:#f0f8fc;
+/* Page content areas ALL have translucent-white card layouts inside a
+   dark board background. There are too many page-specific card classes
+   to enumerate (.helper610-card, .notif-list, .digest-list, .ledger,
+   .share-token, .drop-upload, .rules-card, etc). Instead of listing
+   them, force dark --ink/--muted at the .content level so every
+   descendant that inherits color gets dark text, then re-lighten the
+   page title (h2 directly under .page) and its description sibling
+   which sit on the dark --board background. Uses each theme's original
+   root --ink value for the re-lightening. */
+body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk, .theme-halloween, .theme-dark-neon)
+  .content{
+  --ink:#1c1a1a;
+  --muted:#4a4642;
   color:var(--ink);
 }
+body.theme-blueprint .content{--board:#154870}
+body.theme-blueprint .content > .page > h2,
+body.theme-blueprint .content > .page > h2 + p{color:#ffffff;--muted:#ffffff}
+body.theme-chalk .content > .page > h2,
+body.theme-chalk .content > .page > h2 + p{color:#fbfff6;--muted:#fbfff6}
+body.theme-arcade .content > .page > h2,
+body.theme-arcade .content > .page > h2 + p{color:#fff7ff;--muted:#fff7ff}
+body.theme-darkdesk .content > .page > h2,
+body.theme-darkdesk .content > .page > h2 + p{color:#f6f2e8;--muted:#f6f2e8}
+body.theme-halloween .content > .page > h2,
+body.theme-halloween .content > .page > h2 + p{color:#fff4e6;--muted:#fff4e6}
+body.theme-dark-neon .content > .page > h2,
+body.theme-dark-neon .content > .page > h2 + p{color:#f8f7ff;--muted:#f8f7ff}
 
-/* Halloween/Dark Neon .page + .content: the same buttons-with-dark-panel-bg
-   problem as the header applies inside the main content area (Gantt-only
-   HTML, Focus/Print, etc). Set --ink appropriately then override buttons
-   to white. */
-body.theme-halloween .page,
-body.theme-halloween .content,
-body.theme-dark-neon .page,
-body.theme-dark-neon .content{--ink:inherit}
-body.theme-halloween .content .switch-row,
-body.theme-halloween .content label,
-body.theme-halloween .content .field,
-body.theme-halloween .content select,
-body.theme-halloween .content input,
-body.theme-halloween .content textarea,
-body.theme-dark-neon .content .switch-row,
-body.theme-dark-neon .content label,
-body.theme-dark-neon .content .field,
-body.theme-dark-neon .content select,
-body.theme-dark-neon .content input,
-body.theme-dark-neon .content textarea{color:#1a1a1a}
+/* Halloween/Dark Neon buttons need white text since their --panel is dark
+   (my main .content rule above sets --ink dark, but buttons on dark
+   panel need white text override). */
 body.theme-halloween .content .btn:not(.primary):not(.ghost),
 body.theme-dark-neon .content .btn:not(.primary):not(.ghost){color:#fff}
 
