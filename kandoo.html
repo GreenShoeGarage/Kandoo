@@ -272,6 +272,59 @@ body.theme-dark-neon aside .sidebar-toggle,
 body.theme-hc-invert aside .btn:not(.primary):not(.ghost),
 body.theme-hc-invert aside .sidebar-toggle{color:#fff}
 
+/* Edit Sticky Task modal on halloween/dark-neon: the .dialog uses
+   var(--panel) which is DARK on these two themes (#3a2944 halloween,
+   #1b1830 dark-neon), but the chrome rescue further up set --ink dark
+   for the .modal scope. That paints every text element inside the
+   dialog as dark-on-dark. Force white text on the dialog and its
+   descendants, then re-lighten form inputs (which have their own
+   translucent-white bg and need dark text) and .btn.primary (yellow
+   accent bg needs dark text). Also force white on non-primary/non-
+   ghost buttons inside the modal since they use --panel bg. */
+body.theme-halloween .modal .dialog,
+body.theme-halloween .modal .dialog *,
+body.theme-dark-neon .modal .dialog,
+body.theme-dark-neon .modal .dialog *{color:#ffffff;--muted:#ffffff}
+body.theme-halloween .modal .dialog input,
+body.theme-halloween .modal .dialog select,
+body.theme-halloween .modal .dialog textarea,
+body.theme-dark-neon .modal .dialog input,
+body.theme-dark-neon .modal .dialog select,
+body.theme-dark-neon .modal .dialog textarea{color:#1c1a1a}
+body.theme-halloween .modal .dialog .btn.primary,
+body.theme-halloween .modal .dialog .btn.primary *,
+body.theme-dark-neon .modal .dialog .btn.primary,
+body.theme-dark-neon .modal .dialog .btn.primary *{color:#20160c}
+body.theme-halloween .modal .dialog .btn.ghost,
+body.theme-dark-neon .modal .dialog .btn.ghost{color:#1c1a1a}
+/* Descendants inside the modal that have their OWN light backgrounds
+   need dark text (sticky note preview, chips, tabs, the save-as-
+   template card, subtask rows, and select options). Force dark text on
+   these so the earlier white-text rule doesn't paint them as
+   white-on-light. */
+body.theme-halloween .modal .dialog .note,
+body.theme-halloween .modal .dialog .note *,
+body.theme-halloween .modal .dialog .pill,
+body.theme-halloween .modal .dialog .task-tab,
+body.theme-halloween .modal .dialog .save-card,
+body.theme-halloween .modal .dialog .save-card *,
+body.theme-halloween .modal .dialog .subtask-row,
+body.theme-halloween .modal .dialog .subtask-row *,
+body.theme-halloween .modal .dialog .comment,
+body.theme-halloween .modal .dialog .comment *,
+body.theme-halloween .modal .dialog option,
+body.theme-dark-neon .modal .dialog .note,
+body.theme-dark-neon .modal .dialog .note *,
+body.theme-dark-neon .modal .dialog .pill,
+body.theme-dark-neon .modal .dialog .task-tab,
+body.theme-dark-neon .modal .dialog .save-card,
+body.theme-dark-neon .modal .dialog .save-card *,
+body.theme-dark-neon .modal .dialog .subtask-row,
+body.theme-dark-neon .modal .dialog .subtask-row *,
+body.theme-dark-neon .modal .dialog .comment,
+body.theme-dark-neon .modal .dialog .comment *,
+body.theme-dark-neon .modal .dialog option{color:#1c1a1a}
+
 /* Translucent-white containers rescue: .box, .stat, .empty, .power-card,
    .pill, .milestone, .share-preview always have LIGHT translucent-white
    backgrounds (rgba(255,255,255,0.4-0.6)) regardless of theme. On all
