@@ -204,6 +204,16 @@ body.theme-dark-neon .content textarea{color:#1a1a1a}
 body.theme-halloween .content .btn:not(.primary):not(.ghost),
 body.theme-dark-neon .content .btn:not(.primary):not(.ghost){color:#fff}
 
+/* Sidebar project-item cards use --panel for their background which is
+   dark on halloween/dark-neon. My earlier aside rescue set --ink dark
+   for the aside chrome (which works for the translucent-white sidebar
+   panels), but the .project-item sits on the dark --panel and needs
+   white text. Also cover the subtitle (uses --muted). */
+body.theme-halloween aside .project-item,
+body.theme-halloween aside .project-item *,
+body.theme-dark-neon aside .project-item,
+body.theme-dark-neon aside .project-item *{color:#fff}
+
 /* Translucent-white containers rescue: .box, .stat, .empty, .power-card,
    .pill, .milestone, .share-preview always have LIGHT translucent-white
    backgrounds (rgba(255,255,255,0.4-0.6)) regardless of theme. On all
