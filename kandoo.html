@@ -8274,6 +8274,235 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
     window.kandooRenderPipeline.postRenderAsync.push(rewireBtn);
   }
 })();
+
+/* v6.15+ Epic feature
+   Adds the concept of Epics as a lightweight grouping above individual
+   sticky tasks. Provides:
+   - project.epics: array of {id, name, color}
+   - task.epicId: nullable id pointing into project.epics
+   - Task modal: an Epic <select> dropdown so users can pick or clear
+     the epic for each sticky
+   - Control Room: an "Epics" manager card with add/rename/delete
+     controls (deleting an epic clears epicId on its tasks)
+   - Reports: a new "Tasks per Epic" bar chart showing distribution
+   The layer is self-contained and cascades through the existing
+   normalizers so old project data automatically gains the fields on
+   next load. */
+(function(){
+  var EPIC_COLORS=['#ffcc80','#a5d6a7','#90caf9','#ce93d8','#ef9a9a','#fff59d','#80cbc4','#f48fb1','#b39ddb','#bcaaa4'];
+
+  function ensureEpicFields(){
+    (state.projects||[]).forEach(function(p){
+      if(!Array.isArray(p.epics))p.epics=[];
+      (p.tasks||[]).forEach(function(t){
+        if(!('epicId' in t))t.epicId=null;
+      });
+    });
+  }
+  // Run once on load, and register with the save pipeline so future
+  // saves also enforce the shape.
+  ensureEpicFields();
+  if(window.kandooSavePipeline&&Array.isArray(window.kandooSavePipeline.normalizers)){
+    window.kandooSavePipeline.normalizers.push(ensureEpicFields);
+  }
+
+  function epicById(pid){var p=project();return (p.epics||[]).find(function(e){return e.id===pid;});}
+  window.epicById=epicById;
+
+  /* --- Task modal Epic dropdown ------------------------------------ */
+  function ensureEpicField(){
+    var stageField=document.querySelector('#taskModal #taskStage');
+    if(!stageField)return null;
+    var existing=document.getElementById('taskEpic');
+    if(existing)return existing;
+    var wrap=document.createElement('div');
+    wrap.className='field';
+    wrap.innerHTML='<label>Epic</label><select id="taskEpic"><option value="">(No Epic)</option></select>';
+    // Insert right after the Stage field for logical grouping
+    var stageWrap=stageField.closest('.field');
+    if(stageWrap&&stageWrap.parentNode){
+      stageWrap.parentNode.insertBefore(wrap,stageWrap.nextSibling);
+    }
+    return document.getElementById('taskEpic');
+  }
+
+  function populateEpicSelect(taskEpicId){
+    var sel=ensureEpicField();
+    if(!sel)return;
+    var p=project(),epics=p.epics||[];
+    sel.innerHTML='<option value="">(No Epic)</option>'+
+      epics.map(function(e){
+        return '<option value="'+e.id+'"'+(e.id===taskEpicId?' selected':'')+'>'+escapeHtml(e.name)+'</option>';
+      }).join('');
+    sel.value=taskEpicId||'';
+  }
+
+  // Wrap openTaskModal so the Epic select is populated whenever the
+  // modal opens.
+  var _openTaskModal=window.openTaskModal;
+  window.openTaskModal=function(id){
+    _openTaskModal(id);
+    var task=id?(project().tasks||[]).find(function(t){return t.id===id;}):null;
+    populateEpicSelect(task?task.epicId:null);
+  };
+
+  // Wrap saveTask so the selected epicId is persisted. saveTask has
+  // been overridden multiple times; wrapping the current window.saveTask
+  // catches the outermost version.
+  var _saveTask=window.saveTask;
+  window.saveTask=function(){
+    var sel=document.getElementById('taskEpic');
+    var epicId=sel?(sel.value||null):null;
+    var editingId=document.getElementById('taskId').value;
+    _saveTask();
+    // After the inner saveTask has committed, patch the epicId onto the
+    // task it just saved. If it was a new task the last task in the
+    // list will be it.
+    var p=project();
+    var t=editingId?p.tasks.find(function(x){return x.id===editingId;}):p.tasks[p.tasks.length-1];
+    if(t){
+      t.epicId=epicId;
+      t.updatedAt=now();
+      saveState();
+      // Re-render so any epic pill on the sticky refreshes.
+      if(typeof renderView==='function')renderView();
+    }
+  };
+
+  /* --- Control Room Epic manager ----------------------------------- */
+  function epicRow(e){
+    return '<div class="stage-toggle" data-epic-id="'+e.id+'">'+
+      '<span style="display:flex;align-items:center;gap:8px;flex:1">'+
+        '<span class="pill" style="background:'+(e.color||'#fff176')+'">◆</span>'+
+        '<input type="text" class="epic-name-input" value="'+escapeHtml(e.name)+'" style="flex:1;min-width:120px">'+
+      '</span>'+
+      '<button type="button" class="mini epic-delete-btn">Delete</button>'+
+      '</div>';
+  }
+
+  function renderEpicManager(){
+    var p=project();
+    var host=document.getElementById('epicManager');
+    if(!host)return;
+    var epics=p.epics||[];
+    host.innerHTML=(epics.length?epics.map(epicRow).join(''):'<div class="empty">No epics yet. Add one below to start grouping stickies.</div>')+
+      '<div class="row" style="margin-top:10px">'+
+        '<input id="newEpicName" placeholder="New epic name">'+
+        '<button type="button" class="btn primary" id="addEpicBtn">+ Add Epic</button>'+
+      '</div>';
+    document.getElementById('addEpicBtn').onclick=function(){
+      var name=document.getElementById('newEpicName').value.trim();
+      if(!name){showToast('Give the epic a name');return;}
+      var color=EPIC_COLORS[(p.epics||[]).length%EPIC_COLORS.length];
+      p.epics=p.epics||[];
+      p.epics.push({id:uid('epic'),name:name,color:color});
+      p.updatedAt=now();
+      saveState();
+      renderEpicManager();
+      showToast('Epic added');
+    };
+    host.querySelectorAll('.epic-name-input').forEach(function(inp){
+      inp.onchange=function(){
+        var row=inp.closest('[data-epic-id]');
+        var id=row&&row.dataset.epicId;
+        var epic=(p.epics||[]).find(function(e){return e.id===id;});
+        if(epic){epic.name=inp.value.trim()||epic.name;p.updatedAt=now();saveState();}
+      };
+    });
+    host.querySelectorAll('.epic-delete-btn').forEach(function(btn){
+      btn.onclick=function(){
+        var row=btn.closest('[data-epic-id]');
+        var id=row&&row.dataset.epicId;
+        var epic=(p.epics||[]).find(function(e){return e.id===id;});
+        if(!epic)return;
+        if(!confirm('Delete epic "'+epic.name+'"? Its stickies will keep existing but their Epic field will be cleared.'))return;
+        p.epics=(p.epics||[]).filter(function(e){return e.id!==id;});
+        (p.tasks||[]).forEach(function(t){if(t.epicId===id)t.epicId=null;});
+        p.updatedAt=now();
+        saveState();
+        renderEpicManager();
+        showToast('Epic deleted');
+      };
+    });
+  }
+
+  // Inject the Epic manager card into Control Room after each render.
+  function injectEpicCard(){
+    var pageH2=document.querySelector('.content h2');
+    if(!pageH2||!/Control Room/i.test(pageH2.textContent||''))return;
+    // Avoid double-inject
+    if(document.getElementById('epicManager'))return;
+    var dashGrid=pageH2.parentElement.querySelector('.dash-grid');
+    if(!dashGrid)return;
+    var box=document.createElement('div');
+    box.className='box';
+    box.style.gridColumn='1 / -1';
+    box.innerHTML='<h3>Epics</h3>'+
+      '<p style="color:var(--muted);font-size:13px;margin:0 0 10px">Group related stickies under a shared theme. Assign an epic on any sticky task modal. Deleting an epic clears the field on its stickies but does not delete them.</p>'+
+      '<div id="epicManager"></div>';
+    dashGrid.appendChild(box);
+    renderEpicManager();
+  }
+
+  if(window.kandooRenderViewPipeline&&Array.isArray(window.kandooRenderViewPipeline.postRenderAsync)){
+    window.kandooRenderViewPipeline.postRenderAsync.push(injectEpicCard);
+  }else if(window.kandooRenderPipeline&&Array.isArray(window.kandooRenderPipeline.postRenderAsync)){
+    window.kandooRenderPipeline.postRenderAsync.push(injectEpicCard);
+  }else{
+    // Fallback: patch the tab click so we inject on view change
+    document.addEventListener('click',function(e){
+      var tab=e.target.closest('.tab');
+      if(!tab)return;
+      setTimeout(injectEpicCard,50);
+    });
+  }
+  // Also try immediately if we happen to already be on Control Room
+  setTimeout(injectEpicCard,0);
+
+  /* --- Reports: Tasks per Epic bar chart --------------------------- */
+  function tasksPerEpicCard(){
+    var p=project(),tasks=(p.tasks||[]).filter(function(t){return !t.archived;});
+    var epics=p.epics||[];
+    var counts=epics.map(function(e){
+      return {name:e.name,color:e.color||'#fff176',count:tasks.filter(function(t){return t.epicId===e.id;}).length};
+    });
+    var unassigned=tasks.filter(function(t){return !t.epicId;}).length;
+    if(unassigned>0)counts.push({name:'(No Epic)',color:'#cccccc',count:unassigned});
+    if(!counts.length){
+      return '<div class="report-card chart-card"><h3>Tasks per Epic</h3><div class="empty">No epics yet. Add epics from the Control Room.</div></div>';
+    }
+    var max=Math.max.apply(null,counts.map(function(c){return c.count;}))||1;
+    var rows=counts.map(function(c){
+      var w=Math.max(2,(c.count/max)*100);
+      return '<div style="display:flex;align-items:center;gap:10px;margin:6px 0">'+
+        '<div style="flex:0 0 140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escapeHtml(c.name)+'</div>'+
+        '<div style="flex:1;height:20px;background:rgba(0,0,0,.08);border-radius:999px;overflow:hidden;position:relative">'+
+          '<div style="width:'+w+'%;height:100%;background:'+c.color+';border-right:1px solid rgba(0,0,0,.18)"></div>'+
+        '</div>'+
+        '<div style="flex:0 0 40px;text-align:right;font-weight:800">'+c.count+'</div>'+
+      '</div>';
+    }).join('');
+    return '<div class="report-card chart-card"><h3>Tasks per Epic</h3>'+rows+
+      '<p style="color:var(--muted);font-size:12px;margin:10px 0 0">Counts exclude archived stickies.</p></div>';
+  }
+
+  // Wrap renderReports so the epic card appears at the bottom.
+  var _renderReports=window.renderReports;
+  window.renderReports=function(root){
+    _renderReports(root);
+    var page=root.querySelector('.page');
+    if(!page)return;
+    var heading=document.createElement('h3');
+    heading.className='report-section-heading';
+    heading.textContent='Epics';
+    page.appendChild(heading);
+    var grid=document.createElement('div');
+    grid.className='report-grid';
+    grid.innerHTML=tasksPerEpicCard();
+    page.appendChild(grid);
+  };
+})();
+
 </script>
 </body>
 </html>
