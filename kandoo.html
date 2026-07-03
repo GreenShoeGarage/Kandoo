@@ -176,7 +176,7 @@ body.theme-halloween .toast{--ink:#22142b;--muted:#4a2f3f;color:var(--ink)}
 /* Form controls (input, select, textarea) always render with translucent
    white background regardless of theme. On all 6 dark themes, force
    dark text so form input reads cleanly. */
-body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk, .theme-halloween, .theme-dark-neon)
+body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk, .theme-halloween, .theme-dark-neon, .theme-hc-invert)
   .content :is(input, select, textarea){color:#1c1a1a}
 
 /* Buttons in .content with the default --panel background: on the four
@@ -196,7 +196,7 @@ body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk)
    page title (h2 directly under .page) and its description sibling
    which sit on the dark --board background. Uses each theme's original
    root --ink value for the re-lightening. */
-body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk, .theme-halloween, .theme-dark-neon)
+body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk, .theme-halloween, .theme-dark-neon, .theme-hc-invert)
   .content{
   --ink:#1c1a1a;
   --muted:#4a4642;
@@ -215,12 +215,15 @@ body.theme-halloween .content > .page > h2,
 body.theme-halloween .content > .page > h2 + p{color:#fff4e6;--muted:#fff4e6}
 body.theme-dark-neon .content > .page > h2,
 body.theme-dark-neon .content > .page > h2 + p{color:#f8f7ff;--muted:#f8f7ff}
+body.theme-hc-invert .content > .page > h2,
+body.theme-hc-invert .content > .page > h2 + p{color:#ffffff;--muted:#ffffff}
 
 /* Halloween/Dark Neon buttons need white text since their --panel is dark
    (my main .content rule above sets --ink dark, but buttons on dark
    panel need white text override). */
 body.theme-halloween .content .btn:not(.primary):not(.ghost),
-body.theme-dark-neon .content .btn:not(.primary):not(.ghost){color:#fff}
+body.theme-dark-neon .content .btn:not(.primary):not(.ghost),
+body.theme-hc-invert .content .btn:not(.primary):not(.ghost){color:#fff}
 
 /* Sidebar project-item cards use --panel for their background which is
    dark on halloween/dark-neon. My earlier aside rescue set --ink dark
@@ -230,7 +233,9 @@ body.theme-dark-neon .content .btn:not(.primary):not(.ghost){color:#fff}
 body.theme-halloween aside .project-item,
 body.theme-halloween aside .project-item *,
 body.theme-dark-neon aside .project-item,
-body.theme-dark-neon aside .project-item *{color:#fff}
+body.theme-dark-neon aside .project-item *,
+body.theme-hc-invert aside .project-item,
+body.theme-hc-invert aside .project-item *{color:#fff}
 
 /* Sidebar buttons (Save/Duplicate/Delete under Project Details, plus the
    top-row shortcuts + Task, + Project, Board, Focus, Print, Shortcuts,
@@ -240,7 +245,9 @@ body.theme-dark-neon aside .project-item *{color:#fff}
 body.theme-halloween aside .btn:not(.primary):not(.ghost),
 body.theme-halloween aside .sidebar-toggle,
 body.theme-dark-neon aside .btn:not(.primary):not(.ghost),
-body.theme-dark-neon aside .sidebar-toggle{color:#fff}
+body.theme-dark-neon aside .sidebar-toggle,
+body.theme-hc-invert aside .btn:not(.primary):not(.ghost),
+body.theme-hc-invert aside .sidebar-toggle{color:#fff}
 
 /* Translucent-white containers rescue: .box, .stat, .empty, .power-card,
    .pill, .milestone, .share-preview always have LIGHT translucent-white
@@ -252,9 +259,9 @@ body.theme-dark-neon aside .sidebar-toggle{color:#fff}
    cleanly. Uses :is() to compress the theme+container matrix without
    listing every combination.
    The .note override earlier takes precedence for sticky pills. */
-body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk, .theme-halloween, .theme-dark-neon) .content :is(.box, .stat, .empty, .power-card, .milestone, .share-preview),
-body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk, .theme-halloween, .theme-dark-neon) .content .stage-rule-grid > div,
-body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk, .theme-halloween, .theme-dark-neon) .content .pill:not(.note .pill){
+body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk, .theme-halloween, .theme-dark-neon, .theme-hc-invert) .content :is(.box, .stat, .empty, .power-card, .milestone, .share-preview),
+body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk, .theme-halloween, .theme-dark-neon, .theme-hc-invert) .content .stage-rule-grid > div,
+body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk, .theme-halloween, .theme-dark-neon, .theme-hc-invert) .content .pill:not(.note .pill){
   --ink:#1c1a1a;
   --muted:#4a4642;
   color:var(--ink);
@@ -280,7 +287,13 @@ body.theme-dark-neon .view-tabs .menu-summary,
 body.theme-dark-neon header .btn:not(.primary):not(.ghost),
 body.theme-dark-neon header .menu-toggle,
 body.theme-dark-neon header .menu-summary,
-body.theme-dark-neon .menu-panel .btn{color:#fff}
+body.theme-dark-neon .menu-panel .btn,
+body.theme-hc-invert .view-tabs .tab:not(.active),
+body.theme-hc-invert .view-tabs .menu-summary,
+body.theme-hc-invert header .btn:not(.primary):not(.ghost),
+body.theme-hc-invert header .menu-toggle,
+body.theme-hc-invert header .menu-summary,
+body.theme-hc-invert .menu-panel .btn{color:#fff}
 
 body.theme-dark-neon header,
 body.theme-dark-neon aside,
@@ -289,6 +302,174 @@ body.theme-dark-neon .view-tabs,
 body.theme-dark-neon .menu-panel,
 body.theme-dark-neon .modal,
 body.theme-dark-neon .toast{--ink:#0f0d1e;--muted:#2b2740;color:var(--ink)}
+
+/* High Contrast Invert: aggressive AAA-level contrast, pure black
+   background, pure white text everywhere the light chrome overlay is
+   invisible against the black bg. On chrome (translucent-white overlay
+   over black), the resulting surface is light gray, so dark text works.
+   On buttons, panels, sticky-note pills etc, the existing dark-panel
+   rules apply. */
+body.theme-hc-invert header,
+body.theme-hc-invert aside,
+body.theme-hc-invert .filterbar,
+body.theme-hc-invert .view-tabs,
+body.theme-hc-invert .menu-panel,
+body.theme-hc-invert .modal,
+body.theme-hc-invert .toast{--ink:#000000;--muted:#333333;color:var(--ink)}
+
+/* HC Invert: true inverted dark theme with AAA contrast throughout.
+   Kandoo's default is a light theme, so "invert" means DARK canvas +
+   WHITE text everywhere, with high-visibility accent colors for
+   affordances. All translucencies are replaced with SOLID BLACK or
+   SOLID WHITE so contrast is deterministic (never affected by what
+   sits underneath the overlay). */
+body.theme-hc-invert header,
+body.theme-hc-invert aside,
+body.theme-hc-invert aside .panel,
+body.theme-hc-invert .filterbar,
+body.theme-hc-invert .view-tabs,
+body.theme-hc-invert .menu-panel,
+body.theme-hc-invert .modal .dialog,
+body.theme-hc-invert .toast,
+body.theme-hc-invert .board,
+body.theme-hc-invert .column,
+body.theme-hc-invert .content .box,
+body.theme-hc-invert .content .stat,
+body.theme-hc-invert .content .empty,
+body.theme-hc-invert .content .power-card,
+body.theme-hc-invert .content .milestone,
+body.theme-hc-invert .content .share-preview,
+body.theme-hc-invert .content .panel,
+body.theme-hc-invert .content .switch-row,
+body.theme-hc-invert .content .stage-rule-grid > div,
+body.theme-hc-invert .content .template-card,
+body.theme-hc-invert .content .share-card,
+body.theme-hc-invert .content .report-card,
+body.theme-hc-invert .content [class*="-card"],
+body.theme-hc-invert .content [class*="-panel"],
+body.theme-hc-invert .content [class*="-list"],
+body.theme-hc-invert .content [class*="-empty"],
+body.theme-hc-invert .content [class*="-token"],
+body.theme-hc-invert .content [class*="-cell"],
+body.theme-hc-invert .content [class*="-row"],
+body.theme-hc-invert .content [class*="-item"],
+body.theme-hc-invert .content [class*="-body"],
+body.theme-hc-invert .content [class*="-container"],
+body.theme-hc-invert .content [class*="-hero"],
+body.theme-hc-invert .content [class*="-table"],
+body.theme-hc-invert .content [class*="-preview"],
+body.theme-hc-invert .content [class*="upload"],
+body.theme-hc-invert .content [class*="ledger"],
+body.theme-hc-invert .content [class*="notif-"],
+body.theme-hc-invert .content [class*="digest-"],
+body.theme-hc-invert .content [class*="helper"],
+body.theme-hc-invert .content [class*="attachment"],
+body.theme-hc-invert .content [class*="a11y-kbd"],
+body.theme-hc-invert .content [class*="-stat"],
+body.theme-hc-invert .content [class*="-browser"],
+body.theme-hc-invert .content [class*="-stats"],
+body.theme-hc-invert .version,
+body.theme-hc-invert .stage-toggle,
+body.theme-hc-invert .filterbar-toggle,
+body.theme-hc-invert .status,
+body.theme-hc-invert .kbd,
+body.theme-hc-invert .achievement,
+body.theme-hc-invert .mobile-stagebar,
+body.theme-hc-invert td,
+body.theme-hc-invert th,
+body.theme-hc-invert .stamp,
+body.theme-hc-invert .gantt-scale,
+body.theme-hc-invert .gantt-scale-title,
+body.theme-hc-invert .gantt-ticks,
+body.theme-hc-invert .gantt-toolbar{
+  background:#000000 !important;
+  background-image:none !important;
+  border:2px solid #ffffff !important;
+  color:#ffffff !important;
+}
+/* Labels and inline text: no border, just make bg solid black and text white */
+body.theme-hc-invert .field label,
+body.theme-hc-invert .content label{
+  background:#000000 !important;
+  color:#ffffff !important;
+}
+/* Board/page also solid black */
+body.theme-hc-invert .content > .page{
+  background:#000000 !important;
+}
+body.theme-hc-invert .content > .page > h2,
+body.theme-hc-invert .content > .page > h2 + p{
+  color:#ffffff !important;
+  --muted:#ffffff !important;
+}
+/* Buttons: solid black bg + white text + white border for chromestyle;
+   .primary uses yellow accent for maximum affordance signal */
+body.theme-hc-invert .btn:not(.primary):not(.ghost){
+  background:#000000 !important;
+  color:#ffffff !important;
+  border:2px solid #ffffff !important;
+}
+body.theme-hc-invert .btn.primary{
+  background:#ffee00 !important;
+  color:#000000 !important;
+  border:2px solid #000000 !important;
+  font-weight:900;
+}
+body.theme-hc-invert .btn.ghost{
+  background:#000000 !important;
+  color:#ffffff !important;
+  border:2px solid #ffffff !important;
+}
+body.theme-hc-invert .tab:not(.active){
+  background:#000000 !important;
+  color:#ffffff !important;
+  border:2px solid #ffffff !important;
+}
+body.theme-hc-invert .tab.active{
+  background:#00e5ff !important;
+  color:#000000 !important;
+  border:2px solid #000000 !important;
+  font-weight:900;
+}
+body.theme-hc-invert .menu-summary,
+body.theme-hc-invert .sidebar-toggle,
+body.theme-hc-invert .menu-toggle{
+  background:#000000 !important;
+  color:#ffffff !important;
+  border:2px solid #ffffff !important;
+}
+body.theme-hc-invert .project-item{
+  background:#000000 !important;
+  color:#ffffff !important;
+  border:2px solid #ffffff !important;
+}
+body.theme-hc-invert .project-item.active{
+  outline:4px solid #ffee00 !important;
+}
+body.theme-hc-invert .project-item *{color:#ffffff !important}
+/* Form fields: black bg + white text + white border */
+body.theme-hc-invert input,
+body.theme-hc-invert select,
+body.theme-hc-invert textarea{
+  background:#000000 !important;
+  color:#ffffff !important;
+  border:2px solid #ffffff !important;
+}
+/* Sticky notes keep their colored bg but black text stays readable */
+body.theme-hc-invert .note{
+  border:2px solid #ffffff !important;
+}
+/* Column headers, generic content on black */
+body.theme-hc-invert .content h3,
+body.theme-hc-invert .content h4,
+body.theme-hc-invert .content strong,
+body.theme-hc-invert .content label{
+  color:#ffffff !important;
+}
+body.theme-hc-invert .col-title,
+body.theme-hc-invert .column{
+  color:#ffffff !important;
+}
 
 /* Sticky-note contrast rescue: sticky notes are always painted with a
    light color (peach, yellow, mint, lilac, etc.) regardless of theme,
@@ -305,7 +486,8 @@ body.theme-chalk .note,
 body.theme-arcade .note,
 body.theme-darkdesk .note,
 body.theme-halloween .note,
-body.theme-dark-neon .note{
+body.theme-dark-neon .note,
+body.theme-hc-invert .note{
   --ink:#1c1a1a;
   --muted:#4a4642;
   color:var(--ink);
@@ -2151,7 +2333,8 @@ const themes=[
 {id:'graph-paper',name:'Graph Paper',bg:'#dfe9f7',board:'#fbfdff',ink:'#1f2c44',muted:'#5a6881',accent:'#3f7fd7',accent2:'#ff6f61',panel:'#ffffff'},
 {id:'notebook-doodles',name:'Notebook Doodles',bg:'#eef4ff',board:'#fffef9',ink:'#1b2a4b',muted:'#656f8b',accent:'#ff7a59',accent2:'#61c9a8',panel:'#fffdf2'},
 {id:'library',name:'Library Card Catalog',bg:'#8f7b5f',board:'#efe3ca',ink:'#18120c',muted:'#16120e',accent:'#9f3f2f',accent2:'#3e6b5f',panel:'#f8edda'},
-{id:'classroom-whiteboard',name:'Classroom Whiteboard',bg:'#d9e8ec',board:'#fbffff',ink:'#263238',muted:'#516a76',accent:'#1976d2',accent2:'#43a047',panel:'#f6ffff'}
+{id:'classroom-whiteboard',name:'Classroom Whiteboard',bg:'#d9e8ec',board:'#fbffff',ink:'#263238',muted:'#516a76',accent:'#1976d2',accent2:'#43a047',panel:'#f6ffff'},
+{id:'hc-invert',name:'High Contrast Invert',bg:'#000000',board:'#000000',ink:'#ffffff',muted:'#dddddd',accent:'#ffee00',accent2:'#00e5ff',panel:'#000000'}
 ];
 var state=loadState();var activeProjectId=state.activeProjectId||state.projects[0].id;var activeView='dashboard';var draggedTaskId=null;var saveTimer=null;
 function slug(s){return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')||'item'}function uid(p){return p+'_'+Math.random().toString(36).slice(2,9)}function now(){return new Date().toISOString()}function today(){return new Date().toISOString().slice(0,10)}function defaultWorkflow(){return workflowNames.map((name,i)=>({id:slug(name),name,hidden:false,order:i+1}))}function seedProject(){return{id:uid('project'),name:'My Whimsical Project',description:'A playful place to plan, build, test, ship, invoice, and finish work.',createdAt:now(),updatedAt:now(),themeId:'maker',workflowStages:defaultWorkflow(),tasks:[{id:uid('task'),projectId:'seed',title:'Sketch the first sticky note',description:'Create a task, drag it around, and change its color.',type:'General',stageId:'backlog',priority:'Medium',responsible:'MP',startDate:today(),needByDate:'',completedDate:null,estimateHours:1,actualHours:null,tags:['starter'],blocked:false,blockingReason:'',stickyColor:'#fff176',subtasks:[{id:uid('subtask'),title:'Open task details',completed:false,responsible:'MP',needByDate:'',notes:''}],comments:[],links:[],createdAt:now(),updatedAt:now()},{id:uid('task'),projectId:'seed',title:'Add a bug-shaped problem',description:'Bug tasks get their own little label so they are easy to spot.',type:'Bug',stageId:'icebox',priority:'High',responsible:'',startDate:'',needByDate:'',completedDate:null,estimateHours:null,actualHours:null,tags:['quality'],blocked:false,blockingReason:'',stickyColor:'#ffab91',subtasks:[],comments:[],links:[],createdAt:now(),updatedAt:now()}]}}
@@ -4870,13 +5053,13 @@ function addDays(date,n){const d=new Date(date);d.setDate(d.getDate()+n);return 
 function daysBetween(a,b){return Math.round((parseDate(b)-parseDate(a))/DAY)}
 function ensureGanttSettings(){const p=proj();p.ganttSettings=p.ganttSettings||{zoom:'day',groupBy:'stage',showDependencies:true,highlightBlockedChains:true};p.ganttSettings.zoom=p.ganttSettings.zoom||'day';p.ganttSettings.groupBy=p.ganttSettings.groupBy||'stage';if(p.ganttSettings.showDependencies===undefined)p.ganttSettings.showDependencies=true;if(p.ganttSettings.highlightBlockedChains===undefined)p.ganttSettings.highlightBlockedChains=true;return p.ganttSettings}
 function stageName(id){return (proj().workflowStages||[]).find(s=>s.id===id)?.name||id||'No stage'}
-function groupLabel(t,mode){if(mode==='person')return t.responsible||'Unassigned';if(mode==='type')return t.type||'General';return stageName(t.stageId)}
+function groupLabel(t,mode){if(mode==='none')return 'All tasks';if(mode==='person')return t.responsible||'Unassigned';if(mode==='type')return t.type||'General';return stageName(t.stageId)}
 function blockedChainIds(tasks){const ids=new Set(tasks.filter(t=>t.blocked).map(t=>t.id));let changed=true;while(changed){changed=false;tasks.forEach(t=>{if((t.dependencies||[]).some(d=>ids.has(d))&&!ids.has(t.id)){ids.add(t.id);changed=true;}})}return ids}
 function ganttBounds(dated,milestones){const starts=dated.map(t=>parseDate(t.startDate)).filter(Boolean);const ends=dated.map(t=>parseDate(t.needByDate)).filter(Boolean);(milestones||[]).forEach(m=>{const d=parseDate(m.date);if(d){starts.push(d);ends.push(d)}});if(!starts.length){const d=new Date();return {min:addDays(d,-1),max:addDays(d,14)}}let min=new Date(Math.min(...starts)),max=new Date(Math.max(...ends));return {min:addDays(min,-2),max:addDays(max,3)}}
 function tickEvery(zoom){return zoom==='day'?1:zoom==='week'?7:30}
 function renderTicks(min,total,px,zoom){const step=tickEvery(zoom);let html='';for(let day=0;day<=total;day+=step){const d=addDays(min,day);const label=zoom==='month'?d.toLocaleDateString(undefined,{month:'short',year:'numeric'}):zoom==='week'?`wk ${d.toLocaleDateString(undefined,{month:'short',day:'numeric'})}`:d.toLocaleDateString(undefined,{month:'short',day:'numeric'});html+=`<span class="gantt-tick" style="left:${day*px}px">${esc(label)}</span>`}return html}
 function groupedTasks(dated,mode){const groups=new Map();dated.forEach(t=>{const k=groupLabel(t,mode);if(!groups.has(k))groups.set(k,[]);groups.get(k).push(t)});return [...groups.entries()].map(([name,tasks])=>[name,tasks.sort((a,b)=>(a.startDate||'').localeCompare(b.startDate||''))])}
-window.renderGantt=function(root){const settings=ensureGanttSettings();const tasks=filteredTasks();const dated=tasks.filter(t=>t.startDate&&t.needByDate&&parseDate(t.startDate)&&parseDate(t.needByDate));const uns=tasks.filter(t=>!t.startDate||!t.needByDate||!parseDate(t.startDate)||!parseDate(t.needByDate));const milestones=(proj().milestones||[]).filter(m=>m.date);const {min,max}=ganttBounds(dated,milestones);const total=Math.max(1,Math.ceil((max-min)/DAY)+1);const px=zoomPx[settings.zoom]||34;const width=Math.max(620,total*px);const chain=blockedChainIds(proj().tasks||[]);const page=document.createElement('div');page.className='gantt-advanced';page.innerHTML=`<div class="gantt-focus-banner"><h1>Kandoo Gantt Export <span class="version">${K62}</span></h1><p>${esc(proj().name)} · ${new Date().toLocaleString()}</p></div><h2 style="font-family:var(--font-hand);font-size:32px;margin:0 0 4px">Gantt Chart <span class="version">${K62}</span></h2><p style="color:var(--muted);margin-top:0">Drag bars to reschedule. Grab either white handle to resize. Dependencies draw as string lines; blocked dependency chains are circled in red marker.</p><div class="gantt-toolbar"><div class="field"><label>Zoom</label><select id="ganttZoom"><option value="day">Day</option><option value="week">Week</option><option value="month">Month</option></select></div><div class="field"><label>Group by</label><select id="ganttGroup"><option value="stage">Stage</option><option value="person">Person</option><option value="type">Type</option></select></div><label class="switch-row" style="margin:0"><input id="ganttDeps" type="checkbox"> Dependency lines</label><label class="switch-row" style="margin:0"><input id="ganttChains" type="checkbox"> Blocked chains</label><button class="btn" id="ganttExportBtn">Gantt-only HTML</button><button class="btn" id="ganttPrintBtn">Focus / Print</button><span class="gantt-export-note">${dated.length} scheduled · ${uns.length} unscheduled · ${milestones.length} milestones</span></div><div class="gantt-shell" id="ganttShell"><div class="gantt-scale"><div class="gantt-scale-title">Sticky</div><div class="gantt-ticks" style="width:${width}px">${renderTicks(min,total,px,settings.zoom)}</div><div class="gantt-scale-title">Dates</div></div><svg class="gantt-svg" id="ganttSvg" style="width:${width}px"></svg><div id="ganttRows"></div></div><div class="gantt-help">Keyboard tip: press <span class="kbd">G</span> to return to this view. Use the export button for a standalone timeline page.</div>${uns.length?`<div class="box" style="margin-top:12px"><h3>Unscheduled Sticky Pile</h3><div class="unscheduled-note-grid">${uns.map(t=>`<span class="pill" style="background:${t.stickyColor||'#fff176'}">${esc(t.title)}</span>`).join('')}</div></div>`:''}`;root.appendChild(page);document.getElementById('ganttZoom').value=settings.zoom;document.getElementById('ganttGroup').value=settings.groupBy;document.getElementById('ganttDeps').checked=!!settings.showDependencies;document.getElementById('ganttChains').checked=!!settings.highlightBlockedChains;document.getElementById('ganttZoom').onchange=e=>{settings.zoom=e.target.value;saveState();renderView()};document.getElementById('ganttGroup').onchange=e=>{settings.groupBy=e.target.value;saveState();renderView()};document.getElementById('ganttDeps').onchange=e=>{settings.showDependencies=e.target.checked;saveState();renderView()};document.getElementById('ganttChains').onchange=e=>{settings.highlightBlockedChains=e.target.checked;saveState();renderView()};document.getElementById('ganttExportBtn').onclick=exportGanttOnly;document.getElementById('ganttPrintBtn').onclick=()=>{document.body.classList.toggle('gantt-focus-export');setTimeout(()=>window.print(),100)};const rows=document.getElementById('ganttRows');const positions={};groupedTasks(dated,settings.groupBy).forEach(([name,items])=>{const g=document.createElement('section');g.className='gantt-group';g.innerHTML=`<h3>${esc(name)} <span class="pill">${items.length}</span></h3>`;items.forEach(t=>{const start=parseDate(t.startDate),end=parseDate(t.needByDate);const off=Math.max(0,Math.round((start-min)/DAY));const span=Math.max(1,Math.round((end-start)/DAY)+1);const left=off*px,w=Math.max(24,span*px);const cls=(settings.highlightBlockedChains&&chain.has(t.id))?(t.blocked?'blocked-chain':'dependency-risk'):'';const r=document.createElement('div');r.className='gantt-row2';r.dataset.taskId=t.id;r.innerHTML=`<div class="gantt-label"><strong>${esc(t.title)}</strong><small>${esc(t.type)} · ${esc(t.priority||'')} · ${esc(t.responsible||'Unassigned')}</small></div><div class="gantt-track" style="--gantt-unit:${px}px;width:${width}px"><div class="gantt-bar2 ${cls}" data-task-id="${t.id}" style="left:${left}px;width:${w}px;background:${t.stickyColor||'var(--accent)'}"><span class="gantt-handle left" data-mode="resize-left"></span><span class="gantt-bar-label">${esc(t.title)}</span><span class="gantt-handle right" data-mode="resize-right"></span></div>${milestones.map(m=>{const md=parseDate(m.date);const mo=md?Math.round((md-min)/DAY):0;return md?`<span class="gantt-milestone2" title="${esc(m.name)}" style="left:${mo*px-10}px"></span>`:''}).join('')}</div><div class="gantt-datebox"><strong>${esc(t.startDate)}</strong><br>→ ${esc(t.needByDate)}</div>`;g.appendChild(r);positions[t.id]={row:null,left,w,mid:left+w/2};});rows.appendChild(g)});setTimeout(()=>{document.querySelectorAll('.gantt-row2').forEach((r,i)=>{const id=r.dataset.taskId;if(positions[id])positions[id].row=r.offsetTop+r.offsetHeight/2});if(settings.showDependencies)drawDependencyLines(positions,width,chain,settings.highlightBlockedChains);wireGanttBars(min,px);},0)};
+window.renderGantt=function(root){const settings=ensureGanttSettings();const tasks=filteredTasks();const dated=tasks.filter(t=>t.startDate&&t.needByDate&&parseDate(t.startDate)&&parseDate(t.needByDate));const uns=tasks.filter(t=>!t.startDate||!t.needByDate||!parseDate(t.startDate)||!parseDate(t.needByDate));const milestones=(proj().milestones||[]).filter(m=>m.date);const {min,max}=ganttBounds(dated,milestones);const total=Math.max(1,Math.ceil((max-min)/DAY)+1);const px=zoomPx[settings.zoom]||34;const width=Math.max(620,total*px);const chain=blockedChainIds(proj().tasks||[]);const page=document.createElement('div');page.className='gantt-advanced';page.innerHTML=`<div class="gantt-focus-banner"><h1>Kandoo Gantt Export <span class="version">${K62}</span></h1><p>${esc(proj().name)} · ${new Date().toLocaleString()}</p></div><h2 style="font-family:var(--font-hand);font-size:32px;margin:0 0 4px">Gantt Chart <span class="version">${K62}</span></h2><p style="color:var(--muted);margin-top:0">Drag bars to reschedule. Grab either white handle to resize. Dependencies draw as string lines; blocked dependency chains are circled in red marker.</p><div class="gantt-toolbar"><div class="field"><label>Zoom</label><select id="ganttZoom"><option value="day">Day</option><option value="week">Week</option><option value="month">Month</option></select></div><div class="field"><label>Group by</label><select id="ganttGroup"><option value="stage">Stage</option><option value="person">Person</option><option value="type">Type</option><option value="none">None</option></select></div><label class="switch-row" style="margin:0"><input id="ganttDeps" type="checkbox"> Dependency lines</label><label class="switch-row" style="margin:0"><input id="ganttChains" type="checkbox"> Blocked chains</label><button class="btn" id="ganttExportBtn">Gantt-only HTML</button><button class="btn" id="ganttPrintBtn">Focus / Print</button><span class="gantt-export-note">${dated.length} scheduled · ${uns.length} unscheduled · ${milestones.length} milestones</span></div><div class="gantt-shell" id="ganttShell"><div class="gantt-scale"><div class="gantt-scale-title">Sticky</div><div class="gantt-ticks" style="width:${width}px">${renderTicks(min,total,px,settings.zoom)}</div><div class="gantt-scale-title">Dates</div></div><svg class="gantt-svg" id="ganttSvg" style="width:${width}px"></svg><div id="ganttRows"></div></div><div class="gantt-help">Keyboard tip: press <span class="kbd">G</span> to return to this view. Use the export button for a standalone timeline page.</div>${uns.length?`<div class="box" style="margin-top:12px"><h3>Unscheduled Sticky Pile</h3><div class="unscheduled-note-grid">${uns.map(t=>`<span class="pill" style="background:${t.stickyColor||'#fff176'}">${esc(t.title)}</span>`).join('')}</div></div>`:''}`;root.appendChild(page);document.getElementById('ganttZoom').value=settings.zoom;document.getElementById('ganttGroup').value=settings.groupBy;document.getElementById('ganttDeps').checked=!!settings.showDependencies;document.getElementById('ganttChains').checked=!!settings.highlightBlockedChains;document.getElementById('ganttZoom').onchange=e=>{settings.zoom=e.target.value;saveState();renderView()};document.getElementById('ganttGroup').onchange=e=>{settings.groupBy=e.target.value;saveState();renderView()};document.getElementById('ganttDeps').onchange=e=>{settings.showDependencies=e.target.checked;saveState();renderView()};document.getElementById('ganttChains').onchange=e=>{settings.highlightBlockedChains=e.target.checked;saveState();renderView()};document.getElementById('ganttExportBtn').onclick=exportGanttOnly;document.getElementById('ganttPrintBtn').onclick=()=>{document.body.classList.toggle('gantt-focus-export');setTimeout(()=>window.print(),100)};const rows=document.getElementById('ganttRows');const positions={};groupedTasks(dated,settings.groupBy).forEach(([name,items])=>{const g=document.createElement('section');g.className='gantt-group';g.innerHTML=`<h3>${esc(name)} <span class="pill">${items.length}</span></h3>`;items.forEach(t=>{const start=parseDate(t.startDate),end=parseDate(t.needByDate);const off=Math.max(0,Math.round((start-min)/DAY));const span=Math.max(1,Math.round((end-start)/DAY)+1);const left=off*px,w=Math.max(24,span*px);const cls=(settings.highlightBlockedChains&&chain.has(t.id))?(t.blocked?'blocked-chain':'dependency-risk'):'';const r=document.createElement('div');r.className='gantt-row2';r.dataset.taskId=t.id;r.innerHTML=`<div class="gantt-label"><strong>${esc(t.title)}</strong><small>${esc(t.type)} · ${esc(t.priority||'')} · ${esc(t.responsible||'Unassigned')}</small></div><div class="gantt-track" style="--gantt-unit:${px}px;width:${width}px"><div class="gantt-bar2 ${cls}" data-task-id="${t.id}" style="left:${left}px;width:${w}px;background:${t.stickyColor||'var(--accent)'}"><span class="gantt-handle left" data-mode="resize-left"></span><span class="gantt-bar-label">${esc(t.title)}</span><span class="gantt-handle right" data-mode="resize-right"></span></div>${milestones.map(m=>{const md=parseDate(m.date);const mo=md?Math.round((md-min)/DAY):0;return md?`<span class="gantt-milestone2" title="${esc(m.name)}" style="left:${mo*px-10}px"></span>`:''}).join('')}</div><div class="gantt-datebox"><strong>${esc(t.startDate)}</strong><br>→ ${esc(t.needByDate)}</div>`;g.appendChild(r);positions[t.id]={row:null,left,w,mid:left+w/2};});rows.appendChild(g)});setTimeout(()=>{const svg=document.getElementById('ganttSvg');const svgTop=svg?svg.getBoundingClientRect().top:0;document.querySelectorAll('.gantt-row2').forEach((r,i)=>{const id=r.dataset.taskId;if(positions[id])positions[id].row=r.getBoundingClientRect().top+r.offsetHeight/2-svgTop});if(settings.showDependencies)drawDependencyLines(positions,width,chain,settings.highlightBlockedChains);wireGanttBars(min,px);},0)};
 function drawDependencyLines(pos,width,chain,highlight){const svg=document.getElementById('ganttSvg');if(!svg)return;const shell=document.getElementById('ganttShell');const rows=document.getElementById('ganttRows');const h=Math.max(120,rows.offsetHeight+20);svg.setAttribute('viewBox',`0 0 ${width} ${h}`);svg.style.height=h+'px';let paths='';(proj().tasks||[]).forEach(t=>{(t.dependencies||[]).forEach(dep=>{if(!pos[dep]||!pos[t.id])return;const a=pos[dep],b=pos[t.id];const x1=a.left+a.w,y1=a.row,x2=b.left,y2=b.row;const mid=Math.max(x1+18,(x1+x2)/2);const risk=highlight&&(chain.has(dep)||chain.has(t.id));paths+=`<path class="${risk?'risk':''}" d="M ${x1} ${y1} C ${mid} ${y1}, ${mid} ${y2}, ${x2} ${y2}"/>`;});});svg.innerHTML=paths}
 function wireGanttBars(min,px){document.querySelectorAll('.gantt-bar2').forEach(bar=>{bar.onpointerdown=e=>{const target=e.target;const mode=target.classList.contains('gantt-handle')?target.dataset.mode:'move';const id=bar.dataset.taskId;const t=proj().tasks.find(x=>x.id===id);if(!t)return;e.preventDefault();bar.setPointerCapture(e.pointerId);const startX=e.clientX;const initialLeft=parseFloat(bar.style.left)||0;const initialWidth=parseFloat(bar.style.width)||px;const startDate=parseDate(t.startDate);const endDate=parseDate(t.needByDate);const onMove=ev=>{const dx=ev.clientX-startX;let left=initialLeft,width=initialWidth;if(mode==='move')left=Math.max(0,initialLeft+dx);if(mode==='resize-left'){left=Math.max(0,initialLeft+dx);width=Math.max(px,initialWidth-dx)}if(mode==='resize-right')width=Math.max(px,initialWidth+dx);bar.style.left=left+'px';bar.style.width=width+'px'};const onUp=ev=>{bar.releasePointerCapture(e.pointerId);bar.removeEventListener('pointermove',onMove);bar.removeEventListener('pointerup',onUp);const finalLeft=parseFloat(bar.style.left)||0;const finalWidth=parseFloat(bar.style.width)||px;const startOffset=Math.round(finalLeft/px);const days=Math.max(0,Math.round(finalWidth/px)-1);const newStart=addDays(min,startOffset);const newEnd=addDays(newStart,days);if(window.pushUndo)pushUndo('gantt reschedule');t.startDate=fmt(newStart);t.needByDate=fmt(newEnd);t.updatedAt=now();snapshot('gantt reschedule');saveState();renderView();showToast('Gantt dates updated')};bar.addEventListener('pointermove',onMove);bar.addEventListener('pointerup',onUp)}})}
 window.exportGanttOnly=function(){const settings=ensureGanttSettings();const tasks=filteredTasks().filter(t=>t.startDate&&t.needByDate);const html=`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(proj().name)} Gantt ${K62}</title><style>body{font-family:Trebuchet MS,system-ui;margin:0;padding:22px;background:#fffaf0;color:#222}h1{font-family:cursive}.row{display:grid;grid-template-columns:220px 1fr 120px;gap:10px;align-items:center;border-bottom:1px dashed #aaa;min-height:38px}.track{height:24px;background:repeating-linear-gradient(90deg,#0001 0 1px,transparent 1px 28px);border-radius:99px;position:relative}.bar{position:absolute;top:4px;height:16px;border-radius:99px;border:1px solid #555}.pill{border:1px dashed #999;border-radius:999px;padding:3px 7px;background:#fff8;font-size:12px}</style></head><body><h1>${esc(proj().name)} · Gantt <span class="pill">${K62}</span></h1><p>Exported ${new Date().toLocaleString()} · Grouped by ${esc(settings.groupBy)} · Zoom ${esc(settings.zoom)}</p>${tasks.map(t=>`<div class="row"><strong>${esc(t.title)}</strong><div class="track"><span class="bar" style="left:8px;width:60%;background:${t.stickyColor||'#f7d84a'}"></span></div><small>${esc(t.startDate)} → ${esc(t.needByDate)}</small></div>`).join('')||'<p>No scheduled tasks.</p>'}<h2>Dependencies</h2><ul>${tasks.flatMap(t=>(t.dependencies||[]).map(d=>`<li>${esc((proj().tasks.find(x=>x.id===d)||{}).title||d)} → ${esc(t.title)}</li>`)).join('')||'<li>No dependencies.</li>'}</ul>
