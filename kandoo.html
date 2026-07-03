@@ -218,6 +218,18 @@ body.theme-dark-neon .content > .page > h2 + p{color:#f8f7ff;--muted:#f8f7ff}
 body.theme-hc-invert .content > .page > h2,
 body.theme-hc-invert .content > .page > h2 + p{color:#ffffff;--muted:#ffffff}
 
+/* Gantt Chart page renders into .gantt-advanced (not .page) so the
+   page-title/description rescue above misses it. Add explicit white
+   text for the Gantt h2 and its description paragraph across the six
+   dark themes so they read on the dark board background. */
+body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk, .theme-halloween, .theme-dark-neon)
+  .content > .gantt-advanced > h2,
+body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk, .theme-halloween, .theme-dark-neon)
+  .content > .gantt-advanced > h2 + p{
+  color:#ffffff !important;
+  --muted:#ffffff !important;
+}
+
 /* Halloween/Dark Neon buttons need white text since their --panel is dark
    (my main .content rule above sets --ink dark, but buttons on dark
    panel need white text override). */
