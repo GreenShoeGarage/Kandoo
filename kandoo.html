@@ -204,6 +204,24 @@ body.theme-dark-neon .content textarea{color:#1a1a1a}
 body.theme-halloween .content .btn:not(.primary):not(.ghost),
 body.theme-dark-neon .content .btn:not(.primary):not(.ghost){color:#fff}
 
+/* Translucent-white containers rescue: .box, .stat, .empty, .power-card,
+   .pill, .milestone, .share-preview always have LIGHT translucent-white
+   backgrounds (rgba(255,255,255,0.4-0.6)) regardless of theme. On all
+   6 dark themes the root --ink/--muted are LIGHT, so text inside these
+   containers renders as light-on-light (contrast ratio ~1.0). Force
+   dark --ink and --muted inside these containers for all six themes so
+   descriptions, stats, empty-state messages, and pills all read
+   cleanly. Uses :is() to compress the theme+container matrix without
+   listing every combination.
+   The .note override earlier takes precedence for sticky pills. */
+body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk, .theme-halloween, .theme-dark-neon) .content :is(.box, .stat, .empty, .power-card, .milestone, .share-preview),
+body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk, .theme-halloween, .theme-dark-neon) .content .stage-rule-grid > div,
+body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk, .theme-halloween, .theme-dark-neon) .content .pill:not(.note .pill){
+  --ink:#1c1a1a;
+  --muted:#4a4642;
+  color:var(--ink);
+}
+
 /* Halloween buttons and view tabs default to background:var(--panel)
    which resolves to dark purple #3a2944. The chrome rescue above sets
    --ink dark so it reads on the light translucent-white overlay of
