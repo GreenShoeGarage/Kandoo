@@ -139,9 +139,7 @@ body.theme-blueprint .filterbar,
 body.theme-blueprint .view-tabs,
 body.theme-blueprint .menu-panel,
 body.theme-blueprint .modal,
-body.theme-blueprint .toast,
-body.theme-blueprint .page,
-body.theme-blueprint .content{--ink:#133c63;--muted:#2c4566;color:var(--ink)}
+body.theme-blueprint .toast{--ink:#133c63;--muted:#2c4566;color:var(--ink)}
 
 body.theme-chalk header,
 body.theme-chalk aside,
@@ -149,9 +147,7 @@ body.theme-chalk .filterbar,
 body.theme-chalk .view-tabs,
 body.theme-chalk .menu-panel,
 body.theme-chalk .modal,
-body.theme-chalk .toast,
-body.theme-chalk .page,
-body.theme-chalk .content{--ink:#20372e;--muted:#3a5448;color:var(--ink)}
+body.theme-chalk .toast{--ink:#20372e;--muted:#3a5448;color:var(--ink)}
 
 body.theme-arcade header,
 body.theme-arcade aside,
@@ -159,9 +155,7 @@ body.theme-arcade .filterbar,
 body.theme-arcade .view-tabs,
 body.theme-arcade .menu-panel,
 body.theme-arcade .modal,
-body.theme-arcade .toast,
-body.theme-arcade .page,
-body.theme-arcade .content{--ink:#20162d;--muted:#3d2956;color:var(--ink)}
+body.theme-arcade .toast{--ink:#20162d;--muted:#3d2956;color:var(--ink)}
 
 body.theme-darkdesk header,
 body.theme-darkdesk aside,
@@ -169,9 +163,7 @@ body.theme-darkdesk .filterbar,
 body.theme-darkdesk .view-tabs,
 body.theme-darkdesk .menu-panel,
 body.theme-darkdesk .modal,
-body.theme-darkdesk .toast,
-body.theme-darkdesk .page,
-body.theme-darkdesk .content{--ink:#18191d;--muted:#34302a;color:var(--ink)}
+body.theme-darkdesk .toast{--ink:#18191d;--muted:#34302a;color:var(--ink)}
 
 body.theme-halloween header,
 body.theme-halloween aside,
@@ -180,6 +172,34 @@ body.theme-halloween .view-tabs,
 body.theme-halloween .menu-panel,
 body.theme-halloween .modal,
 body.theme-halloween .toast{--ink:#22142b;--muted:#4a2f3f;color:var(--ink)}
+
+/* Form controls (input, select, textarea) always render with translucent
+   white background regardless of theme. On all 6 dark themes, force
+   dark text so form input reads cleanly. */
+body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk, .theme-halloween, .theme-dark-neon)
+  .content :is(input, select, textarea){color:#1c1a1a}
+
+/* Buttons in .content with the default --panel background: on the four
+   light-panel dark themes (blueprint, chalk, arcade, darkdesk), --panel
+   is a light color so the button bg is light and needs dark text.
+   Halloween and dark-neon are handled separately (they need white text
+   because their --panel is dark). */
+body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk)
+  .content .btn:not(.primary):not(.ghost){color:#1c1a1a}
+
+/* Blueprint contrast boost: the original --ink #f1fbff and --muted
+   #c4ddeb only produce ~2.9/2.5 contrast against --board #1f5c8a, below
+   WCAG AA for descriptions. Boost --ink and --muted to pure/near white,
+   and add color:var(--ink) so h2 titles re-evaluate the new variable
+   (otherwise they inherit body's pre-computed color from root --ink).
+   Also darken --board slightly inside .content for the small extra
+   contrast bump that pushes pure white over the 3.0 AA threshold. */
+body.theme-blueprint .content{
+  --board:#154870;
+  --ink:#ffffff;
+  --muted:#f0f8fc;
+  color:var(--ink);
+}
 
 /* Halloween/Dark Neon .page + .content: the same buttons-with-dark-panel-bg
    problem as the header applies inside the main content area (Gantt-only
@@ -213,6 +233,16 @@ body.theme-halloween aside .project-item,
 body.theme-halloween aside .project-item *,
 body.theme-dark-neon aside .project-item,
 body.theme-dark-neon aside .project-item *{color:#fff}
+
+/* Sidebar buttons (Save/Duplicate/Delete under Project Details, plus the
+   top-row shortcuts + Task, + Project, Board, Focus, Print, Shortcuts,
+   and the sidebar-toggle) all use --panel bg which is dark on
+   halloween/dark-neon. Same white-text override as the header buttons,
+   preserving .primary (accent bg) and .ghost. */
+body.theme-halloween aside .btn:not(.primary):not(.ghost),
+body.theme-halloween aside .sidebar-toggle,
+body.theme-dark-neon aside .btn:not(.primary):not(.ghost),
+body.theme-dark-neon aside .sidebar-toggle{color:#fff}
 
 /* Translucent-white containers rescue: .box, .stat, .empty, .power-card,
    .pill, .milestone, .share-preview always have LIGHT translucent-white
