@@ -230,6 +230,17 @@ body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk, .theme-h
   --muted:#ffffff !important;
 }
 
+/* Task List page: the column headers (Bulk, Task, Type, Stage, Priority,
+   Person, Start, Need-by, Subtasks, Flags, Hours) render as <th> with
+   color:var(--muted). My .content rescue makes --muted dark, but the
+   headers sit directly on the dark board (transparent th bg over
+   var(--board)) so dark-on-dark. Force white text on the six dark
+   themes. */
+body:is(.theme-blueprint, .theme-chalk, .theme-arcade, .theme-darkdesk, .theme-halloween, .theme-dark-neon)
+  .content .list-view th{
+  color:#ffffff !important;
+}
+
 /* Halloween/Dark Neon buttons need white text since their --panel is dark
    (my main .content rule above sets --ink dark, but buttons on dark
    panel need white text override). */
