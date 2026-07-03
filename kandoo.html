@@ -8554,6 +8554,115 @@ header{max-width:100vw;overflow:visible}.brand{max-width:min(52vw,620px)}.toolba
     grid.innerHTML=tasksPerEpicCard();
     page.appendChild(grid);
   };
+
+  /* --- Filterbar Epic dropdown ------------------------------------- */
+  function ensureEpicFilter(){
+    var bar=document.getElementById('kandooFilterbar');
+    if(!bar)return null;
+    var existing=document.getElementById('epicFilter');
+    if(existing){populateEpicFilter(existing);return existing;}
+    var sel=document.createElement('select');
+    sel.id='epicFilter';
+    // Insert right before the Clear filters button so it sits in the
+    // natural spot after All people.
+    var clearBtn=document.getElementById('clearFiltersBtn');
+    if(clearBtn&&clearBtn.parentNode===bar){
+      bar.insertBefore(sel,clearBtn);
+    }else{
+      bar.appendChild(sel);
+    }
+    populateEpicFilter(sel);
+    sel.addEventListener('change',function(){
+      if(typeof renderView==='function')renderView();
+    });
+    return sel;
+  }
+
+  function populateEpicFilter(sel){
+    if(!sel)return;
+    var p=project();
+    var epics=p.epics||[];
+    var prev=sel.value;
+    sel.innerHTML='<option value="">All epics</option>'+
+      epics.map(function(e){
+        return '<option value="'+e.id+'">'+escapeHtml(e.name)+'</option>';
+      }).join('')+
+      '<option value="__none__">(No Epic)</option>';
+    // Preserve current selection if still valid.
+    if(prev===''||prev==='__none__'||epics.some(function(e){return e.id===prev;})){
+      sel.value=prev;
+    }
+  }
+
+  // Wrap filteredTasks so the epic filter narrows results AND epic
+  // names become searchable via the text search box. This preserves
+  // every existing filter behavior (search text, type, priority,
+  // person) by delegating to the previous implementation and then
+  // additionally applying the epic filter and epic-name search match.
+  var _filteredTasks=window.filteredTasks;
+  window.filteredTasks=function(){
+    var base=_filteredTasks();
+    var p=project();
+    var epicSel=document.getElementById('epicFilter');
+    var epicFilter=epicSel?epicSel.value:'';
+    var q=(document.getElementById('searchBox')?.value.trim().toLowerCase())||'';
+    // If the search text matches an epic name, also include tasks in
+    // that epic even if they were filtered out because their title
+    // didn't contain the query. Compute the epic ids whose name
+    // contains the query.
+    var epicIdsMatchingQuery=[];
+    if(q){
+      (p.epics||[]).forEach(function(e){
+        if((e.name||'').toLowerCase().includes(q))epicIdsMatchingQuery.push(e.id);
+      });
+    }
+    // If no epic dropdown filter and no text-search epic match, base
+    // is already correct.
+    if(!epicFilter&&!epicIdsMatchingQuery.length)return base;
+    // Reconstruct from ALL tasks respecting non-search filters so we
+    // can rescue text-search misses that match by epic name.
+    var type=document.getElementById('typeFilter')?.value||'';
+    var pr=document.getElementById('priorityFilter')?.value||'';
+    var person=document.getElementById('personFilter')?.value||'';
+    return (p.tasks||[]).filter(function(t){
+      if(type&&t.type!==type)return false;
+      if(pr&&t.priority!==pr)return false;
+      if(person&&t.responsible!==person)return false;
+      if(epicFilter){
+        if(epicFilter==='__none__'){if(t.epicId)return false;}
+        else{if(t.epicId!==epicFilter)return false;}
+      }
+      if(q){
+        var blob=[t.title,t.description,t.responsible,t.priority,t.type,(t.tags||[]).join(' '),(t.subtasks||[]).map(function(s){return s.title;}).join(' ')].join(' ').toLowerCase();
+        var epicMatch=t.epicId&&epicIdsMatchingQuery.indexOf(t.epicId)>=0;
+        if(!blob.includes(q)&&!epicMatch)return false;
+      }
+      return true;
+    });
+  };
+
+  // Refresh the filter dropdown on every renderView (so newly added or
+  // deleted epics show up).
+  function refreshFilter(){
+    var sel=ensureEpicFilter();
+    if(sel)populateEpicFilter(sel);
+  }
+  if(window.kandooRenderViewPipeline&&Array.isArray(window.kandooRenderViewPipeline.postRenderAsync)){
+    window.kandooRenderViewPipeline.postRenderAsync.push(refreshFilter);
+  }
+  setTimeout(refreshFilter,0);
+
+  // Extend the Clear filters button to also reset the Epic dropdown.
+  var _clearBtn=document.getElementById('clearFiltersBtn');
+  if(_clearBtn){
+    var prevOnClick=_clearBtn.onclick;
+    _clearBtn.onclick=function(){
+      var sel=document.getElementById('epicFilter');
+      if(sel)sel.value='';
+      if(typeof prevOnClick==='function')prevOnClick.apply(this,arguments);
+      else if(typeof renderView==='function')renderView();
+    };
+  }
 })();
 
 </script>
